@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ivory: #F4F0E8;
+  --espresso: #302A25;
+  --olive: #777F65;
+  --sand: #DDD3C4;
+  --tan: #B58D6C;
+  --white: #FFFFFF;
+}
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--ivory);
+  color: var(--espresso);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+::selection { background: var(--olive); color: #fff; }
+
+@layer base {
+  h1, h2, h3, h4 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; letter-spacing: -0.01em; }
+  :focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; }
+}
+
+@layer components {
+  .font-display { font-family: 'DM Serif Display', Georgia, serif; }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-espresso text-ivory font-semibold text-[12px] tracking-[0.14em] uppercase px-8 py-4 transition-colors duration-300 hover:bg-olive-deep disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-espresso/30 text-espresso font-semibold text-[12px] tracking-[0.14em] uppercase px-8 py-4 transition-colors duration-300 hover:border-espresso hover:bg-espresso hover:text-ivory;
+  }
+  .input-field {
+    @apply w-full rounded-full bg-white border border-hairline px-5 py-3 text-sm text-espresso placeholder:text-muted/70 focus:outline-none focus:border-olive transition;
+  }
+  .label-eyebrow {
+    @apply text-[11px] tracking-[0.22em] uppercase text-olive-deep font-semibold;
+  }
+  .page-pad { @apply px-5 sm:px-8 lg:px-12; }
+  .chip {
+    @apply rounded-full border border-hairline bg-transparent px-4 py-2 text-[12px] font-medium tracking-wide text-espresso transition-colors hover:border-espresso;
+  }
+  .chip-active { @apply bg-espresso text-ivory border-espresso hover:border-espresso; }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--ivory); }
+::-webkit-scrollbar-thumb { background: var(--sand); border-radius: 8px; }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Feathered edge for photographs that don't have a transparent background */
+.feather {
+  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+          mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

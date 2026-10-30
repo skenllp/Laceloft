@@ -1,0 +1,13 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+<div style="margin-bottom:20px; padding:16px 20px; background:#17171a; border:1px solid #2a2a2e; border-radius:8px;">
+  <a href="/admin/dashboard/" style="font-size:15px; font-weight:600; color:#6ea8ff; text-decoration:none;">
+    &#128202; View Sales Dashboard &rarr;
+  </a>
+  <div style="font-size:13px; color:#999; margin-top:4px;">
+    Revenue, payments received vs. pending, orders over the last 30 days, and best-selling products.
+  </div>
+</div>
+{{ block.super }}
+{% endblock %}

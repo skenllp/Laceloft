@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sales Dashboard — Laceloft</title>
+  <style>
+    body{font-family:-apple-system,'Segoe UI',Arial,sans-serif; background:#0b0b0d; color:#eaeaea; margin:0; padding:32px;}
+    a{color:#6ea8ff;}
+    h1{font-size:22px; margin:0 0 4px;}
+    .sub{color:#999; font-size:13px; margin-bottom:28px;}
+    .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:32px;}
+    .card{background:#17171a; border:1px solid #2a2a2e; border-radius:8px; padding:18px 20px;}
+    .card .label{font-size:12px; color:#999; text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px;}
+    .card .value{font-size:26px; font-weight:600;}
+    .card .note{font-size:12px; color:#777; margin-top:4px;}
+    section{margin-bottom:36px;}
+    section h2{font-size:15px; text-transform:uppercase; letter-spacing:.05em; color:#aaa; border-bottom:1px solid #2a2a2e; padding-bottom:10px; margin-bottom:16px;}
+    table{width:100%; border-collapse:collapse; font-size:14px;}
+    th{text-align:left; color:#999; font-weight:500; font-size:12px; text-transform:uppercase; padding:6px 10px; border-bottom:1px solid #2a2a2e;}
+    td{padding:8px 10px; border-bottom:1px solid #1e1e21;}
+    .chart{display:flex; align-items:flex-end; gap:4px; height:140px; padding:8px 0;}
+    .bar-wrap{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;}
+    .bar{width:100%; background:#3b82f6; border-radius:2px 2px 0 0; min-height:2px;}
+    .bar-label{font-size:9px; color:#777; margin-top:4px; writing-mode:vertical-rl; text-orientation:mixed; height:40px;}
+    .pill{display:inline-block; padding:3px 10px; border-radius:999px; background:#222; font-size:12px; margin:2px 6px 2px 0;}
+    .empty{color:#777; font-size:13px; padding:16px 0;}
+    .back{font-size:13px; margin-bottom:20px; display:inline-block;}
+  </style>
+</head>
+<body>
+
+  <a class="back" href="/admin/">&larr; Back to admin</a>
+  <h1>Sales Dashboard</h1>
+  <div class="sub">Last updated just now &middot; last 30 days shown in the chart below</div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="label">Total order value</div>
+      <div class="value">&#8377;{{ total_order_value|floatformat:0 }}</div>
+      <div class="note">{{ order_count }} order{{ order_count|pluralize }} (excl. cancelled)</div>
+    </div>
+    <div class="card">
+      <div class="label">Payments received</div>
+      <div class="value">&#8377;{{ payments_received|floatformat:0 }}</div>
+      <div class="note">Confirmed paid orders only</div>
+    </div>
+    <div class="card">
+      <div class="label">Pending collection</div>
+      <div class="value">&#8377;{{ pending_collection|floatformat:0 }}</div>
+      <div class="note">Mostly unpaid COD orders</div>
+    </div>
+    <div class="card">
+      <div class="label">Cancelled orders</div>
+      <div class="value">{{ cancelled_count }}</div>
+      <div class="note">Stock auto-restored for these</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Orders — last 30 days</h2>
+    {% if daily %}
+      <div class="chart">
+        {% for d in daily %}
+          <div class="bar-wrap" title="{{ d.day }}: {{ d.count }} order{{ d.count|pluralize }}, &#8377;{{ d.revenue|floatformat:0 }}">
+            <div class="bar" style="height:{% widthratio d.count max_daily_count 100 %}%;"></div>
+            <div class="bar-label">{{ d.day|date:"M j" }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">No orders in the last 30 days yet.</div>
+    {% endif %}
+  </section>
+
+  <section>
+    <h2>Best sellers (by quantity, all-time)</h2>
+    {% if best_sellers %}
+      <table>
+        <tr><th>SKU</th><th>Name</th><th>Qty sold</th><th>Revenue</th></tr>
+        {% for item in best_sellers %}
+          <tr>
+            <td>{{ item.sku }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.total_qty }}</td>
+            <td>&#8377;{{ item.total_revenue|floatformat:0 }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <div class="empty">No sales yet.</div>
+    {% endif %}
+  </section>
+
+  <section>
+    <h2>Orders by status</h2>
+    {% for label, count in status_breakdown %}
+      <span class="pill">{{ label }}: {{ count }}</span>
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Payment method split</h2>
+    <span class="pill">Prepaid (Razorpay): {{ payment_method_counts.razorpay|default:0 }}</span>
+    <span class="pill">Cash on Delivery: {{ payment_method_counts.cod|default:0 }}</span>
+  </section>
+
+</body>
+</html>
