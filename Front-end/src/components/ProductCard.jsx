@@ -8,9 +8,12 @@ export default function ProductCard({ p, priority = false }) {
   const { isWished, toggleWish, showToast } = useShop()
   const wished = isWished(p.sku)
   const img = (p.images && p.images[0]) || ''
+  const alt = (p.images && p.images[1]) || ''
   const sizes = inStockSizes(p)
   const soldOut = p.inStock === false || (p.stockTracked === true && Array.isArray(p.sizes) && p.sizes.length > 0 && sizes.length === 0)
-  const availabilityUnconfirmed = !soldOut && (p.stockTracked === false || !Array.isArray(p.sizesInStock))
+  // One badge at most, in order of importance. "Confirm availability" used
+  // to sit on every card; the shop page now says it once instead.
+  const badge = soldOut ? 'Sold out' : p.onSale ? 'Sale' : p.isNew ? 'New' : null
   const href = productPath(p.sku)
 
   const handleWish = () => {
@@ -30,14 +33,23 @@ export default function ProductCard({ p, priority = false }) {
             alt={p.name}
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
-            className={`h-full w-full scale-[1.12] object-contain mix-blend-multiply transition duration-700 ease-out group-hover:scale-[1.18] ${soldOut ? 'opacity-60 grayscale' : ''}`}
+            className={`h-full w-full scale-[1.12] object-contain mix-blend-multiply transition duration-700 ease-out group-hover:scale-[1.18] ${alt ? '[@media(hover:hover)]:group-hover:opacity-0' : ''} ${soldOut ? 'opacity-60 grayscale' : ''}`}
           />
+          {/* Second photo fades in on hover (mouse devices only). */}
+          {alt && !soldOut && (
+            <ProductImage
+              src={alt}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="pointer-events-none absolute inset-1 hidden h-[calc(100%-0.5rem)] w-[calc(100%-0.5rem)] scale-[1.12] object-contain opacity-0 mix-blend-multiply transition duration-700 ease-out group-hover:opacity-100 [@media(hover:hover)]:block"
+            />
+          )}
         </Link>
         <div className="pointer-events-none absolute left-4 top-4 flex gap-2">
-          {p.isNew && <span className="rounded-full bg-espresso px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-ivory">New</span>}
-          {!p.isNew && p.onSale && <span className="rounded-full bg-tan px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">Sale</span>}
-          {availabilityUnconfirmed && <span className="rounded-full bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-espresso">Confirm availability</span>}
-          {soldOut && <span className="rounded-full bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">Sold out</span>}
+          {badge && (
+            <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${badge === 'Sold out' ? 'bg-white text-muted' : badge === 'Sale' ? 'bg-tan text-white' : 'bg-espresso text-ivory'}`}>{badge}</span>
+          )}
         </div>
         <button
           type="button"

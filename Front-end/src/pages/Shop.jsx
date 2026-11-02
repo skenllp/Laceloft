@@ -8,11 +8,12 @@ import ProductCard from '../components/ProductCard'
 import PageHeader from '../components/PageHeader'
 
 const PAGE_SIZE = 12
+// Bands sized to the actual catalogue (roughly ₹800–₹2,200).
 const PRICE_BANDS = [
-  { id: 'u5', label: 'Under ₹5,000', test: (p) => p < 5000 },
-  { id: '5-10', label: '₹5,000 – ₹10,000', test: (p) => p >= 5000 && p <= 10000 },
-  { id: '10-20', label: '₹10,000 – ₹20,000', test: (p) => p > 10000 && p <= 20000 },
-  { id: 'o20', label: 'Over ₹20,000', test: (p) => p > 20000 },
+  { id: 'u1', label: 'Under ₹1,000', test: (p) => p < 1000 },
+  { id: '1-15', label: '₹1,000 – ₹1,500', test: (p) => p >= 1000 && p < 1500 },
+  { id: '15-2', label: '₹1,500 – ₹2,000', test: (p) => p >= 1500 && p < 2000 },
+  { id: 'o2', label: '₹2,000 & above', test: (p) => p >= 2000 },
 ]
 const SORTS = {
   featured: { label: 'Featured' },
@@ -75,6 +76,9 @@ export default function Shop() {
     return arr
   }, [products, cat, q, band, size, sort])
 
+  // Said once here instead of as a badge on every card.
+  const unconfirmed = !productsLoading && filtered.some((p) => p.inStock !== false && p.stockTracked !== true)
+
   const activeFilters = [band, size, q].filter(Boolean).length + (cat !== 'All' ? 1 : 0)
   const clearAll = () => { setParams({}, { replace: true }); setVisible(PAGE_SIZE) }
 
@@ -97,8 +101,8 @@ export default function Shop() {
 
   return (
     <>
-      <PageHeader eyebrow="The collection" title={cat === 'All' ? 'All sneakers.' : `${cat}.`} crumbs={[{ label: 'Home', to: '/' }, { label: 'Shop' }]}>
-        Browse the full Laceloft rotation — filter by category, price and size.
+      <PageHeader eyebrow="The collection" title={cat === 'All' ? 'The full collection.' : `${cat}.`} crumbs={[{ label: 'Home', to: '/' }, { label: 'Shop' }]}>
+        Sneakers, boots, sandals and more — filter by category, price and size.
       </PageHeader>
 
       <div className="page-pad mx-auto max-w-[1500px] pb-10 lg:grid lg:grid-cols-[250px_1fr] lg:gap-12">
@@ -135,6 +139,12 @@ export default function Shop() {
             </label>
           </div>
 
+          {unconfirmed && (
+            <p className="-mt-2 mb-6 flex items-center gap-2 text-[12px] text-muted">
+              <span className="h-1.5 w-1.5 rounded-full bg-olive" aria-hidden="true" />
+              Sizes move fast — we confirm availability on WhatsApp before every order.
+            </p>
+          )}
           {productsLoading ? (
             <ProductGridSkeleton count={6} className="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 md:grid-cols-3" />
           ) : filtered.length === 0 ? (

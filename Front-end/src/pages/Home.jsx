@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
-import { getCategories, pickHeroProducts, hasImage, productPath } from '../lib/catalog'
+import { getCategories, pickHeroProducts, pickFeatured, photoRank, hasImage, productPath } from '../lib/catalog'
 import { fmtPrice } from '../lib/api'
 import { whatsappChatLink } from '../lib/whatsapp'
 import { HERO_SLIDES, WHATSAPP_DISPLAY } from '../lib/config'
@@ -37,18 +37,25 @@ export default function Home() {
   const { products, productsLoading } = useShop()
 
   const heroSlides = useMemo(() => pickHeroProducts(products, HERO_SLIDES), [products])
-  const categories = useMemo(() => getCategories(products).slice(0, 4), [products])
+  // Each image slot on the page gets a different product, best photos first:
+  // hero, then category tiles, then the New Arrivals tile and featured banner.
+  const heroSkus = useMemo(() => new Set(heroSlides.map((p) => p.sku)), [heroSlides])
+  const categories = useMemo(() => getCategories(products, heroSkus).slice(0, 4), [products, heroSkus])
   const fresh = useMemo(() => products.filter((p) => p.isNew).slice(0, 8), [products])
-  const featured = useMemo(() => {
-    const pool = products.filter(hasImage)
-    return [...pool].sort((a, b) => b.price - a.price)[0]
-  }, [products])
+  const shownSkus = useMemo(() => new Set([...heroSkus, ...categories.map((c) => c.cover?.sku)]), [heroSkus, categories])
+  const newCover = useMemo(
+    () => [...fresh].filter((p) => hasImage(p) && !shownSkus.has(p.sku)).sort((a, b) => photoRank(a) - photoRank(b))[0] || fresh.find(hasImage),
+    [fresh, shownSkus],
+  )
+  const featured = useMemo(
+    () => pickFeatured(products, new Set([...shownSkus, newCover?.sku])),
+    [products, shownSkus, newCover],
+  )
   const edit = useMemo(() => {
     const freshSkus = new Set(fresh.map((p) => p.sku))
     const rest = products.filter((p) => !freshSkus.has(p.sku))
     return [...rest.filter((p) => p.onSale), ...rest.filter((p) => !p.onSale)].slice(0, 10)
   }, [products, fresh])
-  const newCover = fresh.find(hasImage)
 
   return (
     <>
@@ -67,6 +74,8 @@ export default function Home() {
                   <div className="absolute inset-x-1 top-1 bottom-16 flex items-center justify-center">
                     <ProductImage src={c.cover?.images?.[0]} alt="" loading="lazy" className="h-full w-full scale-110 object-contain mix-blend-multiply transition-transform duration-700 ease-out group-hover:-rotate-3 group-hover:scale-[1.16]" />
                   </div>
+                  {/* Soft fade so the label stays readable over darker photos */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-sand via-sand/85 to-transparent" aria-hidden="true" />
                   <div className="relative flex items-end justify-between gap-2">
                     <div>
                       <h3 className="font-display text-xl leading-tight text-espresso sm:text-2xl">{c.label}</h3>

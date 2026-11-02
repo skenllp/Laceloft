@@ -194,6 +194,20 @@ export default function Layout() {
         </div>
       </footer>
 
+      {/* Floating WhatsApp shortcut. Hidden on product pages, which have
+          their own order button (and a sticky order bar on mobile). */}
+      {!pathname.startsWith('/product/') && (
+        <a
+          href={whatsappChatLink("Hi Laceloft, I'd like some help choosing a pair.")}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with Laceloft on WhatsApp"
+          className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] right-5 z-[200] flex h-14 w-14 items-center justify-center rounded-full bg-espresso text-ivory no-underline shadow-soft transition-transform duration-300 hover:scale-105 hover:bg-olive-deep"
+        >
+          <WhatsAppIcon width="24" height="24" />
+        </a>
+      )}
+
       <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-6 z-[300] flex justify-center px-4">
         {toast && (
           <div className="rounded-full bg-espresso px-6 py-3 text-[13px] font-medium tracking-wide text-ivory shadow-soft">{toast}</div>

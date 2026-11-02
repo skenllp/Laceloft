@@ -3,11 +3,12 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { fetchProduct, fmtPrice } from '../lib/api'
 import { buildWhatsAppLink } from '../lib/whatsapp'
-import { inStockSizes, brandLabel, productPath } from '../lib/catalog'
+import { inStockSizes, brandLabel, productPath, splitDescription } from '../lib/catalog'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { Breadcrumbs } from '../components/PageHeader'
 import ProductImage from '../components/ProductImage'
 import ProductCard from '../components/ProductCard'
+import SizeGuide from '../components/SizeGuide'
 import { HeartIcon, WhatsAppIcon } from '../components/Layout'
 
 const MAX_QTY = 10
@@ -31,6 +32,7 @@ export default function Product() {
   const [sizeError, setSizeError] = useState(false)
   const [zoom, setZoom] = useState(null)
   const sizesRef = useRef(null)
+  const touchX = useRef(null)
 
   usePageMeta(p?.name, p ? `${p.name} at Laceloft — ${fmtPrice(p.price)}. Enquire and order directly through WhatsApp.` : undefined)
 
@@ -99,6 +101,7 @@ export default function Product() {
   )
 
   const wished = isWished(p.sku)
+  const details = splitDescription(p.desc)
   const images = p.images && p.images.length ? p.images : ['']
 
   const order = () => {
@@ -110,6 +113,15 @@ export default function Product() {
     }
     setSizeError(false)
     window.open(buildWhatsAppLink(p, { size, color: p.colorway, quantity: qty }), '_blank', 'noopener,noreferrer')
+  }
+
+  // Swipe between photos on touch screens (horizontal moves over 40px).
+  const onTouchStart = (e) => { touchX.current = e.touches[0].clientX }
+  const onTouchEnd = (e) => {
+    if (touchX.current === null || images.length < 2) return
+    const dx = e.changedTouches[0].clientX - touchX.current
+    touchX.current = null
+    if (Math.abs(dx) > 40) setImgIdx((i) => (i + (dx < 0 ? 1 : -1) + images.length) % images.length)
   }
 
   const onZoomMove = (e) => {
@@ -134,6 +146,8 @@ export default function Product() {
           <div
             className="group relative mb-3 aspect-square cursor-zoom-in overflow-hidden rounded-5xl bg-sand/60"
             onMouseMove={onZoomMove}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
             onMouseLeave={() => setZoom(null)}
           >
             <ProductImage
@@ -198,6 +212,7 @@ export default function Product() {
             <div ref={sizesRef} className="mb-8">
               <div className="mb-3 flex items-baseline justify-between">
                 <h2 className="font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Size (UK){size ? ` — ${size.replace('UK ', '')}` : ''}</h2>
+                <SizeGuide sizes={p.sizes} productName={p.name} />
               </div>
               <div className="flex flex-wrap gap-2" role="group" aria-label="Choose a size">
                 {p.sizes.map((s) => {
@@ -243,12 +258,17 @@ export default function Product() {
             This opens WhatsApp with your pair, size and quantity filled in. Your order is only confirmed once Laceloft replies with availability, delivery charges and the final amount.
           </p>
 
-          {p.desc && (
-            <div className="mt-10 border-t border-hairline pt-8">
-              <h2 className="mb-3 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Details</h2>
-              <p className="text-[15px] leading-relaxed text-espresso/85">{p.desc}</p>
-            </div>
-          )}
+          <div className="mt-10 border-t border-hairline pt-8">
+            <h2 className="mb-4 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Details</h2>
+            {details.body && <p className="mb-6 text-[15px] leading-relaxed text-espresso/85">{details.body}</p>}
+            <dl className="grid grid-cols-[110px_1fr] gap-y-3 text-[14px]">
+              {p.colorway && (<><dt className="text-muted">Colour</dt><dd className="text-espresso">{p.colorway}</dd></>)}
+              {(p.cats || []).length > 0 && (<><dt className="text-muted">Style</dt><dd className="text-espresso">{p.cats.join(' · ')}</dd></>)}
+              {hasSizes && (<><dt className="text-muted">Sizes</dt><dd className="text-espresso">UK {p.sizes.join(', ')}</dd></>)}
+              <dt className="text-muted">Ordering</dt><dd className="text-espresso">Confirmed on WhatsApp</dd>
+            </dl>
+            {details.note && <p className="mt-6 text-[11px] leading-relaxed text-muted/80">{details.note}</p>}
+          </div>
         </div>
       </div>
 
