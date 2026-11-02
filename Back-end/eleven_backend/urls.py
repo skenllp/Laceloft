@@ -3,14 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.views.static import serve
 
-from shop.dashboard import sales_dashboard
-
 urlpatterns = [
-    # Must come before 'admin/' below — Django tries patterns in order, and
-    # once 'admin/' matches as a prefix it hands off entirely to admin's own
-    # urlconf, which doesn't know about this path and would 404 rather than
-    # falling through to this line if it were listed after.
-    path('admin/dashboard/', sales_dashboard, name='sales-dashboard'),
     path('admin/', admin.site.urls),
     path('api/', include('shop.urls')),
 ]

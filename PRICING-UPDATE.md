@@ -6,9 +6,9 @@ These are draft selling prices: verify landed cost, margin, taxes and shipping b
 No reference/compare-at prices or sale claims are fabricated. Descriptions do not claim brand authenticity or official affiliation. Product photography can still show logos: confirm you have the right to sell the items and that product images accurately represent the goods.
 
 ## Update an existing local Django database
-Run from `Back-end` with its virtual environment activated:
+Run from `Back-end` with its virtual environment activated (the `--update` flag is needed because plain `seed_products` no longer overwrites existing products):
 
-    python manage.py seed_products
+    python manage.py seed_products --update
 
 This command updates products matching existing SKUs. It also re-imports product images. Do not run against a production database without a backup. If you have manually edited product details, review changes before reseeding.
 

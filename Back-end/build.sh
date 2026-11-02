@@ -13,5 +13,7 @@ python manage.py migrate
 # `|| true` because this errors out (harmlessly) once the user already exists.
 python manage.py createsuperuser --noinput || true
 
-# Safe to run every deploy — existing SKUs are updated, not duplicated.
+# Safe to run every deploy: only adds seed products that don't exist yet
+# (admin edits are kept) and re-copies the seed photos, which Render's
+# disk loses on each deploy. Use `seed_products --update` to overwrite.
 python manage.py seed_products

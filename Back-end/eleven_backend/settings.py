@@ -17,26 +17,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-CHANGE-ME-before-depl
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-# Razorpay — set these as real environment variables (Render dashboard, or
-# a local .env) once you have API keys. Left blank here on purpose: never
-# hardcode secrets in settings.py. KEY_ID is not sensitive (it's sent to
-# the browser to open the checkout widget); KEY_SECRET must stay server-side.
-RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
-RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
-
-# Resend — order confirmation (to customer) + new-order alert (to you).
-# See shop/notifications.py for details, including the sandbox-sender
-# limitation (customer emails won't actually deliver until you verify your
-# own domain in Resend and set RESEND_FROM_EMAIL to something on it).
-RESEND_API_KEY = os.environ.get('RESEND_API_KEY', '')
-RESEND_FROM_EMAIL = os.environ.get('RESEND_FROM_EMAIL', 'Laceloft <onboarding@resend.dev>')
-SELLER_NOTIFY_EMAIL = os.environ.get('SELLER_NOTIFY_EMAIL', '')
-
-# Base URL of the deployed frontend (no trailing slash) — used to build the
-# password-reset link sent by email. Override via env var if the frontend
-# ever moves to a different Render service / custom domain.
-FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
-
 ALLOWED_HOSTS = []
 # Render sets this automatically to your service's *.onrender.com hostname.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -54,6 +34,12 @@ if not ALLOWED_HOSTS:
 # accidentally triggers an HTTPS redirect loop against plain http://127.0.0.1.
 IS_PRODUCTION = bool(RENDER_EXTERNAL_HOSTNAME)
 if IS_PRODUCTION:
+    # The fallback key above is public (it's in this file), so anyone could
+    # forge admin session cookies with it. Refuse to start rather than run
+    # production on it — set SECRET_KEY in the Render dashboard.
+    if 'SECRET_KEY' not in os.environ:
+        from django.core.exceptions import ImproperlyConfigured
+        raise ImproperlyConfigured('SECRET_KEY environment variable must be set in production.')
     # Render terminates TLS in front of the app and forwards over plain
     # HTTP internally, adding this header so Django can tell the original
     # request was HTTPS. Only trust this header when we know we're
@@ -78,7 +64,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'rest_framework.authtoken',
     'corsheaders',
 
     'shop',
@@ -101,12 +86,7 @@ ROOT_URLCONF = 'eleven_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # Lets us override built-in templates (e.g. templates/admin/index.html,
-        # to add a link to the sales dashboard) — filesystem DIRS are checked
-        # before each app's own templates/ dir, so this takes priority over
-        # django.contrib.admin's default admin/index.html without needing to
-        # touch that app at all.
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -164,18 +144,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # ---- DJANGO REST FRAMEWORK -------------------------------------------------
 REST_FRAMEWORK = {
+    # The API is read-only (see shop/views.py); staff manage products in
+    # /admin/, which uses Django's own session login.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # read access is public; see views.py for write locks
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',  # lets staff use /admin/ + browsable API
+        'rest_framework.authentication.SessionAuthentication',  # lets staff use the browsable API
     ],
-    # General anti-abuse: applies to every endpoint by default. login/
-    # register/track-order additionally use 'login'/'register'/'track_order'
-    # scoped throttles (tighter limits) via throttle_classes on those
-    # specific views in views.py — this is what actually stops someone
-    # from brute-forcing a password or spamming fake orders/lookups.
+    # General anti-abuse limit on every endpoint.
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
@@ -183,12 +160,6 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/hour',
         'user': '1000/hour',
-        'login': '10/hour',
-        'register': '10/hour',
-        'track_order': '20/hour',
-        'coupon_validate': '30/hour',
-        'forgot_password': '10/hour',
-        'reset_password': '10/hour',
     },
 }
 

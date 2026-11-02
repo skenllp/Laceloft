@@ -30,14 +30,13 @@ export function ShopProvider({ children }) {
   useEffect(() => { try { localStorage.setItem(WISH_KEY, JSON.stringify(wishlist)) } catch { /* ignore */ } }, [wishlist])
 
   const toggleWish = useCallback((sku) => {
-    let nowWished = false
-    setWishlist((prev) => {
-      const has = prev.includes(sku)
-      nowWished = !has
-      return has ? prev.filter((s) => s !== sku) : [...prev, sku]
-    })
+    // Decide from the current list, not inside the setState updater: React
+    // may defer running the updater, which made the returned value (and so
+    // the "Saved"/"Removed" toast) unreliable.
+    const nowWished = !wishlist.includes(sku)
+    setWishlist(nowWished ? [...wishlist, sku] : wishlist.filter((s) => s !== sku))
     return nowWished
-  }, [])
+  }, [wishlist])
 
   const isWished = useCallback((sku) => wishlist.includes(sku), [wishlist])
 

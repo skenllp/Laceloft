@@ -1,100 +1,71 @@
-# Laceloft — Django backend (existing app identifiers preserved)
+# Laceloft — Django backend
 
-Real database + API to replace the static `eleven-real-products.js` catalog,
-the `localStorage`-only cart/orders, and the fake `admin.html`.
+A small product catalogue: you add and edit products in the Django admin,
+and the storefront reads them from a read-only JSON API. Orders happen on
+WhatsApp, so there are no orders, accounts or payments here.
 
-## 1. Setup (run these on your own machine — not in this chat)
+## Setup
 
 ```bash
-cd eleven-backend
-python3 -m venv venv
-source venv/bin/activate          # Windows: venv\Scripts\activate
+cd Back-end
+python -m venv .venv
+.venv\Scripts\activate          # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 
 python manage.py migrate
-python manage.py createsuperuser  # your real admin login
-```
-
-## 2. Import your existing catalog
-
-Your 38 products (from `eleven-real-products.js`) and their real photos are
-already bundled in `shop/seed_data/`. One command loads all of it into the
-database:
-
-```bash
-python manage.py seed_products
-```
-
-Re-running it is safe — it updates existing SKUs instead of duplicating them.
-
-## 3. Run it
-
-```bash
+python manage.py createsuperuser  # your admin login
+python manage.py seed_products    # optional: load the 38 starter products
 python manage.py runserver
 ```
 
-- Admin panel: http://127.0.0.1:8000/admin/ — log in with the superuser you
-  created. This is the **real** replacement for `admin.html`: add/edit
-  products, upload images, and change order status here, and it actually
-  persists for every visitor.
-- API root: http://127.0.0.1:8000/api/products/
+- Admin (add/edit products, upload photos, set stock per size): http://127.0.0.1:8000/admin/
+- API: http://127.0.0.1:8000/api/products/
 
-## 4. API endpoints
+## API
 
-| Method | URL                  | Who        | What |
-|--------|----------------------|------------|------|
-| GET    | `/api/products/`     | Public     | Full catalog — replaces `eleven-real-products.js` |
-| GET    | `/api/products/<sku>/` | Public   | Single product — what `product.html` looks up |
-| POST   | `/api/products/`     | Staff only | Add a product (or just use `/admin/`) |
-| POST   | `/api/orders/`       | Public     | Place an order — what `checkout.html` will call |
-| GET    | `/api/orders/`       | Staff only | List all orders (order management) |
-| PATCH  | `/api/orders/<id>/`  | Staff only | Update order status |
-| POST   | `/api/track/`        | Public     | `{order_id, phone}` → order status, for a real "track my order" page |
+| Method | URL                    | What                      |
+|--------|------------------------|---------------------------|
+| GET    | `/api/products/`       | Full catalogue            |
+| GET    | `/api/products/<sku>/` | One product               |
 
-## 5. Connecting your existing frontend
+The API is read-only. Everything else returns 404/405.
 
-Minimal changes needed — you don't have to rewrite the HTML pages:
+## Seeding
 
-1. **Delete** `eleven-real-products.js` from the site, or leave it as an
-   offline fallback.
-2. In each page, replace the catalog load with a fetch:
-   ```js
-   const res = await fetch('http://127.0.0.1:8000/api/products/');
-   const ELEVEN_REAL_PRODUCTS = await res.json();
-   ```
-   The response shape matches your old JS objects field-for-field (`sku`,
-   `name`, `price`, `cats`, `sizes`, `isNew`, `images`, etc.) so your existing
-   render functions in `shop.js`, `search.js`, `product.js` etc. need little
-   to no change.
-3. In `checkout.html`'s `orderOnWhatsApp()`, add a `fetch('/api/orders/', {method:'POST', ...})`
-   call alongside (or instead of) the WhatsApp message, sending the cart,
-   totals, and a phone number.
-4. Build a `track.html` page that POSTs to `/api/track/` with an order ID and
-   phone number and displays the real status — this is what makes "Track
-   order" on the confirmation page actually work.
+`python manage.py seed_products` only **adds** seed products that don't exist
+yet, so edits you make in `/admin/` are kept. It also re-copies the seed photos
+(Render's disk is wiped on each deploy) under fixed file names, so repeated runs
+never pile up duplicates.
 
-## 6. Before this goes live
+- `--update` overwrites existing seed products' details and photos with `products.json`.
+- `--clear` deletes all products first. Never use it on live data.
 
-- Change `SECRET_KEY` in `eleven_backend/settings.py` and load it from an
-  environment variable instead of hardcoding it.
-- Set `DEBUG = False` and put your real domain in `ALLOWED_HOSTS`.
-- Swap SQLite for Postgres (`DATABASES` in `settings.py`) — most hosts
-  (Railway, Render) give you this as a one-line connection string change.
-- Update `CORS_ALLOWED_ORIGINS` to your real frontend domain.
-- Host `media/` (product images) on something like S3/Cloudinary instead of
-  the local disk, since most hosting platforms wipe local files on deploy.
+## Tests
 
-## Project structure
+```bash
+python manage.py test
+```
+
+## Production (Render)
+
+Set these environment variables: `SECRET_KEY` (the app refuses to start on
+Render without it), `DATABASE_URL` (Postgres), `ALLOWED_HOSTS`,
+`CORS_ALLOWED_ORIGINS` (your frontend's https origin), `DEBUG=False`.
+
+Photos you upload in `/admin/` live on local disk, which Render wipes on every
+deploy. Use a persistent disk or move `media/` to S3/Cloudinary, otherwise
+uploaded photos are lost on the next deploy (seed photos are restored
+automatically).
+
+## Layout
 
 ```
-eleven-backend/
-  manage.py
-  eleven_backend/       # project settings, urls
-  shop/
-    models.py           # Product, ProductImage, Category, Order, OrderItem
-    serializers.py       # API shapes
-    views.py             # API endpoints + permissions
-    admin.py              # the real admin panel
-    seed_data/            # your existing 38 products + real photos, ready to import
-    management/commands/seed_products.py
+eleven_backend/   settings, urls
+shop/
+  models.py       Product, ProductImage, Category
+  serializers.py  API shape
+  views.py        read-only product API
+  admin.py        admin panel (per-size stock editor)
+  seed_data/      starter products + photos
+  tests.py
 ```

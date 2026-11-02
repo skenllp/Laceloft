@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, ProductImage, Order, OrderItem
+from .models import Product, ProductImage
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -40,7 +40,9 @@ class ProductSerializer(serializers.ModelSerializer):
         return 'Laceloft' if (obj.brand or '').strip().casefold() == 'eleven' else obj.brand
 
     def get_cats(self, obj):
-        return list(obj.categories.values_list('name', flat=True))
+        # .all() (not values_list) so this uses the view's prefetch instead
+        # of running one extra query per product.
+        return [c.name for c in obj.categories.all()]
 
     def get_gender(self, obj):
         return [obj.gender]
@@ -67,26 +69,3 @@ class ProductSerializer(serializers.ModelSerializer):
             url = img.image.url
             urls.append(request.build_absolute_uri(url) if request else url)
         return urls
-
-
-class OrderItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderItem
-        fields = ['sku', 'name', 'size', 'price', 'qty']
-
-
-class OrderSerializer(serializers.ModelSerializer):
-    """Read/manage view of an order for the admin. Orders are no longer
-    placed through the API — the customer buys via WhatsApp and staff log
-    the resulting sale in /admin/ (which handles OrderItem inlines) —
-    so this serializer is staff-only and doesn't need a public create path."""
-    items = OrderItemSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Order
-        fields = [
-            'order_id', 'customer_name', 'customer_phone', 'customer_email',
-            'subtotal', 'discount', 'total', 'coupon_code', 'status',
-            'payment_status', 'payment_method', 'created_at', 'items',
-        ]
-        read_only_fields = ['order_id', 'created_at']

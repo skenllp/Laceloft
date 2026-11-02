@@ -35,7 +35,7 @@ python manage.py seed_products
 python manage.py runserver
 ```
 
-**Important:** Do not run the seed import over your existing live database unless you specifically want it to update catalogue text, pricing and images from seed data. Do not use `--clear` on a live database. Preserve the existing database and media volume when redeploying.
+`seed_products` only adds products that don't exist yet and keeps any edits made in `/admin/`. Use `seed_products --update` to overwrite existing seed products, and never `--clear` on a live database. Run `python manage.py test` for the backend tests.
 
 **2. Start React (Node 20+):**
 
@@ -69,14 +69,12 @@ The frontend source **defaults to the original deployed Django URL** for backwar
 
 ### Django (Render environment or your process manager)
 
-- `SECRET_KEY` — strong secret, not the placeholder in settings.
+- `SECRET_KEY` — strong secret; the app refuses to start on Render without it.
 - `DEBUG=False` in production.
 - `ALLOWED_HOSTS` — explicit real backend hostnames.
 - `CORS_ALLOWED_ORIGINS` — explicit deployed frontend HTTPS origin.
-- `FRONTEND_URL` — deployed frontend HTTPS URL, used for user-facing links in backend emails.
 - `DATABASE_URL` — production Postgres; do not silently replace your current production DB.
 - Ensure the `media/` directory is persisted or moved to suitable object storage; rebuilding an ephemeral server filesystem will otherwise lose uploads.
-- Configure any optional email/payment credentials only if using those backend functions.
 - After populating products in Django admin, set actual per-size stock values to enable confirmed stock badges. Until then, the site asks customers to confirm availability.
 
 **Deploy the updated Django code as well as the React build** if you want the new `stockTracked`/unknown-availability behaviour. Using the previous backend can leave untracked products marked sold out.
@@ -99,5 +97,5 @@ The frontend source **defaults to the original deployed Django URL** for backwar
 - **Not completed here:** full `npm ci`/Vite production build and live Django browser/API test. The current execution environment cannot access the public npm registry and does not have Django installed. Run the setup/build commands in a normal machine or CI environment before deploying.
 - PNG hero cutouts are based on existing photography; extracted edges may require manual retouching for campaign-grade imagery.
 - This ZIP deliberately includes source assets, **not** generated `node_modules` or a build artifact. Dependencies are installed using the included lockfile.
-- Legacy checkout/auth backend code and existing models remain present. The active React router is WhatsApp-first and does not expose outdated purchase/payment pages.
+- The backend is products-only. The old checkout, accounts, orders, coupons and payment code (backend and frontend) was removed; migration `0010` drops those tables.
 - Review shipping, returns and authenticity policies before publishing; no unverified legal/business policy statements were invented.
