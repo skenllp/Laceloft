@@ -107,9 +107,12 @@ WSGI_APPLICATION = 'eleven_backend.wsgi.application'
 # this switches over automatically — no code change needed.
 import dj_database_url
 
+# `or` rather than a default: Render lets you save DATABASE_URL as an empty
+# string, and dj_database_url treats that as "configured but blank", which
+# leaves Django with no database engine and breaks `migrate`.
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+    'default': dj_database_url.parse(
+        os.environ.get('DATABASE_URL') or f'sqlite:///{BASE_DIR / "db.sqlite3"}',
         conn_max_age=600,
     )
 }
