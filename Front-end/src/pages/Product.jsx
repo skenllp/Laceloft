@@ -64,7 +64,7 @@ export default function Product() {
       name: p.name,
       sku: p.sku,
       description: p.desc,
-      brand: p.brand ? { '@type': 'Brand', name: p.brand } : undefined,
+      brand: brandLabel(p.brand) ? { '@type': 'Brand', name: brandLabel(p.brand) } : undefined,
       color: p.colorway || undefined,
       image: (p.images || []).slice(0, 4),
       offers: {

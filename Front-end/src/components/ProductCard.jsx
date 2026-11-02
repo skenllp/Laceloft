@@ -53,7 +53,7 @@ export default function ProductCard({ p, priority = false }) {
       </div>
 
       <div className="px-1 pt-4">
-        <div className="mb-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted">{brandLabel(p.brand)}</div>
+        <div className="mb-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted">{brandLabel(p.brand) || (p.cats || [])[0]}</div>
         <h3 className="mb-2 font-display text-[19px] leading-snug text-espresso">
           <Link to={href} className="no-underline hover:text-olive-deep">{p.name}</Link>
         </h3>

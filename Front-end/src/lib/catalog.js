@@ -42,8 +42,14 @@ export const inStockSizes = (p) =>
     ? (p.sizes || [])
     : p.sizesInStock
 
-/** Display brand: products created under the old label are shown as Laceloft. */
-export const brandLabel = (b) => (!b || /^eleven$/i.test(b.trim()) ? (b ? 'Laceloft' : '') : b)
+/** Display brand: products created under the old label are shown as
+    Laceloft, and placeholder values like "Unbranded / Brand Not Verified"
+    are hidden (empty string) rather than printed on the storefront. */
+export const brandLabel = (b) => {
+  const name = (b || '').trim()
+  if (!name || /unbranded|not verified/i.test(name)) return ''
+  return /^eleven$/i.test(name) ? 'Laceloft' : name
+}
 
 /** Canonical product URL. The trailing slash matters: the static host only
     serves the per-product share page (scripts/postbuild.mjs) at
