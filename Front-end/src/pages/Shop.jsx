@@ -133,7 +133,7 @@ export default function Shop() {
             </p>
             <label className="flex items-center gap-2 text-[13px] text-muted">
               <span className="sr-only sm:not-sr-only">Sort</span>
-              <select value={sort} onChange={(e) => setParam('sort', e.target.value === 'featured' ? '' : e.target.value)} className="rounded-full border border-hairline bg-white px-4 py-2 text-[13px] text-espresso focus:border-olive focus:outline-none">
+              <select value={sort} onChange={(e) => setParam('sort', e.target.value === 'featured' ? '' : e.target.value)} className="rounded-full border border-hairline bg-white px-4 py-2 text-base text-espresso sm:text-[13px] focus:border-olive focus:outline-none">
                 {Object.entries(SORTS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
               </select>
             </label>

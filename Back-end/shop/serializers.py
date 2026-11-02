@@ -1,5 +1,7 @@
+from django.core.files.storage import default_storage
 from rest_framework import serializers
 from .models import Product, ProductImage
+from .thumbs import thumb_name
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -15,6 +17,9 @@ class ProductSerializer(serializers.ModelSerializer):
     cats = serializers.SerializerMethodField()
     gender = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
+    # Same order as `images`: small WebP copies for grids (see thumbs.py),
+    # or the original photo where no thumb exists yet.
+    thumbs = serializers.SerializerMethodField()
     isNew = serializers.BooleanField(source='is_new')
     onSale = serializers.BooleanField(source='on_sale')
     # True only if the manual override is on AND at least one size actually
@@ -33,7 +38,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = [
             'sku', 'name', 'brand', 'price', 'strike',
             'cats', 'gender', 'sizes', 'sizesInStock', 'stockTracked', 'isNew', 'onSale', 'inStock',
-            'images', 'colorway', 'desc',
+            'images', 'thumbs', 'colorway', 'desc',
         ]
 
     def get_brand(self, obj):
@@ -67,5 +72,14 @@ class ProductSerializer(serializers.ModelSerializer):
         urls = []
         for img in obj.images.all():
             url = img.image.url
+            urls.append(request.build_absolute_uri(url) if request else url)
+        return urls
+
+    def get_thumbs(self, obj):
+        request = self.context.get('request')
+        urls = []
+        for img in obj.images.all():
+            name = thumb_name(img.image.name)
+            url = default_storage.url(name) if default_storage.exists(name) else img.image.url
             urls.append(request.build_absolute_uri(url) if request else url)
         return urls

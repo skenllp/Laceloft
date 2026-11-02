@@ -177,3 +177,34 @@ class SeedCommandTests(TempMediaMixin, TestCase):
         call_command('seed_products', stdout=devnull)
         self.assertEqual(p.images.count(), n)
         self.assertNotIn('gone.jpeg', ''.join(p.images.values_list('image', flat=True)))
+
+
+class ThumbnailTests(TempMediaMixin, TestCase):
+    def test_thumbs_created_and_served(self):
+        devnull = open('nul' if __import__('os').name == 'nt' else '/dev/null', 'w')
+        call_command('seed_products', stdout=devnull)
+        sku = ProductImage.objects.first().product.sku
+        # Seed photos are bulk-created; before make_thumbs the API falls back
+        # to the original photo rather than a broken link.
+        item = APIClient().get(f'/api/products/{sku}/').json()
+        self.assertEqual(item['thumbs'], item['images'])
+
+        call_command('make_thumbs', stdout=devnull)
+        item = APIClient().get(f'/api/products/{sku}/').json()
+        self.assertEqual(len(item['thumbs']), len(item['images']))
+        self.assertTrue(all(u.endswith('.webp') and '/media/products/thumbs/' in u for u in item['thumbs']))
+
+    def test_admin_upload_gets_thumb(self):
+        from io import BytesIO
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from PIL import Image
+        buf = BytesIO()
+        Image.new('RGB', (1200, 900), 'white').save(buf, 'JPEG')
+        p = Product.objects.create(sku='UP-1', name='Upload', brand='B', price=1)
+        ProductImage.objects.create(product=p, image=SimpleUploadedFile('shoe.jpg', buf.getvalue(), content_type='image/jpeg'))
+        thumb = APIClient().get('/api/products/UP-1/').json()['thumbs'][0]
+        self.assertTrue(thumb.endswith('.webp'))
+        from PIL import Image as Im
+        import os
+        with Im.open(os.path.join(self._media, 'products', 'thumbs', os.path.basename(thumb))) as im:
+            self.assertEqual(im.width, 640)

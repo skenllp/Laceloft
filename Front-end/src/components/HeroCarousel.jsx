@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { fmtPrice } from '../lib/api'
 import { HERO_ASSETS } from '../data/heroAssets'
-import { brandLabel, productPath } from '../lib/catalog'
+import { brandLabel, productPath, thumbAt } from '../lib/catalog'
 import ProductImage, { SneakerPlaceholder } from './ProductImage'
 
 const AUTOPLAY_SECONDS = 4
@@ -285,7 +285,7 @@ export default function HeroCarousel({ slides }) {
                   className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-white/55 p-1.5 transition-all duration-300 sm:rounded-3xl sm:p-2.5 ${sel ? 'outline outline-2 outline-offset-0 outline-olive bg-white/80' : 'outline-0 hover:bg-white/75'}`}
                 >
                   <ProductImage
-                    src={(p.images && p.images[0]) || ''}
+                    src={thumbAt(p, 0)}
                     alt=""
                     loading="lazy"
                     decoding="async"

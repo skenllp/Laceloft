@@ -92,6 +92,12 @@ class ProductImage(models.Model):
     def __str__(self):
         return f'{self.product.sku} — image {self.order}'
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Fresh grid thumbnail for photos uploaded/replaced in /admin/.
+        from .thumbs import make_thumb
+        make_thumb(self.image.name, overwrite=True)
+
 
 def generate_order_id():
     """No longer used — the Order model was removed — but migration

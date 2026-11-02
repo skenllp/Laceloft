@@ -36,7 +36,8 @@ img { max-width: 100%; }
     @apply inline-flex items-center justify-center gap-2 rounded-full border border-espresso/30 text-espresso font-semibold text-[12px] tracking-[0.14em] uppercase px-8 py-4 transition-colors duration-300 hover:border-espresso hover:bg-espresso hover:text-ivory;
   }
   .input-field {
-    @apply w-full rounded-full bg-white border border-hairline px-5 py-3 text-sm text-espresso placeholder:text-muted/70 focus:outline-none focus:border-olive transition;
+    /* 16px on phones: iOS Safari zooms into any field with smaller text. */
+    @apply w-full rounded-full bg-white border border-hairline px-5 py-3 text-base sm:text-sm text-espresso placeholder:text-muted/70 focus:outline-none focus:border-olive transition;
   }
   .label-eyebrow {
     @apply text-[11px] tracking-[0.22em] uppercase text-olive-deep font-semibold;

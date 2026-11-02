@@ -65,7 +65,7 @@ export default function Layout() {
 
       <header className={`fixed inset-x-0 top-0 z-[100] transition-all duration-300 ${scrolled || menuOpen ? 'bg-ivory/95 backdrop-blur border-b border-hairline' : 'bg-ivory border-b border-transparent'}`}>
         <div className={`page-pad mx-auto flex max-w-[1500px] items-center justify-between transition-all duration-300 ${scrolled ? 'h-16' : 'h-[72px]'}`}>
-          <Link to="/" aria-label="Laceloft home" className="shrink-0"><Logo className="h-7 w-auto md:h-8" /></Link>
+          <Link to="/" aria-label="Laceloft home" className="shrink-0 py-2"><Logo className="h-7 w-auto md:h-8" /></Link>
 
           <nav aria-label="Primary" className="hidden lg:block">
             <ul className="flex list-none gap-10">
@@ -182,7 +182,7 @@ export default function Layout() {
               <FooterLink to="/search">Search</FooterLink>
             </FooterCol>
             <FooterCol title="Enquire">
-              <a href={whatsappChatLink()} target="_blank" rel="noopener noreferrer" className="mb-3 block text-sm text-ivory/80 no-underline hover:text-white">WhatsApp</a>
+              <a href={whatsappChatLink()} target="_blank" rel="noopener noreferrer" className="block py-2.5 text-sm text-ivory/80 no-underline hover:text-white md:mb-1 md:py-1">WhatsApp</a>
               <span className="block text-sm text-ivory/60">{WHATSAPP_DISPLAY}</span>
             </FooterCol>
           </div>
@@ -202,7 +202,7 @@ export default function Layout() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat with Laceloft on WhatsApp"
-          className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] right-5 z-[200] flex h-14 w-14 items-center justify-center rounded-full bg-espresso text-ivory no-underline shadow-soft transition-transform duration-300 hover:scale-105 hover:bg-olive-deep"
+          className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] right-4 z-[200] flex h-12 w-12 sm:bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:right-5 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-espresso text-ivory no-underline shadow-soft transition-transform duration-300 hover:scale-105 hover:bg-olive-deep"
         >
           <WhatsAppIcon width="24" height="24" />
         </a>
@@ -226,5 +226,5 @@ function FooterCol({ title, children }) {
   )
 }
 function FooterLink({ to, children }) {
-  return <Link to={to} className="mb-3 block text-sm text-ivory/80 no-underline transition-colors hover:text-white">{children}</Link>
+  return <Link to={to} className="block py-2.5 text-sm text-ivory/80 no-underline transition-colors hover:text-white md:mb-1 md:py-1">{children}</Link>
 }

@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { fmtPrice } from '../lib/api'
 import ProductImage from './ProductImage'
-import { brandLabel, inStockSizes, productPath } from '../lib/catalog'
+import { brandLabel, inStockSizes, productPath, thumbAt } from '../lib/catalog'
 
 export default function ProductCard({ p, priority = false }) {
   const { isWished, toggleWish, showToast } = useShop()
   const wished = isWished(p.sku)
-  const img = (p.images && p.images[0]) || ''
-  const alt = (p.images && p.images[1]) || ''
+  const img = thumbAt(p, 0)
+  const alt = thumbAt(p, 1)
   const sizes = inStockSizes(p)
   const soldOut = p.inStock === false || (p.stockTracked === true && Array.isArray(p.sizes) && p.sizes.length > 0 && sizes.length === 0)
   // One badge at most, in order of importance. "Confirm availability" used
@@ -79,7 +79,7 @@ export default function ProductCard({ p, priority = false }) {
             <span className="text-[15px] font-semibold">{fmtPrice(p.price)}</span>
             {p.strike > p.price && <span className="text-[12px] text-muted line-through">{fmtPrice(p.strike)}</span>}
           </div>
-          <Link to={href} className="text-[11px] font-semibold uppercase tracking-[0.14em] text-espresso no-underline underline-offset-4 hover:underline">
+          <Link to={href} className="-my-3 -mr-2 py-3 pl-3 pr-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-espresso no-underline underline-offset-4 hover:underline">
             View ↗
           </Link>
         </div>

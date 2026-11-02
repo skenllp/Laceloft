@@ -3,6 +3,10 @@
 
 export const hasImage = (p) => Array.isArray(p.images) && p.images.length > 0 && !!p.images[0]
 
+/** Grid-size photo i (small WebP from the API), falling back to the full
+ *  photo — e.g. for the offline catalogue, which has no thumbs. */
+export const thumbAt = (p, i = 0) => (p?.thumbs && p.thumbs[i]) || (p?.images && p.images[i]) || ''
+
 /** Products whose first photo is a clean, light studio shot, best first.
  *  Picked by measuring each photo's background and then checked by eye;
  *  used to choose homepage/category imagery so handheld or cluttered

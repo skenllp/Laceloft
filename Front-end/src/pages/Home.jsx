@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
-import { getCategories, pickHeroProducts, pickFeatured, photoRank, hasImage, productPath } from '../lib/catalog'
+import { getCategories, pickHeroProducts, pickFeatured, photoRank, hasImage, productPath, thumbAt } from '../lib/catalog'
 import { fmtPrice } from '../lib/api'
 import { whatsappChatLink } from '../lib/whatsapp'
 import { HERO_SLIDES, WHATSAPP_DISPLAY } from '../lib/config'
@@ -72,7 +72,7 @@ export default function Home() {
               <Reveal key={c.key} delay={i * 60}>
                 <Link to={c.to} className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-4xl bg-sand/70 p-4 no-underline transition-colors duration-500 hover:bg-sand sm:p-5">
                   <div className="absolute inset-x-1 top-1 bottom-16 flex items-center justify-center">
-                    <ProductImage src={c.cover?.images?.[0]} alt="" loading="lazy" className="h-full w-full scale-110 object-contain mix-blend-multiply transition-transform duration-700 ease-out group-hover:-rotate-3 group-hover:scale-[1.16]" />
+                    <ProductImage src={thumbAt(c.cover, 0)} alt="" loading="lazy" className="h-full w-full scale-110 object-contain mix-blend-multiply transition-transform duration-700 ease-out group-hover:-rotate-3 group-hover:scale-[1.16]" />
                   </div>
                   {/* Soft fade so the label stays readable over darker photos */}
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-sand via-sand/85 to-transparent" aria-hidden="true" />

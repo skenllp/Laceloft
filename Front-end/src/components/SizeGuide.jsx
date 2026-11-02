@@ -26,7 +26,7 @@ export default function SizeGuide({ sizes = [], productName = '' }) {
       <button
         type="button"
         onClick={() => ref.current?.showModal()}
-        className="text-[12px] font-medium text-espresso underline decoration-espresso/30 underline-offset-4 hover:decoration-espresso"
+        className="-my-2.5 py-2.5 pl-3 text-[12px] font-medium text-espresso underline decoration-espresso/30 underline-offset-4 hover:decoration-espresso"
       >
         Size guide
       </button>
@@ -36,7 +36,7 @@ export default function SizeGuide({ sizes = [], productName = '' }) {
         className="w-[min(560px,calc(100vw-2rem))] rounded-4xl bg-ivory p-0 text-espresso shadow-soft backdrop:bg-espresso/40 backdrop:backdrop-blur-sm"
         aria-labelledby="size-guide-title"
       >
-        <div className="p-6 sm:p-8">
+        <div className="max-h-[85vh] overflow-y-auto p-5 sm:p-8">
           <div className="mb-5 flex items-start justify-between gap-4">
             <div>
               <p className="label-eyebrow mb-2">Fit help</p>
@@ -46,9 +46,9 @@ export default function SizeGuide({ sizes = [], productName = '' }) {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[420px] text-left text-[13px]">
+            <table className="w-full text-left text-[12px] sm:text-[13px]">
               <thead>
-                <tr className="border-b border-hairline text-[11px] uppercase tracking-[0.14em] text-muted">
+                <tr className="border-b border-hairline align-bottom text-[10px] uppercase tracking-[0.1em] text-muted sm:text-[11px] sm:tracking-[0.14em]">
                   <th className="py-2 pr-3 font-semibold">UK</th>
                   <th className="py-2 pr-3 font-semibold">EU</th>
                   <th className="py-2 pr-3 font-semibold">US Men</th>

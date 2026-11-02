@@ -5,7 +5,7 @@ export function Breadcrumbs({ items }) {
     <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-muted">
       {items.map((it, i) => (
         <span key={i}>
-          {it.to ? <Link to={it.to} className="text-muted no-underline hover:text-espresso">{it.label}</Link> : <span className="text-espresso">{it.label}</span>}
+          {it.to ? <Link to={it.to} className="-my-2 inline-block py-2 text-muted no-underline hover:text-espresso">{it.label}</Link> : <span className="text-espresso">{it.label}</span>}
           {i < items.length - 1 && <span className="mx-2" aria-hidden="true">/</span>}
         </span>
       ))}

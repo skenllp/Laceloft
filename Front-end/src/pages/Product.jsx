@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { fetchProduct, fmtPrice } from '../lib/api'
 import { buildWhatsAppLink } from '../lib/whatsapp'
-import { inStockSizes, brandLabel, productPath, splitDescription } from '../lib/catalog'
+import { inStockSizes, brandLabel, productPath, splitDescription, thumbAt } from '../lib/catalog'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { Breadcrumbs } from '../components/PageHeader'
 import ProductImage from '../components/ProductImage'
@@ -164,8 +164,10 @@ export default function Product() {
             </div>
             {images.length > 1 && (
               <>
-                <button type="button" aria-label="Previous image" onClick={() => setImgIdx((i) => (i - 1 + images.length) % images.length)} className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-espresso hover:bg-white">←</button>
-                <button type="button" aria-label="Next image" onClick={() => setImgIdx((i) => (i + 1) % images.length)} className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-espresso hover:bg-white">→</button>
+                <button type="button" aria-label="Previous image" onClick={() => setImgIdx((i) => (i - 1 + images.length) % images.length)} className="absolute left-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-espresso hover:bg-white">←</button>
+                <button type="button" aria-label="Next image" onClick={() => setImgIdx((i) => (i + 1) % images.length)} className="absolute right-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-espresso hover:bg-white">→</button>
+                {/* Swipe hint on phones, where the arrows are hidden */}
+                <span className="pointer-events-none absolute bottom-4 right-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-espresso sm:hidden" aria-hidden="true">{imgIdx + 1} / {images.length}</span>
               </>
             )}
           </div>
@@ -180,7 +182,7 @@ export default function Product() {
                   aria-current={i === imgIdx}
                   className={`h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-sand/60 p-1.5 transition ${i === imgIdx ? 'outline outline-2 outline-olive' : 'opacity-80 hover:opacity-100'}`}
                 >
-                  <ProductImage src={src} alt="" loading="lazy" className="h-full w-full scale-110 object-contain mix-blend-multiply" placeholderClass="w-full" />
+                  <ProductImage src={thumbAt(p, i) || src} alt="" loading="lazy" className="h-full w-full scale-110 object-contain mix-blend-multiply" placeholderClass="w-full" />
                 </button>
               ))}
             </div>

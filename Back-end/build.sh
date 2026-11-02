@@ -17,3 +17,7 @@ python manage.py createsuperuser --noinput || true
 # (admin edits are kept) and re-copies the seed photos, which Render's
 # disk loses on each deploy. Use `seed_products --update` to overwrite.
 python manage.py seed_products
+
+# Grid-size WebP copies of every product photo (only missing ones; the disk
+# is wiped each deploy, so this recreates them).
+python manage.py make_thumbs
