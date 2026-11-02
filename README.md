@@ -65,7 +65,7 @@ Output will be in `Front-end/dist/`. Use an SPA-compatible hosting rewrite to `/
 - `VITE_WHATSAPP_NUMBER=971564345294`
 - `VITE_SITE_URL` — your deployed Laceloft domain, if used.
 
-The frontend source **defaults to the original deployed Django URL** for backwards compatibility. Update `VITE_API_BASE` if the Django backend is hosted elsewhere.
+The frontend defaults to `https://laceloftbackend.onrender.com/api`. Set `VITE_API_BASE` if the Django backend is hosted elsewhere. The build also writes `sitemap.xml`, `robots.txt` and a share-preview page per product (`scripts/postbuild.mjs`), so redeploy the frontend after adding products for their WhatsApp/Google previews to appear.
 
 ### Django (Render environment or your process manager)
 

@@ -20,14 +20,17 @@ export default function ProductCard({ p, priority = false }) {
 
   return (
     <article className="group flex flex-col">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-sand/60">
-        <Link to={href} aria-label={`View ${p.name}`} className="absolute inset-0 z-0 flex items-center justify-center p-4">
+      {/* Square frame + slight base zoom: the catalogue photos mix tall and
+          wide shapes and carry white margins, which left the shoe looking
+          half-sized in the old padded 4:5 box. */}
+      <div className="relative aspect-square overflow-hidden rounded-4xl bg-sand/60">
+        <Link to={href} aria-label={`View ${p.name}`} className="absolute inset-0 z-0 flex items-center justify-center p-1">
           <ProductImage
             src={img}
             alt={p.name}
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
-            className="h-full w-full object-contain mix-blend-multiply transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            className={`h-full w-full scale-[1.12] object-contain mix-blend-multiply transition duration-700 ease-out group-hover:scale-[1.18] ${soldOut ? 'opacity-60 grayscale' : ''}`}
           />
         </Link>
         <div className="pointer-events-none absolute left-4 top-4 flex gap-2">

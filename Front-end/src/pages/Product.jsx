@@ -71,7 +71,18 @@ export default function Product() {
     return () => el.remove()
   }, [p, soldOut])
 
-  if (loading) return <div className="page-pad py-40 text-center text-sm text-muted">Loading…</div>
+  if (loading) return (
+    <div className="page-pad mx-auto grid max-w-[1500px] animate-pulse gap-10 pb-16 pt-16 lg:grid-cols-[1.15fr_1fr] lg:gap-16" aria-busy="true" aria-label="Loading product">
+      <div className="aspect-square rounded-5xl bg-sand/60" />
+      <div className="space-y-5 lg:pt-4">
+        <div className="h-3 w-32 rounded-full bg-sand/80" />
+        <div className="h-12 w-4/5 rounded-2xl bg-sand/80" />
+        <div className="h-8 w-28 rounded-full bg-sand/80" />
+        <div className="flex gap-2 pt-4">{[0, 1, 2, 3, 4].map((i) => <div key={i} className="h-12 w-12 rounded-full bg-sand/70" />)}</div>
+        <div className="h-14 w-full rounded-full bg-sand/80" />
+      </div>
+    </div>
+  )
   if (!p) return (
     <div className="page-pad py-32 text-center">
       <p className="mb-6 text-muted">We couldn't find that pair.</p>
@@ -122,8 +133,8 @@ export default function Product() {
               src={images[imgIdx]}
               alt={`${p.name} — view ${imgIdx + 1}`}
               fetchpriority="high"
-              style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.8)' } : undefined}
-              className="h-full w-full object-contain p-6 mix-blend-multiply transition-transform duration-200 ease-out"
+              style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.9)' } : { transform: 'scale(1.08)' }}
+              className="h-full w-full object-contain p-2 mix-blend-multiply transition-transform duration-200 ease-out"
             />
             <div className="pointer-events-none absolute left-5 top-5 flex gap-2">
               {p.isNew && <span className="rounded-full bg-espresso px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-ivory">New</span>}
@@ -147,7 +158,7 @@ export default function Product() {
                   aria-current={i === imgIdx}
                   className={`h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-sand/60 p-1.5 transition ${i === imgIdx ? 'outline outline-2 outline-olive' : 'opacity-80 hover:opacity-100'}`}
                 >
-                  <ProductImage src={src} alt="" loading="lazy" className="h-full w-full object-contain mix-blend-multiply" placeholderClass="w-full" />
+                  <ProductImage src={src} alt="" loading="lazy" className="h-full w-full scale-110 object-contain mix-blend-multiply" placeholderClass="w-full" />
                 </button>
               ))}
             </div>

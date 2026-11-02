@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { usePageMeta } from '../hooks/usePageMeta'
+import ProductGridSkeleton from '../components/ProductGridSkeleton'
 import ProductCard from '../components/ProductCard'
 import PageHeader from '../components/PageHeader'
 import Reveal from '../components/Reveal'
@@ -20,7 +21,7 @@ export default function NewArrivals() {
       <section className="page-pad mx-auto max-w-[1500px] pb-16" aria-label="New arrivals">
         <p className="mb-6 border-b border-hairline pb-4 text-[13px] text-muted">{productsLoading ? 'Loading…' : `${fresh.length} new ${fresh.length === 1 ? 'style' : 'styles'}`}</p>
         {productsLoading ? (
-          <p className="py-16 text-center text-sm text-muted">Loading sneakers…</p>
+          <ProductGridSkeleton count={8} />
         ) : fresh.length === 0 ? (
           <div className="py-16 text-center">
             <p className="mb-5 text-sm text-muted">Nothing new right now — check back soon.</p>

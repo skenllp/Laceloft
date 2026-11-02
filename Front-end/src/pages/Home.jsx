@@ -7,6 +7,7 @@ import { whatsappChatLink } from '../lib/whatsapp'
 import { HERO_SLIDES, WHATSAPP_DISPLAY } from '../lib/config'
 import { usePageMeta } from '../hooks/usePageMeta'
 import HeroCarousel from '../components/HeroCarousel'
+import ProductGridSkeleton from '../components/ProductGridSkeleton'
 import ProductCard from '../components/ProductCard'
 import ProductSlider from '../components/ProductSlider'
 import ProductImage from '../components/ProductImage'
@@ -63,8 +64,8 @@ export default function Home() {
             ].map((c, i) => (
               <Reveal key={c.key} delay={i * 60}>
                 <Link to={c.to} className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-4xl bg-sand/70 p-4 no-underline transition-colors duration-500 hover:bg-sand sm:p-5">
-                  <div className="absolute inset-x-3 top-3 bottom-20 flex items-center justify-center">
-                    <ProductImage src={c.cover?.images?.[0]} alt="" loading="lazy" className="max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-700 ease-out group-hover:-rotate-3 group-hover:scale-105" />
+                  <div className="absolute inset-x-1 top-1 bottom-16 flex items-center justify-center">
+                    <ProductImage src={c.cover?.images?.[0]} alt="" loading="lazy" className="h-full w-full scale-110 object-contain mix-blend-multiply transition-transform duration-700 ease-out group-hover:-rotate-3 group-hover:scale-[1.16]" />
                   </div>
                   <div className="relative flex items-end justify-between gap-2">
                     <div>
@@ -84,7 +85,7 @@ export default function Home() {
       <section className="page-pad mx-auto max-w-[1500px] pb-20 md:pb-28" aria-labelledby="fresh-title">
         <SectionHead eyebrow="New arrivals" title={<span id="fresh-title">Fresh in the Loft.</span>} action={<ArrowLink to="/new-arrivals">View all</ArrowLink>} />
         {productsLoading ? (
-          <p className="py-16 text-center text-sm text-muted">Loading sneakers…</p>
+          <ProductGridSkeleton count={8} />
         ) : fresh.length === 0 ? (
           <p className="py-16 text-center text-sm text-muted">New pairs are on the way — check back soon.</p>
         ) : (

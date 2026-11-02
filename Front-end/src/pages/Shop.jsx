@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { getCategories, inStockSizes, brandLabel } from '../lib/catalog'
 import { usePageMeta } from '../hooks/usePageMeta'
+import ProductGridSkeleton from '../components/ProductGridSkeleton'
 import ProductCard from '../components/ProductCard'
 import PageHeader from '../components/PageHeader'
 
@@ -135,7 +136,7 @@ export default function Shop() {
           </div>
 
           {productsLoading ? (
-            <p className="py-20 text-center text-sm text-muted">Loading sneakers…</p>
+            <ProductGridSkeleton count={6} className="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 md:grid-cols-3" />
           ) : filtered.length === 0 ? (
             <div className="py-20 text-center">
               <p className="mb-5 text-sm text-muted">No pairs match those filters.</p>

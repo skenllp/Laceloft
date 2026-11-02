@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
-  const apiOrigin = new URL(env.VITE_API_BASE || 'https://eleven-with-backend.onrender.com/api').origin
+  const apiOrigin = new URL(env.VITE_API_BASE || 'https://laceloftbackend.onrender.com/api').origin
   return {
   plugins: [
     react(),

@@ -6,9 +6,9 @@ export const BRAND_NAME = 'Laceloft'
 export const TAGLINE = 'Find Your Next Sole.'
 
 export const API_BASE =
-  import.meta.env.VITE_API_BASE || 'https://eleven-with-backend.onrender.com/api'
-// NOTE: the default above is the existing deployed Django API host. Change it
-// with VITE_API_BASE when the backend is moved/renamed for Laceloft.
+  import.meta.env.VITE_API_BASE || 'https://laceloftbackend.onrender.com/api'
+// NOTE: the default above is the deployed Laceloft Django API. Change it
+// with VITE_API_BASE if the backend moves.
 // For local dev: VITE_API_BASE=http://127.0.0.1:8000/api
 
 // Official Laceloft WhatsApp number — digits only, country code, no "+".
