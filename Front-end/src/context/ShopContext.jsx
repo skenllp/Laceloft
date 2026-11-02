@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useCallback, useState } from 'react'
 import { fetchCatalog, getCatalogSource } from '../lib/api'
+import { hideSplash } from '../lib/splash'
 
 const WISH_KEY = 'laceloft_wish'
 const LEGACY_WISH_KEY = 'eleven_wish' // migrate wishlists saved before the rebrand
@@ -23,6 +24,7 @@ export function ShopProvider({ children }) {
     fetchCatalog().then((data) => {
       if (mounted) { setProducts(data || []); setCatalogSource(getCatalogSource()); setProductsLoading(false) }
     }).catch(() => { if (mounted) { setCatalogSource('unavailable'); setProductsLoading(false) } })
+      .finally(hideSplash)
     return () => { mounted = false }
   }, [])
 
