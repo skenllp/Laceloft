@@ -44,3 +44,9 @@ export const inStockSizes = (p) =>
 
 /** Display brand: products created under the old label are shown as Laceloft. */
 export const brandLabel = (b) => (!b || /^eleven$/i.test(b.trim()) ? (b ? 'Laceloft' : '') : b)
+
+/** Canonical product URL. The trailing slash matters: the static host only
+    serves the per-product share page (scripts/postbuild.mjs) at
+    /product/<sku>/ — without it the SPA rewrite wins and link previews
+    fall back to the generic site card. */
+export const productPath = (sku) => `/product/${encodeURIComponent(sku)}/`

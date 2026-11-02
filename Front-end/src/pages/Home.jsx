@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
-import { getCategories, pickHeroProducts, hasImage } from '../lib/catalog'
+import { getCategories, pickHeroProducts, hasImage, productPath } from '../lib/catalog'
 import { fmtPrice } from '../lib/api'
 import { whatsappChatLink } from '../lib/whatsapp'
 import { HERO_SLIDES, WHATSAPP_DISPLAY } from '../lib/config'
@@ -109,7 +109,7 @@ export default function Home() {
                   <Link to="/shop" className="btn-primary no-underline">Explore the collection <span aria-hidden="true">↗</span></Link>
                 </div>
               </div>
-              <Link to={`/product/${encodeURIComponent(featured.sku)}`} className="group relative flex min-h-[320px] items-center justify-center p-6 no-underline sm:min-h-[420px] lg:min-h-[520px]" aria-label={`View ${featured.name}`}>
+              <Link to={productPath(featured.sku)} className="group relative flex min-h-[320px] items-center justify-center p-6 no-underline sm:min-h-[420px] lg:min-h-[520px]" aria-label={`View ${featured.name}`}>
                 <div className="absolute bottom-0 left-1/2 h-[88%] w-[72%] -translate-x-1/2 rounded-t-full bg-gradient-to-b from-white/55 to-transparent" aria-hidden="true" />
                 <ProductImage src={featured.images[0]} alt={featured.name} loading="lazy" className="feather relative h-full max-h-[480px] w-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:-rotate-2 group-hover:scale-[1.04]" />
                 <span className="absolute bottom-6 left-6 rounded-full bg-ivory/90 px-4 py-2 text-[12px] font-medium text-espresso lg:left-auto lg:right-8">{featured.name} · {fmtPrice(featured.price)}</span>

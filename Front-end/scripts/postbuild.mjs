@@ -45,7 +45,7 @@ function setMeta(html, attr, key, value) {
 }
 
 function productPage(template, p) {
-  const url = `${SITE_URL}/product/${encodeURIComponent(p.sku)}`
+  const url = `${SITE_URL}/product/${encodeURIComponent(p.sku)}/`
   const title = `${p.name} | Laceloft`
   const full = p.desc || `${p.name} at Laceloft. Enquire and order directly on WhatsApp.`
   const desc = full.length <= 200 ? full : full.slice(0, 200).replace(/\s+\S*$/, '') + '…'
@@ -76,7 +76,7 @@ for (const p of products) {
   await writeFile(new URL('index.html', dir), productPage(template, p))
 }
 
-const urls = [...STATIC_ROUTES, ...products.map((p) => `/product/${encodeURIComponent(p.sku)}`)]
+const urls = [...STATIC_ROUTES, ...products.map((p) => `/product/${encodeURIComponent(p.sku)}/`)]
 await writeFile(new URL('sitemap.xml', DIST),
   '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
   urls.map((u) => `  <url><loc>${esc(SITE_URL + u)}</loc></url>`).join('\n') +

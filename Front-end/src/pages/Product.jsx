@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { fetchProduct, fmtPrice } from '../lib/api'
 import { buildWhatsAppLink } from '../lib/whatsapp'
-import { inStockSizes, brandLabel } from '../lib/catalog'
+import { inStockSizes, brandLabel, productPath } from '../lib/catalog'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { Breadcrumbs } from '../components/PageHeader'
 import ProductImage from '../components/ProductImage'
@@ -14,6 +14,14 @@ const MAX_QTY = 10
 
 export default function Product() {
   const { sku } = useParams()
+  const { pathname, search } = useLocation()
+  const navigate = useNavigate()
+
+  // Normalise /product/<sku> to /product/<sku>/ so a link copied from the
+  // address bar is the one with a proper WhatsApp/Google preview.
+  useEffect(() => {
+    if (!pathname.endsWith('/')) navigate(productPath(sku) + search, { replace: true })
+  }, [pathname, search, sku, navigate])
   const { products, isWished, toggleWish, showToast } = useShop()
   const [p, setP] = useState(null)
   const [loading, setLoading] = useState(true)

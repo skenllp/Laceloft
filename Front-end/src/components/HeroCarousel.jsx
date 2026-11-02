@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { fmtPrice } from '../lib/api'
 import { HERO_ASSETS } from '../data/heroAssets'
-import { brandLabel } from '../lib/catalog'
+import { brandLabel, productPath } from '../lib/catalog'
 import ProductImage, { SneakerPlaceholder } from './ProductImage'
 
 const AUTOPLAY_SECONDS = 4
@@ -186,7 +186,7 @@ export default function HeroCarousel({ slides }) {
           <div className="order-4 lg:order-none">
             <Link
               data-intro
-              to={cur ? `/product/${encodeURIComponent(cur.sku)}` : '/shop'}
+              to={cur ? productPath(cur.sku) : '/shop'}
               className="btn-primary w-full no-underline sm:w-auto"
             >
               Shop Now <span aria-hidden="true">↗</span>

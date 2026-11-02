@@ -5,6 +5,7 @@
 
 import { WHATSAPP_NUMBER } from './config'
 import { fmtPrice } from './api'
+import { productPath } from './catalog'
 
 /** Generic chat link, optionally with a prefilled message. */
 export function whatsappChatLink(text) {
@@ -17,7 +18,7 @@ export function buildWhatsAppLink(product, { size, color, quantity = 1 } = {}) {
   const colour = color || product.colorway
   const productUrl =
     typeof window !== 'undefined'
-      ? `${window.location.origin}/product/${encodeURIComponent(product.sku)}`
+      ? window.location.origin + productPath(product.sku)
       : ''
   const lines = [
     "Hi Laceloft, I'd like to place an order.",

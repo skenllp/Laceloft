@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { fmtPrice } from '../lib/api'
 import ProductImage from './ProductImage'
-import { brandLabel, inStockSizes } from '../lib/catalog'
+import { brandLabel, inStockSizes, productPath } from '../lib/catalog'
 
 export default function ProductCard({ p, priority = false }) {
   const { isWished, toggleWish, showToast } = useShop()
@@ -11,7 +11,7 @@ export default function ProductCard({ p, priority = false }) {
   const sizes = inStockSizes(p)
   const soldOut = p.inStock === false || (p.stockTracked === true && Array.isArray(p.sizes) && p.sizes.length > 0 && sizes.length === 0)
   const availabilityUnconfirmed = !soldOut && (p.stockTracked === false || !Array.isArray(p.sizesInStock))
-  const href = `/product/${encodeURIComponent(p.sku)}`
+  const href = productPath(p.sku)
 
   const handleWish = () => {
     const now = toggleWish(p.sku)
