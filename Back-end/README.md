@@ -69,3 +69,14 @@ shop/
   seed_data/      starter products + photos
   tests.py
 ```
+
+## Keeping admin-uploaded photos (Render disk)
+
+The free plan wipes the filesystem on every deploy, so photos uploaded in `/admin/` vanish. To keep them:
+
+1. Backend service → upgrade the instance type to **Starter** or higher.
+2. Settings → **Disks** → add a disk, mount path `/var/data`, 1 GB.
+3. Settings → **Start Command** → `bash start.sh`.
+4. Environment → `MEDIA_ROOT=/var/data/media`.
+
+`start.sh` restores the seed photos onto the disk and starts gunicorn; `build.sh` skips those steps when `MEDIA_ROOT` is set (the disk only exists while the service runs).

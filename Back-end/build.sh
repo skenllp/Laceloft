@@ -13,11 +13,16 @@ python manage.py migrate
 # `|| true` because this errors out (harmlessly) once the user already exists.
 python manage.py createsuperuser --noinput || true
 
-# Safe to run every deploy: only adds seed products that don't exist yet
-# (admin edits are kept) and re-copies the seed photos, which Render's
-# disk loses on each deploy. Use `seed_products --update` to overwrite.
-python manage.py seed_products
+# With a persistent disk (MEDIA_ROOT set) the disk is only mounted while the
+# service runs, so start.sh does the photo steps there. Without one, do them
+# here as before.
+if [ -z "${MEDIA_ROOT:-}" ]; then
+  # Safe to run every deploy: only adds seed products that don't exist yet
+  # (admin edits are kept) and re-copies the seed photos, which Render's
+  # disk loses on each deploy. Use `seed_products --update` to overwrite.
+  python manage.py seed_products
 
-# Grid-size WebP copies of every product photo (only missing ones; the disk
-# is wiped each deploy, so this recreates them).
-python manage.py make_thumbs
+  # Grid-size WebP copies of every product photo (only missing ones; the disk
+  # is wiped each deploy, so this recreates them).
+  python manage.py make_thumbs
+fi

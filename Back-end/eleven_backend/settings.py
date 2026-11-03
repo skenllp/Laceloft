@@ -148,7 +148,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ---- MEDIA (product images) ------------------------------------------------
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# On Render, point MEDIA_ROOT at the persistent disk (e.g. /var/data/media) so
+# photos uploaded in /admin/ survive redeploys. Unset = ./media (local dev, or
+# the free plan, where uploads vanish on every deploy).
+MEDIA_ROOT = Path(os.environ.get('MEDIA_ROOT') or BASE_DIR / 'media')
 
 # ---- DJANGO REST FRAMEWORK -------------------------------------------------
 REST_FRAMEWORK = {
