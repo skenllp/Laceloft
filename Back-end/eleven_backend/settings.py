@@ -125,9 +125,10 @@ DATABASES = {
 }
 
 # ---- ADMIN LOGIN PROTECTION (django-axes) ------------------------------------
-# Locks a username, and separately an IP address, for 30 minutes after 5 failed
-# logins. Locking on the username as well as the IP means a spoofed
-# X-Forwarded-For header cannot be used to get around the limit.
+# Locks a username for 30 minutes after 5 failed logins. Locked by username
+# only, NOT by IP: behind Render's proxy the app may see one shared IP for every
+# visitor, so an IP lock would let anyone's failed attempts (e.g. bots probing
+# /admin/) lock the real admin out. A spoofed header cannot bypass it either.
 from datetime import timedelta
 
 AUTHENTICATION_BACKENDS = [
@@ -136,7 +137,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = timedelta(minutes=30)
-AXES_LOCKOUT_PARAMETERS = ['username', 'ip_address']
+AXES_LOCKOUT_PARAMETERS = ['username']
 AXES_RESET_ON_SUCCESS = True
 
 AUTH_PASSWORD_VALIDATORS = [

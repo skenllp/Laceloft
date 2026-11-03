@@ -297,6 +297,14 @@ class SecurityTests(TestCase):
         self.assertEqual(res.status_code, 429)
         self.assertNotIn('_auth_user_id', self.client.session)
 
+    def test_other_users_failures_do_not_lock_the_admin(self):
+        # Behind a shared proxy IP, strangers' failed logins must not lock the real admin out.
+        User.objects.create_superuser('boss', 'b@example.com', 'a-Strong-pass-123')
+        for i in range(10):
+            self.client.post('/admin/login/', {'username': f'bot{i}', 'password': 'wrong'})
+        res = self.client.post('/admin/login/', {'username': 'boss', 'password': 'a-Strong-pass-123'})
+        self.assertEqual(res.status_code, 302)
+
     def test_admin_login_still_works_for_correct_password(self):
         User.objects.create_superuser('boss', 'b@example.com', 'a-Strong-pass-123')
         self.client.post('/admin/login/', {'username': 'boss', 'password': 'wrong'})

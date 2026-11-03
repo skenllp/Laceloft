@@ -7,6 +7,10 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 python manage.py migrate
 
+# Clear any admin login lockouts on each deploy. Free-tier Render has no Shell,
+# so redeploying is the way to unlock yourself after too many failed attempts.
+python manage.py axes_reset || true
+
 # Free-tier Render has no Shell access, so create the superuser and load
 # products right here during the build instead. Uses env vars:
 #   DJANGO_SUPERUSER_USERNAME, DJANGO_SUPERUSER_EMAIL, DJANGO_SUPERUSER_PASSWORD
