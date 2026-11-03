@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { whatsappChatLink } from '../lib/whatsapp'
-import { WHATSAPP_DISPLAY } from '../lib/config'
+import { WHATSAPP_DISPLAY, DEVELOPER_NAME, DEVELOPER_URL } from '../lib/config'
 import Logo from './Logo'
 import { useTheme } from '../lib/theme'
 
@@ -200,7 +200,13 @@ export default function Layout() {
           </div>
 
           <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-ivory/15 pt-6 text-xs text-ivory/60 sm:flex-row sm:items-end">
-            <span>© {new Date().getFullYear()} Laceloft. All rights reserved.</span>
+            <div className="flex flex-col gap-1">
+              <span>© {new Date().getFullYear()} Laceloft. All rights reserved.</span>
+              <span>
+                Developed by{' '}
+                <a href={DEVELOPER_URL} target="_blank" rel="noopener noreferrer" className="text-ivory/80 underline underline-offset-4 hover:text-white">{DEVELOPER_NAME}</a>
+              </span>
+            </div>
             <span className="font-display text-2xl leading-none text-ivory sm:text-3xl">Find Your Next Sole.</span>
           </div>
         </div>

@@ -22,4 +22,8 @@ export const SITE_URL =
   import.meta.env.VITE_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : '')
 
 // How many products the animated home hero cycles through (4–6).
+// Developer credit shown in the footer.
+export const DEVELOPER_NAME = 'Sahil'
+export const DEVELOPER_URL = 'https://sahilmuhd.com/'
+
 export const HERO_SLIDES = 4
