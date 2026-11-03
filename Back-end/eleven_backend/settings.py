@@ -17,6 +17,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-CHANGE-ME-before-depl
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
+# Render "Deploy Hook" URL of the frontend static site (Settings -> Deploy
+# Hook). Lets the admin's "Publish to website" button rebuild the storefront
+# so new products get link previews. Optional; the button explains if unset.
+FRONTEND_DEPLOY_HOOK = os.environ.get('FRONTEND_DEPLOY_HOOK', '')
+
 ALLOWED_HOSTS = []
 # Render sets this automatically to your service's *.onrender.com hostname.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')

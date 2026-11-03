@@ -1,0 +1,11 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  <li>
+    <form method="post" action="{% url 'admin:shop_product_publish' %}" style="display:inline">
+      {% csrf_token %}
+      <button type="submit" class="publish-btn" title="Rebuild the website so new products get link previews and appear in the sitemap">Publish to website</button>
+    </form>
+  </li>
+  {{ block.super }}
+{% endblock %}

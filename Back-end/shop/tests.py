@@ -125,14 +125,59 @@ class AdminTests(TempMediaMixin, TestCase):
         self.client.force_login(admin)
         res = self.client.post('/admin/shop/product/add/', {
             'sku': 'NEW-1', 'name': 'New Shoe', 'brand': 'Acme', 'price': 1500, 'strike': 0,
-            'gender': 'Unisex', 'sizes': '[8, 9]', 'stock': '{"8": 4}', 'colorway': '', 'desc': '',
+            # Size 9 ticked; size 11 has stock but was not ticked -> added automatically.
+            'gender': 'Unisex', 'sizes': ['9'], 'stock': '{"8": 4, "11": 2}', 'colorway': '', 'desc': '',
             'in_stock': 'on',
             'images-TOTAL_FORMS': '0', 'images-INITIAL_FORMS': '0',
             'images-MIN_NUM_FORMS': '0', 'images-MAX_NUM_FORMS': '1000',
         })
         self.assertEqual(res.status_code, 302, res.content[:2000])
         item = APIClient().get('/api/products/NEW-1/').json()
-        self.assertEqual(item['sizesInStock'], [8])
+        self.assertEqual(item['sizes'], [8, 9, 11])
+        self.assertEqual(item['sizesInStock'], [8, 11])
+        self.assertEqual(item['brand'], 'Acme')
+
+    def test_brand_optional_and_sku_locked(self):
+        admin = User.objects.create_superuser('admin', 'a@example.com', 'pw')
+        self.client.force_login(admin)
+        res = self.client.post('/admin/shop/product/add/', {
+            'sku': 'NB-1', 'name': 'No Brand', 'brand': '', 'price': 900, 'strike': 0,
+            'gender': 'Unisex', 'stock': '{}', 'colorway': '', 'desc': '', 'in_stock': 'on',
+            'images-TOTAL_FORMS': '0', 'images-INITIAL_FORMS': '0',
+            'images-MIN_NUM_FORMS': '0', 'images-MAX_NUM_FORMS': '1000',
+        })
+        self.assertEqual(res.status_code, 302, res.content[:2000])
+        page = self.client.get('/admin/shop/product/NB-1/change/').content.decode()
+        self.assertNotIn('name="sku"', page)  # read-only once saved
+        self.assertIn('size-ticks', page)  # size tick boxes rendered
+
+    def test_list_quick_edit(self):
+        admin = User.objects.create_superuser('admin', 'a@example.com', 'pw')
+        self.client.force_login(admin)
+        Product.objects.create(sku='Q-1', name='Quick', brand='B', price=1000)
+        res = self.client.post('/admin/shop/product/', {
+            'form-TOTAL_FORMS': '1', 'form-INITIAL_FORMS': '1', 'form-MIN_NUM_FORMS': '0', 'form-MAX_NUM_FORMS': '1000',
+            'form-0-sku': 'Q-1', 'form-0-price': '1250', 'form-0-in_stock': 'on', '_save': 'Save',
+        })
+        self.assertEqual(res.status_code, 302, res.content[:2000])
+        self.assertEqual(Product.objects.get(sku='Q-1').price, 1250)
+
+    def test_publish_button(self):
+        from unittest import mock
+        admin = User.objects.create_superuser('admin', 'a@example.com', 'pw')
+        self.client.force_login(admin)
+        self.assertIn('Publish to website', self.client.get('/admin/shop/product/').content.decode())
+
+        with override_settings(FRONTEND_DEPLOY_HOOK=''):
+            res = self.client.post('/admin/shop/product/publish/', follow=True)
+        self.assertIn('not set up yet', res.content.decode())
+
+        with override_settings(FRONTEND_DEPLOY_HOOK='https://api.render.com/deploy/x'), \
+                mock.patch('shop.admin.urllib.request.urlopen') as urlopen:
+            res = self.client.post('/admin/shop/product/publish/', follow=True)
+        urlopen.assert_called_once()
+        self.assertEqual(urlopen.call_args[0][0].full_url, 'https://api.render.com/deploy/x')
+        self.assertIn('Website update started', res.content.decode())
 
 
 class SeedCommandTests(TempMediaMixin, TestCase):
