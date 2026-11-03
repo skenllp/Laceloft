@@ -236,9 +236,10 @@ class ProductAdmin(admin.ModelAdmin):
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
         # After a form error the browser silently forgets the chosen photo, so
-        # a product can end up saved without one. Say so, loudly.
+        # a product can end up saved without one. Say so, loudly. (Query the table:
+        # the prefetched `product.images` is stale and would still look empty.)
         product = form.instance
-        if not product.images.exists():
+        if not ProductImage.objects.filter(product=product).exists():
             messages.warning(
                 request,
                 f'"{product.name}" has no photos yet, so the shop shows a grey placeholder. '
