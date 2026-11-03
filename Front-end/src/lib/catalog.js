@@ -60,6 +60,7 @@ export const CATEGORY_GROUPS = {
   boots: {
     id: 'boots',
     label: 'Boots',
+    coverSku: 'USP-BT-TAN', // clean product-on-box photo; the other boot shots are hand-held
     blurb: 'Bold silhouettes for a confident look.',
     test: (p) => (p.cats || []).includes('Boots'),
   },

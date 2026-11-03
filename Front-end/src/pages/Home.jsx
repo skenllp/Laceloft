@@ -43,7 +43,7 @@ export default function Home() {
   const categories = useMemo(() => {
     const used = new Set(heroSkus)
     return Object.values(CATEGORY_GROUPS).map((g) => {
-      const ranked = products.filter((p) => g.test(p) && hasImage(p)).sort((x, y) => photoRank(x) - photoRank(y))
+      const ranked = products.filter((p) => g.test(p) && hasImage(p)).sort((x, y) => (y.sku === g.coverSku) - (x.sku === g.coverSku) || photoRank(x) - photoRank(y))
       const cover = ranked.find((p) => !used.has(p.sku)) || ranked[0]
       if (cover) used.add(cover.sku)
       return { ...g, cover }
@@ -75,7 +75,7 @@ export default function Home() {
                   <div className="absolute inset-0 overflow-hidden">
                     <ProductImage src={thumbAt(c.cover, 0)} alt="" loading="lazy" frame={0.8} className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
                   </div>
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-espresso/80 via-espresso/35 to-transparent" aria-hidden="true" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-espresso/90 via-espresso/50 to-transparent" aria-hidden="true" />
                   <div className="relative flex items-end justify-between gap-3">
                     <div>
                       <h3 className="font-display text-2xl leading-tight text-ivory">{c.label}</h3>
@@ -126,7 +126,7 @@ export default function Home() {
       <section className="page-pad mx-auto max-w-[1500px] pb-20 md:pb-28" aria-labelledby="about-title">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="label-eyebrow mb-5">Our story</p>
-          <h2 id="about-title" className="font-display text-[clamp(2.4rem,6vw,4.4rem)] leading-none text-espresso">Good Shoes. Great Rotation.</h2>
+          <h2 id="about-title" className="font-display text-[clamp(2.4rem,6vw,4.4rem)] leading-none text-espresso [text-wrap:balance]">Good Shoes. Great Rotation.</h2>
           <p className="mx-auto mt-7 max-w-xl text-[16px] leading-relaxed text-muted">
             We believe the right pair can change the feel of an outfit. Laceloft brings together a selection of sneakers, boots and everyday footwear for people who enjoy expressing themselves through what they wear.
           </p>

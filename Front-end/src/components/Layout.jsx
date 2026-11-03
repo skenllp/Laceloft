@@ -177,12 +177,12 @@ export default function Layout() {
             <div>
               <Logo tone="light" className="mb-5 h-9 w-auto" />
               <p className="max-w-[300px] text-sm leading-relaxed text-ivory/70">
-                Premium sneakers, timeless style. Curated for your everyday rotation.
+                Your next favourite pair is just a step away. Explore sneakers, boots and everyday footwear at Laceloft.
               </p>
             </div>
             <FooterCol title="Shop">
-              <FooterLink to="/shop">All sneakers</FooterLink>
-              <FooterLink to="/new-arrivals">New arrivals</FooterLink>
+              <FooterLink to="/shop">Shop All</FooterLink>
+              <FooterLink to="/new-arrivals">New Arrivals</FooterLink>
               <FooterLink to="/collections">Collections</FooterLink>
               <FooterLink to="/wishlist">Wishlist</FooterLink>
             </FooterCol>

@@ -196,11 +196,11 @@ export default function HeroCarousel({ slides }) {
 
           <div className="order-4 lg:order-none">
             <div data-intro className="flex flex-col gap-3 sm:flex-row">
-              <Link to="/shop" className="btn-primary w-full no-underline sm:w-auto">
+              <Link to="/shop" className="btn-primary w-full whitespace-nowrap no-underline sm:w-auto">
                 Explore Footwear <span aria-hidden="true">↗</span>
               </Link>
               {cur && (
-                <Link to={productPath(cur.sku)} className="btn-outline w-full no-underline sm:w-auto">
+                <Link to={productPath(cur.sku)} className="btn-outline w-full whitespace-nowrap no-underline sm:w-auto">
                   View This Pair
                 </Link>
               )}
