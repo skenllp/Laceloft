@@ -20,7 +20,7 @@ export default function ProductGridSkeleton({ count = 8, className = 'grid grid-
       <div className={`${className} animate-pulse`}>
         {Array.from({ length: count }, (_, i) => (
           <div key={i}>
-            <div className="aspect-square rounded-4xl bg-sand/60" />
+            <div className="aspect-[4/5] rounded-4xl bg-sand/60" />
             <div className="mt-4 space-y-2.5 px-1">
               <div className="h-2.5 w-16 rounded-full bg-sand/80" />
               <div className="h-4 w-4/5 rounded-full bg-sand/80" />

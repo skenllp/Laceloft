@@ -16,10 +16,14 @@ export function SneakerPlaceholder({ className = '' }) {
   )
 }
 
-/** <img> that swaps to the placeholder when src is empty or errors. */
-export default function ProductImage({ src, alt, className = '', placeholderClass = '', ...rest }) {
+/** <img> that swaps to the placeholder when src is empty or errors.
+ *  `frame` (width / height of the box it sits in) turns on auto-fit: a
+ *  photo within ~6% of that shape fills the box (object-cover, trimming at
+ *  most ~3% per side); any other shape is shown whole (object-contain). */
+export default function ProductImage({ src, alt, className = '', placeholderClass = '', frame, onLoad, ...rest }) {
   const [failed, setFailed] = useState(false)
-  useEffect(() => { setFailed(false) }, [src])
+  const [cover, setCover] = useState(false)
+  useEffect(() => { setFailed(false); setCover(false) }, [src])
   if (!src || failed) {
     return (
       <div className={`flex items-center justify-center ${className}`} role="img" aria-label={alt}>
@@ -27,5 +31,13 @@ export default function ProductImage({ src, alt, className = '', placeholderClas
       </div>
     )
   }
-  return <img src={src} alt={alt} onError={() => setFailed(true)} className={className} {...rest} />
+  const handleLoad = (e) => {
+    if (frame) {
+      const { naturalWidth: w, naturalHeight: h } = e.currentTarget
+      if (w && h) setCover(Math.abs(w / h - frame) / frame <= 0.06)
+    }
+    onLoad?.(e)
+  }
+  const fit = frame ? (cover ? 'object-cover' : 'object-contain') : ''
+  return <img src={src} alt={alt} onError={() => setFailed(true)} onLoad={handleLoad} className={`${className} ${fit}`} {...rest} />
 }

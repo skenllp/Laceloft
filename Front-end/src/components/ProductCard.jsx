@@ -23,17 +23,17 @@ export default function ProductCard({ p, priority = false }) {
 
   return (
     <article className="group flex flex-col">
-      {/* Square frame with almost no padding: the catalogue photos mix tall
-          and wide shapes, which looked half-sized in the old padded 4:5 box.
-          No base zoom, so the whole photo is always visible. */}
-      <div className="relative aspect-square overflow-hidden rounded-4xl bg-sand/60">
-        <Link to={href} aria-label={`View ${p.name}`} className="absolute inset-0 z-0 flex items-center justify-center p-1">
+      {/* 4:5 frame, the shape of most catalogue photos: those fill it edge to
+          edge; other shapes are shown whole (see ProductImage `frame`). */}
+      <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-sand/60">
+        <Link to={href} aria-label={`View ${p.name}`} className="absolute inset-0 z-0 flex items-center justify-center">
           <ProductImage
             src={img}
             alt={p.name}
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
-            className={`h-full w-full object-contain mix-blend-multiply transition duration-700 ease-out group-hover:scale-[1.04] ${alt ? '[@media(hover:hover)]:group-hover:opacity-0' : ''} ${soldOut ? 'opacity-60 grayscale' : ''}`}
+            frame={0.8}
+            className={`h-full w-full mix-blend-multiply transition duration-700 ease-out group-hover:scale-[1.04] ${alt ? '[@media(hover:hover)]:group-hover:opacity-0' : ''} ${soldOut ? 'opacity-60 grayscale' : ''}`}
           />
           {/* Second photo fades in on hover (mouse devices only). */}
           {alt && !soldOut && (
@@ -42,7 +42,8 @@ export default function ProductCard({ p, priority = false }) {
               alt=""
               loading="lazy"
               decoding="async"
-              className="pointer-events-none absolute inset-1 hidden h-[calc(100%-0.5rem)] w-[calc(100%-0.5rem)] object-contain opacity-0 mix-blend-multiply transition duration-700 ease-out group-hover:opacity-100 [@media(hover:hover)]:block"
+              frame={0.8}
+              className="pointer-events-none absolute inset-0 hidden h-full w-full opacity-0 mix-blend-multiply transition duration-700 ease-out group-hover:opacity-100 [@media(hover:hover)]:block"
             />
           )}
         </Link>
