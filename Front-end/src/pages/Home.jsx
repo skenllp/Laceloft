@@ -71,17 +71,18 @@ export default function Home() {
             ].map((c, i) => (
               <Reveal key={c.key} delay={i * 60}>
                 <Link to={c.to} className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-4xl bg-sand/70 p-4 no-underline transition-colors duration-500 hover:bg-sand sm:p-5">
-                  <div className="absolute inset-x-1 top-1 bottom-16 flex items-center justify-center">
-                    <ProductImage src={thumbAt(c.cover, 0)} alt="" loading="lazy" className="h-full w-full object-contain mix-blend-multiply transition-transform duration-700 ease-out group-hover:-rotate-3 group-hover:scale-[1.05]" />
+                  {/* Full-bleed photo (tile is 4:5); other shapes get a blurred backdrop */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    <ProductImage src={thumbAt(c.cover, 0)} alt="" loading="lazy" frame={0.8} className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
                   </div>
-                  {/* Soft fade so the label stays readable over darker photos */}
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-sand via-sand/85 to-transparent" aria-hidden="true" />
+                  {/* Dark fade so the white label is readable over any photo */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-espresso/80 via-espresso/35 to-transparent" aria-hidden="true" />
                   <div className="relative flex items-end justify-between gap-2">
                     <div>
-                      <h3 className="font-display text-xl leading-tight text-espresso sm:text-2xl">{c.label}</h3>
-                      <p className="mt-1 text-[12px] text-muted">{c.meta}</p>
+                      <h3 className="font-display text-xl leading-tight text-ivory sm:text-2xl">{c.label}</h3>
+                      <p className="mt-1 text-[12px] text-ivory/75">{c.meta}</p>
                     </div>
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-espresso text-ivory transition-colors group-hover:bg-olive-deep" aria-hidden="true">↗</span>
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ivory text-espresso transition-colors group-hover:bg-white" aria-hidden="true">↗</span>
                   </div>
                 </Link>
               </Reveal>
@@ -118,9 +119,12 @@ export default function Home() {
                   <Link to="/shop" className="btn-primary no-underline">Explore the collection <span aria-hidden="true">↗</span></Link>
                 </div>
               </div>
-              <Link to={productPath(featured.sku)} className="group relative flex min-h-[320px] items-center justify-center p-6 no-underline sm:min-h-[420px] lg:min-h-[520px]" aria-label={`View ${featured.name}`}>
-                <div className="absolute bottom-0 left-1/2 h-[88%] w-[72%] -translate-x-1/2 rounded-t-full bg-gradient-to-b from-white/55 to-transparent" aria-hidden="true" />
-                <ProductImage src={featured.images[0]} alt={featured.name} loading="lazy" className="feather relative h-full max-h-[480px] w-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:-rotate-2 group-hover:scale-[1.04]" />
+              <Link to={productPath(featured.sku)} className="group relative flex min-h-[320px] items-center justify-center p-6 no-underline sm:min-h-[420px] lg:min-h-[520px] lg:p-10" aria-label={`View ${featured.name}`}>
+                {/* The photo is shown whole as a deliberate rounded card (4:5, the
+                    catalogue's usual shape) instead of faded into the panel. */}
+                <div className="relative aspect-[4/5] w-[min(100%,380px)] overflow-hidden rounded-4xl shadow-soft">
+                  <ProductImage src={featured.images[0]} alt={featured.name} loading="lazy" frame={0.8} className="h-full w-full transition-transform duration-700 group-hover:scale-[1.03]" />
+                </div>
                 <span className="absolute bottom-6 left-6 rounded-full bg-ivory/90 px-4 py-2 text-[12px] font-medium text-espresso lg:left-auto lg:right-8">{featured.name} · {fmtPrice(featured.price)}</span>
               </Link>
             </div>

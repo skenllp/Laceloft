@@ -56,10 +56,11 @@ img { max-width: 100%; }
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
-/* Feathered edge for photographs that don't have a transparent background */
+/* Feathered edge for photographs that don't have a transparent background:
+   fades the whole outline out so no rectangle shows against the panel. */
 .feather {
-  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
-          mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 98%);
+          mask-image: radial-gradient(closest-side, #000 55%, transparent 98%);
 }
 
 @media (prefers-reduced-motion: reduce) {

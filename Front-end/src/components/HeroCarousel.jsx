@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { fmtPrice } from '../lib/api'
-import { HERO_ASSETS } from '../data/heroAssets'
+import { HERO_ASSETS, HERO_THUMBS } from '../data/heroAssets'
 import { brandLabel, productPath, thumbAt } from '../lib/catalog'
 import ProductImage, { SneakerPlaceholder } from './ProductImage'
 
@@ -282,15 +282,15 @@ export default function HeroCarousel({ slides }) {
                   onClick={() => { goTo(i, i > idxRef.current ? 1 : -1) }}
                   aria-label={`Show ${p.name}`}
                   aria-current={sel ? 'true' : undefined}
-                  className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-white/55 p-1.5 transition-all duration-300 sm:rounded-3xl sm:p-2.5 ${sel ? 'outline outline-2 outline-offset-0 outline-olive bg-white/80' : 'outline-0 hover:bg-white/75'}`}
+                  className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-white/55 p-1.5 transition-all duration-300 sm:rounded-3xl sm:p-2 ${sel ? 'outline outline-2 outline-offset-0 outline-olive bg-white/80' : 'outline-0 hover:bg-white/75'}`}
                 >
                   <ProductImage
-                    src={thumbAt(p, 0)}
+                    src={HERO_THUMBS[p.sku] || thumbAt(p, 0)}
                     alt=""
                     loading="lazy"
                     decoding="async"
                     draggable={false}
-                    className="h-full w-full object-contain mix-blend-multiply"
+                    className={`h-full w-full object-contain ${HERO_THUMBS[p.sku] ? 'drop-shadow-[0_5px_6px_rgba(48,42,37,0.2)]' : 'mix-blend-multiply'}`}
                     placeholderClass="w-[90%]"
                   />
                 </button>
