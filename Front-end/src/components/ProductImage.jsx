@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /* Original line-art sneaker used whenever a product has no image (or the
    image fails to load). Not a copy of any brand's design. */
@@ -28,7 +28,9 @@ export default function ProductImage({ src, alt, className = '', placeholderClas
   const [failed, setFailed] = useState(false)
   const [cover, setCover] = useState(false)
   const [feather, setFeather] = useState(null) // soft edge where the photo meets the backdrop
-  useEffect(() => { setFailed(false); setCover(false); setFeather(null) }, [src])
+  const [loaded, setLoaded] = useState(false)
+  const imgRef = useRef(null)
+  useEffect(() => { setFailed(false); setCover(false); setFeather(null); setLoaded(false) }, [src])
   if (!src || failed) {
     return (
       <div className={`flex items-center justify-center ${className}`} role="img" aria-label={alt}>
@@ -37,6 +39,7 @@ export default function ProductImage({ src, alt, className = '', placeholderClas
     )
   }
   const handleLoad = (e) => {
+    setLoaded(true)
     if (frame) {
       const { naturalWidth: w, naturalHeight: h } = e.currentTarget
       if (w && h) {
@@ -58,13 +61,20 @@ export default function ProductImage({ src, alt, className = '', placeholderClas
     }
     onLoad?.(e)
   }
+  // A cached photo can finish loading before React attaches onLoad.
+  useEffect(() => {
+    const el = imgRef.current
+    if (el && el.complete && el.naturalWidth) handleLoad({ currentTarget: el })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src, failed])
   const fit = frame ? (cover ? 'object-cover' : 'object-contain relative') : ''
   return (
     <>
       {frame && !cover && (
         <img src={src} alt="" aria-hidden="true" loading="lazy" decoding="async" className="pointer-events-none absolute -inset-12 h-[calc(100%+6rem)] w-[calc(100%+6rem)] max-w-none object-cover blur-lg" />
       )}
-      <img src={src} alt={alt} onError={() => setFailed(true)} onLoad={handleLoad} style={{ ...feather, ...style }} className={`${className} ${fit}`} {...rest} />
+      {frame && !loaded && <div className="img-shimmer pointer-events-none absolute inset-0" aria-hidden="true" />}
+      <img ref={imgRef} src={src} alt={alt} onError={() => setFailed(true)} onLoad={handleLoad} style={{ ...feather, ...style }} className={`${className} ${fit} ${loaded ? 'img-ready' : 'img-loading'}`} {...rest} />
     </>
   )
 }

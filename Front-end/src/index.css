@@ -107,3 +107,13 @@ img { max-width: 100%; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* Photos fade in as they arrive, over a soft shimmer, instead of popping in. */
+.img-loading { opacity: 0; }
+.img-ready { animation: img-in .55s ease both; }
+@keyframes img-in { from { opacity: 0; } to { opacity: 1; } }
+.img-shimmer {
+  background: linear-gradient(100deg, transparent 20%, rgb(var(--c-espresso) / 0.07) 50%, transparent 80%) 0 0 / 200% 100%;
+  animation: img-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes img-shimmer { from { background-position: 150% 0; } to { background-position: -50% 0; } }

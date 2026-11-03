@@ -9,6 +9,7 @@ import { Breadcrumbs } from '../components/PageHeader'
 import ProductImage from '../components/ProductImage'
 import ProductCard from '../components/ProductCard'
 import SizeGuide from '../components/SizeGuide'
+import Lightbox from '../components/Lightbox'
 import { HeartIcon, WhatsAppIcon } from '../components/Layout'
 
 const MAX_QTY = 10
@@ -33,6 +34,8 @@ export default function Product() {
   const [zoom, setZoom] = useState(null)
   const sizesRef = useRef(null)
   const touchX = useRef(null)
+  const swiped = useRef(false)
+  const [lightbox, setLightbox] = useState(false)
 
   usePageMeta(p?.name, p ? `${p.name} at Laceloft — ${fmtPrice(p.price)}. Enquire and order directly through WhatsApp.` : undefined)
 
@@ -121,6 +124,7 @@ export default function Product() {
     if (touchX.current === null || images.length < 2) return
     const dx = e.changedTouches[0].clientX - touchX.current
     touchX.current = null
+    if (Math.abs(dx) > 40) swiped.current = true
     if (Math.abs(dx) > 40) setImgIdx((i) => (i + (dx < 0 ? 1 : -1) + images.length) % images.length)
   }
 
@@ -144,6 +148,11 @@ export default function Product() {
         {/* Gallery */}
         <div className="lg:sticky lg:top-24 lg:self-start">
           <div
+            role="button"
+            tabIndex={0}
+            aria-label="Open photos full screen"
+            onClick={() => { if (swiped.current) { swiped.current = false; return } if (images[0]) setLightbox(true) }}
+            onKeyDown={(e) => { if (e.key === 'Enter' && images[0]) setLightbox(true) }}
             className="group relative mb-3 aspect-square cursor-zoom-in overflow-hidden rounded-5xl bg-sand/60"
             onMouseMove={onZoomMove}
             onTouchStart={onTouchStart}
@@ -165,8 +174,8 @@ export default function Product() {
             </div>
             {images.length > 1 && (
               <>
-                <button type="button" aria-label="Previous image" onClick={() => setImgIdx((i) => (i - 1 + images.length) % images.length)} className="absolute left-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-surface/90 text-espresso hover:bg-surface">←</button>
-                <button type="button" aria-label="Next image" onClick={() => setImgIdx((i) => (i + 1) % images.length)} className="absolute right-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-surface/90 text-espresso hover:bg-surface">→</button>
+                <button type="button" aria-label="Previous image" onClick={(e) => { e.stopPropagation(); setImgIdx((i) => (i - 1 + images.length) % images.length) }} className="absolute left-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-surface/90 text-espresso hover:bg-surface">←</button>
+                <button type="button" aria-label="Next image" onClick={(e) => { e.stopPropagation(); setImgIdx((i) => (i + 1) % images.length) }} className="absolute right-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-surface/90 text-espresso hover:bg-surface">→</button>
                 {/* Swipe hint on phones, where the arrows are hidden */}
                 <span className="pointer-events-none absolute bottom-4 right-4 rounded-full bg-surface/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-espresso sm:hidden" aria-hidden="true">{imgIdx + 1} / {images.length}</span>
               </>
@@ -189,6 +198,8 @@ export default function Product() {
             </div>
           )}
         </div>
+
+        {lightbox && <Lightbox images={images} index={imgIdx} onIndex={setImgIdx} onClose={() => setLightbox(false)} alt={p.name} />}
 
         {/* Info */}
         <div className="lg:pt-4">
