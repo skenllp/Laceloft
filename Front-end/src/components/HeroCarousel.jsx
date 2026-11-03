@@ -225,9 +225,9 @@ export default function HeroCarousel({ slides }) {
         >
           {/* arch + spheres + platform */}
           <div data-arch className="absolute bottom-[4%] left-1/2 h-[92%] w-[66%] -translate-x-1/2 rounded-t-full bg-gradient-to-b from-white/60 via-white/25 to-transparent dark:from-olive/25 dark:via-olive/10 lg:w-[62%]" aria-hidden="true" />
-          <div data-sphere className="absolute left-[8%] top-[14%] h-[13%] w-[13%] rounded-full bg-gradient-to-br from-olive to-olive-deep opacity-90" aria-hidden="true" />
-          <div data-sphere className="absolute bottom-[26%] right-[7%] h-[9%] w-[9%] rounded-full bg-gradient-to-br from-tan to-[#9a7556]" aria-hidden="true" />
-          <div data-sphere className="absolute right-[14%] top-[10%] h-[6%] w-[6%] rounded-full bg-white/80 dark:bg-white/20" aria-hidden="true" />
+          <div data-sphere className="absolute left-[8%] top-[14%] h-[13%] w-[13%] rounded-full bg-gradient-to-br from-olive to-olive-deep opacity-90 dark:opacity-80 dark:shadow-[0_0_46px_8px_rgba(212,165,116,0.32)]" aria-hidden="true" />
+          <div data-sphere className="absolute bottom-[26%] right-[7%] h-[9%] w-[9%] rounded-full bg-gradient-to-br from-tan to-[#9a7556] dark:shadow-[0_0_34px_6px_rgba(201,150,98,0.28)]" aria-hidden="true" />
+          <div data-sphere className="absolute right-[14%] top-[10%] h-[6%] w-[6%] rounded-full bg-white/80 dark:bg-olive/10 dark:ring-2 dark:ring-olive/70 dark:shadow-[0_0_22px_2px_rgba(212,165,116,0.35)]" aria-hidden="true" />
           <div className="absolute bottom-[7%] left-1/2 h-[7%] w-[58%] -translate-x-1/2 rounded-[50%] bg-white/45 dark:bg-white/10" aria-hidden="true" />
           <div data-shadow className="absolute bottom-[8.5%] left-1/2 h-[4%] w-[44%] -translate-x-1/2 rounded-[50%] bg-espresso/20 blur-md dark:bg-black/60" aria-hidden="true" />
 
