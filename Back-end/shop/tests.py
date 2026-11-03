@@ -253,3 +253,31 @@ class ThumbnailTests(TempMediaMixin, TestCase):
         import os
         with Im.open(os.path.join(self._media, 'products', 'thumbs', os.path.basename(thumb))) as im:
             self.assertEqual(im.width, 640)
+
+
+@override_settings(STORAGES={
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+})
+class NoPhotoWarningTests(TempMediaMixin, TestCase):
+    def test_warns_when_saved_without_a_photo(self):
+        admin = User.objects.create_superuser('admin', 'a@example.com', 'pw')
+        self.client.force_login(admin)
+        res = self.client.post('/admin/shop/product/add/', {
+            'sku': 'NP-1', 'name': 'No Photo Shoe', 'brand': '', 'price': 900, 'strike': 0,
+            'gender': 'Unisex', 'stock': '{}', 'colorway': '', 'desc': '', 'in_stock': 'on',
+            'images-TOTAL_FORMS': '0', 'images-INITIAL_FORMS': '0',
+            'images-MIN_NUM_FORMS': '0', 'images-MAX_NUM_FORMS': '1000',
+        }, follow=True)
+        self.assertIn('has no photos yet', res.content.decode())
+
+    def test_big_jpeg_thumbnail(self):
+        from io import BytesIO
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from PIL import Image
+        buf = BytesIO()
+        Image.new('RGB', (4000, 3000), 'white').save(buf, 'JPEG')
+        p = Product.objects.create(sku='BIG-1', name='Big', brand='B', price=1)
+        ProductImage.objects.create(product=p, image=SimpleUploadedFile('big.jpg', buf.getvalue(), content_type='image/jpeg'))
+        thumb = APIClient().get('/api/products/BIG-1/').json()['thumbs'][0]
+        self.assertTrue(thumb.endswith('.webp'))

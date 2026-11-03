@@ -233,6 +233,19 @@ class ProductAdmin(admin.ModelAdmin):
         n = len(obj.sizes_in_stock())
         return f'{n} size{"" if n == 1 else "s"}' if n else 'sold out'
 
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        # After a form error the browser silently forgets the chosen photo, so
+        # a product can end up saved without one. Say so, loudly.
+        product = form.instance
+        if not product.images.exists():
+            messages.warning(
+                request,
+                f'"{product.name}" has no photos yet, so the shop shows a grey placeholder. '
+                'Open it again, choose a photo under "Photos", and save. '
+                '(If the form showed an error before, the browser clears the chosen photo — pick it again.)',
+            )
+
     # ---- "Publish to website" button (templates/admin/shop/product/change_list.html) ----
     def get_urls(self):
         return [

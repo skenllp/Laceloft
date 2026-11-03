@@ -26,7 +26,11 @@ def make_thumb(image_name, overwrite=False):
         if not overwrite and default_storage.exists(name):
             return False
         with default_storage.open(image_name, 'rb') as fh:
-            im = ImageOps.exif_transpose(Image.open(fh))
+            im = Image.open(fh)
+            # JPEGs can be decoded at reduced size, which keeps a 12-megapixel
+            # phone photo from using ~50 MB on the 512 MB free instance.
+            im.draft('RGB', (THUMB_WIDTH * 2, THUMB_WIDTH * 2))
+            im = ImageOps.exif_transpose(im)
             im = im.convert('RGBA' if im.mode in ('RGBA', 'LA', 'P') else 'RGB')
         if im.width > THUMB_WIDTH:
             im = im.resize((THUMB_WIDTH, round(im.height * THUMB_WIDTH / im.width)), Image.LANCZOS)
