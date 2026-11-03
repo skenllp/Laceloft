@@ -155,7 +155,7 @@ export default function Product() {
               src={images[imgIdx]}
               alt={`${p.name} — view ${imgIdx + 1}`}
               fetchpriority="high"
-              style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.9)' } : { transform: 'scale(1.08)' }}
+              style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.9)' } : undefined}
               className="h-full w-full object-contain p-2 mix-blend-multiply transition-transform duration-200 ease-out"
             />
             <div className="pointer-events-none absolute left-5 top-5 flex gap-2">
@@ -182,7 +182,7 @@ export default function Product() {
                   aria-current={i === imgIdx}
                   className={`h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-sand/60 p-1.5 transition ${i === imgIdx ? 'outline outline-2 outline-olive' : 'opacity-80 hover:opacity-100'}`}
                 >
-                  <ProductImage src={thumbAt(p, i) || src} alt="" loading="lazy" className="h-full w-full scale-110 object-contain mix-blend-multiply" placeholderClass="w-full" />
+                  <ProductImage src={thumbAt(p, i) || src} alt="" loading="lazy" className="h-full w-full object-contain mix-blend-multiply" placeholderClass="w-full" />
                 </button>
               ))}
             </div>
