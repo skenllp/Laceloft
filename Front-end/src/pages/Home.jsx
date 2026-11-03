@@ -54,11 +54,6 @@ export default function Home() {
     () => products.filter((p) => p.isNew).sort((x, y) => String(y.createdAt || '').localeCompare(String(x.createdAt || ''))).slice(0, 8),
     [products],
   )
-  const edit = useMemo(() => {
-    const freshSkus = new Set(fresh.map((p) => p.sku))
-    const rest = products.filter((p) => !freshSkus.has(p.sku))
-    return [...rest.filter((p) => p.onSale), ...rest.filter((p) => !p.onSale)].slice(0, 8)
-  }, [products, fresh])
 
   return (
     <>
@@ -90,26 +85,10 @@ export default function Home() {
         </section>
       )}
 
-      {/* FEATURED COLLECTION */}
-      {(productsLoading || edit.length > 0) && (
-        <section className="page-pad mx-auto max-w-[1500px] pb-20 md:pb-28" aria-labelledby="edit-title">
-          <SectionHead eyebrow="Handpicked styles" title={<span id="edit-title">The Laceloft Edit.</span>} action={<ArrowLink to="/shop">Shop the edit</ArrowLink>} />
-          <Reveal><p className="-mt-4 mb-10 max-w-xl text-[15px] leading-relaxed text-muted">From everyday essentials to standout pairs, explore footwear for every mood and moment.</p></Reveal>
-          {productsLoading ? (
-            <ProductGridSkeleton count={8} />
-          ) : (
-            <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4">
-              {edit.map((p, i) => <Reveal key={p.sku} delay={(i % 4) * 70}><ProductCard p={p} /></Reveal>)}
-            </div>
-          )}
-          <div className="mt-10 text-center sm:hidden"><Link to="/shop" className="btn-outline no-underline">Shop the edit</Link></div>
-        </section>
-      )}
-
       {/* NEW ARRIVALS */}
       <section className="page-pad mx-auto max-w-[1500px] pb-20 md:pb-28" aria-labelledby="fresh-title">
-        <SectionHead eyebrow="Just landed" title={<span id="fresh-title">Fresh in the Loft.</span>} action={<ArrowLink to="/new-arrivals">Explore new arrivals</ArrowLink>} />
-        <Reveal><p className="-mt-4 mb-10 max-w-xl text-[15px] leading-relaxed text-muted">New styles. New favourites. Discover the latest additions to Laceloft.</p></Reveal>
+        <SectionHead eyebrow="Just landed" title={<span id="fresh-title">Fresh in the Loft.</span>} action={<ArrowLink to="/new-arrivals">See all new arrivals</ArrowLink>} />
+        <Reveal><p className="-mt-4 mb-10 max-w-xl text-[15px] leading-relaxed text-muted">The newest pairs to join Laceloft, from fresh sneakers to everyday staples.</p></Reveal>
         {productsLoading ? (
           <ProductGridSkeleton count={8} />
         ) : fresh.length === 0 ? (
@@ -119,7 +98,7 @@ export default function Home() {
             {fresh.map((p, i) => <Reveal key={p.sku} delay={(i % 4) * 70}><ProductCard p={p} /></Reveal>)}
           </div>
         )}
-        <div className="mt-10 text-center sm:hidden"><Link to="/new-arrivals" className="btn-outline no-underline">Explore new arrivals</Link></div>
+        <div className="mt-10 text-center sm:hidden"><Link to="/new-arrivals" className="btn-outline no-underline">See all new arrivals</Link></div>
       </section>
 
       {/* ABOUT */}
@@ -128,9 +107,9 @@ export default function Home() {
           <p className="label-eyebrow mb-5">Our story</p>
           <h2 id="about-title" className="font-display text-[clamp(2.4rem,6vw,4.4rem)] leading-none text-espresso [text-wrap:balance]">Good Shoes. Great Rotation.</h2>
           <p className="mx-auto mt-7 max-w-xl text-[16px] leading-relaxed text-muted">
-            We believe the right pair can change the feel of an outfit. Laceloft brings together a selection of sneakers, boots and everyday footwear for people who enjoy expressing themselves through what they wear.
+            The right pair can change how an outfit feels. Laceloft brings together sneakers, boots and everyday footwear for people who like to express themselves through what they wear.
           </p>
-          <Link to="/about" className="mt-8 inline-block text-[12px] font-semibold uppercase tracking-[0.16em] text-espresso no-underline underline-offset-[6px] hover:underline">Discover Laceloft ↗</Link>
+          <Link to="/about" className="mt-8 inline-block text-[12px] font-semibold uppercase tracking-[0.16em] text-espresso no-underline underline-offset-[6px] hover:underline">Read our story ↗</Link>
         </Reveal>
       </section>
 
@@ -142,7 +121,7 @@ export default function Home() {
             <div className="pointer-events-none absolute -bottom-24 -right-10 h-72 w-72 rounded-full bg-tan/15" aria-hidden="true" />
             <div className="relative">
               <h2 id="wa-title" className="font-display text-[clamp(2.4rem,6vw,4.6rem)] leading-none">Found Your Pair?</h2>
-              <p className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-ivory/75">Have a question about size, colour or availability? Our team can help you choose.</p>
+              <p className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-ivory/75">Not sure about size, colour or availability? Message us and we will help you choose.</p>
               <a
                 href={whatsappChatLink("Hi Laceloft, I have a question about a pair.")}
                 target="_blank"

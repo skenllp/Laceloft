@@ -7,7 +7,7 @@ import { WhatsAppIcon } from '../components/Layout'
 
 const PILLARS = [
   { n: '01', title: 'Curated, not crowded', body: 'A focused selection of sneakers, boots and everyday footwear, chosen for how well they fit into a daily rotation.' },
-  { n: '02', title: 'Clean and considered', body: 'Clear photography, honest pricing in rupees and straightforward sizing so choosing a pair stays simple.' },
+  { n: '02', title: 'Clean and considered', body: 'Clear photos, prices in rupees and straightforward UK sizing, so choosing a pair stays simple.' },
   { n: '03', title: 'Talk to a person', body: 'Questions about fit, availability or delivery? Message Laceloft on WhatsApp and we will help you choose.' },
 ]
 
@@ -16,7 +16,7 @@ export default function About() {
   return (
     <>
       <PageHeader eyebrow="About Laceloft" title="Good Shoes. Great Rotation." crumbs={[{ label: 'Home', to: '/' }, { label: 'About' }]}>
-        We believe the right pair can change the feel of an outfit. Laceloft brings together a selection of sneakers, boots and everyday footwear for people who enjoy expressing themselves through what they wear.
+        The right pair can change how an outfit feels. Laceloft brings together sneakers, boots and everyday footwear for people who like to express themselves through what they wear.
       </PageHeader>
 
       <section className="page-pad mx-auto max-w-[1500px] pb-20">

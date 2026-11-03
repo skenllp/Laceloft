@@ -179,7 +179,7 @@ export default function Layout() {
             <div>
               <Logo tone="light" className="mb-5 h-9 w-auto" />
               <p className="max-w-[300px] text-sm leading-relaxed text-ivory/70">
-                Your next favourite pair is just a step away. Explore sneakers, boots and everyday footwear at Laceloft.
+                Your next favourite pair is a step away. Explore sneakers, boots and everyday footwear at Laceloft.
               </p>
             </div>
             <FooterCol title="Shop">

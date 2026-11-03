@@ -16,7 +16,7 @@ export default function Collections() {
   return (
     <>
       <PageHeader eyebrow="Collections" title="Every Step, Your Way." crumbs={[{ label: 'Home', to: '/' }, { label: 'Collections' }]}>
-        Browse Laceloft by style, from everyday sneakers to boots, slides and more.
+        Browse by style, from everyday sneakers to boots, slides and more.
       </PageHeader>
       <div className="page-pad mx-auto max-w-[1500px] pb-16">
         {productsLoading ? (
