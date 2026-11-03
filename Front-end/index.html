@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Laceloft | Find Your Next Sole</title>
   <meta name="description" content="Explore Laceloft's curated collection of sneakers and everyday footwear. Discover your next pair and enquire directly through WhatsApp." />
-  <meta name="theme-color" content="#F4F0E8" />
+  <meta name="theme-color" content="#000000" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
@@ -27,16 +27,17 @@
 
 
   <script>
-    // Apply the saved/system theme before first paint (no white flash in dark).
+    // Dark by default; apply the saved choice before first paint (no white flash in dark).
     (function () {
       try {
-        var t = localStorage.getItem('laceloft-theme')
-        var dark = t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches
+        var dark = localStorage.getItem('laceloft-theme') !== 'light'
         if (dark) {
           document.documentElement.classList.add('dark')
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1A1613')
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000')
         }
-      } catch (e) {}
+      } catch (e) {
+        document.documentElement.classList.add('dark')
+      }
     })()
   </script>
   <style>
@@ -49,10 +50,10 @@
     #splash .mark i { font-style: normal; color: #777F65; }
     #splash .bar { position: relative; width: 120px; height: 2px; overflow: hidden; border-radius: 2px; background: rgba(48,42,37,.12); }
     #splash .bar::after { content: ''; position: absolute; inset: 0; width: 40%; border-radius: 2px; background: #777F65; animation: splash-sweep 1.1s ease-in-out infinite; }
-    html.dark body { background: #1A1613; }
-    html.dark #splash { background: #1A1613; }
-    html.dark #splash .mark { color: #F3EEE5; }
-    html.dark #splash .bar { background: rgba(243,238,229,.14); }
+    html.dark body { background: #000000; }
+    html.dark #splash { background: #000000; }
+    html.dark #splash .mark { color: #F5F3EE; }
+    html.dark #splash .bar { background: rgba(245,243,238,.14); }
     html.dark #splash .mark i, html.dark #splash .bar::after { color: #96A080; background-color: #96A080; }
     html.dark #splash .mark i { background: none; }
     @keyframes splash-sweep { from { transform: translateX(-100%); } to { transform: translateX(250%); } }

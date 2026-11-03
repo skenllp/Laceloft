@@ -9,7 +9,7 @@ import ProductImage, { SneakerPlaceholder } from './ProductImage'
 const AUTOPLAY_SECONDS = 4
 // Subtle hero background shades, all drawn from the Laceloft palette family.
 const TINTS = ['#DDD3C4', '#D5D8C8', '#E2D2BF', '#D9D1C9', '#DCD6C0', '#D3CCBD']
-const DARK_TINTS = ['#2B2520', '#262922', '#2D2620', '#2A2522', '#2A2820', '#27241F']
+const DARK_TINTS = ['#141414', '#131513', '#151312', '#141313', '#141412', '#121212']
 const tints = () => (document.documentElement.classList.contains('dark') ? DARK_TINTS : TINTS)
 const pad = (n) => String(n).padStart(2, '0')
 

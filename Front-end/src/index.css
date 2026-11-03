@@ -20,17 +20,17 @@
   color-scheme: light;
 }
 
-/* Dark theme: warm espresso, not black. "ivory" stays the page background and
+/* Dark theme: true black. "ivory" stays the page background and
    "espresso" the text, so every existing class flips without edits. */
 html.dark {
-  --c-ivory: 26 22 19;
-  --c-espresso: 243 238 229;
+  --c-ivory: 0 0 0;
+  --c-espresso: 245 243 238;
   --c-olive: 150 160 128;
   --c-olive-deep: 168 178 146;
-  --c-sand: 42 36 31;
+  --c-sand: 22 22 22;
   --c-tan: 196 156 122;
-  --c-muted: 168 158 147;
-  --c-surface: 38 33 28;
+  --c-muted: 163 160 155;
+  --c-surface: 18 18 18;
   color-scheme: dark;
 }
 
@@ -38,7 +38,7 @@ html.dark {
    restore the light-theme palette inside them. */
 html.dark .on-dark {
   --c-ivory: 244 240 232;
-  --c-espresso: 48 42 37;
+  --c-espresso: 26 26 26;
   --c-olive: 119 127 101;
   --c-olive-deep: 92 100 80;
   --c-sand: 221 211 196;
@@ -71,7 +71,7 @@ img { max-width: 100%; }
   }
   .input-field {
     /* 16px on phones: iOS Safari zooms into any field with smaller text. */
-    @apply w-full rounded-full bg-white border border-hairline px-5 py-3 text-base sm:text-sm text-espresso placeholder:text-muted/70 focus:outline-none focus:border-olive transition;
+    @apply w-full rounded-full bg-surface border border-hairline px-5 py-3 text-base sm:text-sm text-espresso placeholder:text-muted/70 focus:outline-none focus:border-olive transition;
   }
   .label-eyebrow {
     @apply text-[11px] tracking-[0.22em] uppercase text-olive-deep font-semibold;
