@@ -19,11 +19,16 @@ export function SneakerPlaceholder({ className = '' }) {
 /** <img> that swaps to the placeholder when src is empty or errors.
  *  `frame` (width / height of the box it sits in) turns on auto-fit: a
  *  photo within ~6% of that shape fills the box (object-cover, trimming at
- *  most ~3% per side); any other shape is shown whole (object-contain). */
-export default function ProductImage({ src, alt, className = '', placeholderClass = '', frame, onLoad, ...rest }) {
+ *  most ~3% per side). Any other shape is shown whole (object-contain) over
+ *  a blurred, enlarged copy of itself, so no empty bands appear above/below
+ *  or beside it. The parent must be `relative`/`absolute` and clip overflow.
+ *  The copy is 3rem larger than the frame on every side: blurring fades a
+ *  layer's own edges to transparent, and that fade must fall outside it. */
+export default function ProductImage({ src, alt, className = '', placeholderClass = '', frame, onLoad, style, ...rest }) {
   const [failed, setFailed] = useState(false)
   const [cover, setCover] = useState(false)
-  useEffect(() => { setFailed(false); setCover(false) }, [src])
+  const [feather, setFeather] = useState(null) // soft edge where the photo meets the backdrop
+  useEffect(() => { setFailed(false); setCover(false); setFeather(null) }, [src])
   if (!src || failed) {
     return (
       <div className={`flex items-center justify-center ${className}`} role="img" aria-label={alt}>
@@ -34,10 +39,32 @@ export default function ProductImage({ src, alt, className = '', placeholderClas
   const handleLoad = (e) => {
     if (frame) {
       const { naturalWidth: w, naturalHeight: h } = e.currentTarget
-      if (w && h) setCover(Math.abs(w / h - frame) / frame <= 0.06)
+      if (w && h) {
+        const r = w / h
+        const fills = Math.abs(r - frame) / frame <= 0.06
+        setCover(fills)
+        if (fills) setFeather(null)
+        else {
+          // object-contain leaves empty space either above/below (wide photo)
+          // or beside (tall photo); `edge` is where the photo starts, in % of
+          // that axis, and the mask fades its outer 4% into the backdrop.
+          const vertical = r > frame
+          const edge = ((1 - (vertical ? frame / r : r / frame)) / 2) * 100
+          const dir = vertical ? 'to bottom' : 'to right'
+          const m = `linear-gradient(${dir}, transparent ${edge}%, #000 ${edge + 4}%, #000 ${100 - edge - 4}%, transparent ${100 - edge}%)`
+          setFeather({ maskImage: m, WebkitMaskImage: m })
+        }
+      }
     }
     onLoad?.(e)
   }
-  const fit = frame ? (cover ? 'object-cover' : 'object-contain') : ''
-  return <img src={src} alt={alt} onError={() => setFailed(true)} onLoad={handleLoad} className={`${className} ${fit}`} {...rest} />
+  const fit = frame ? (cover ? 'object-cover' : 'object-contain relative') : ''
+  return (
+    <>
+      {frame && !cover && (
+        <img src={src} alt="" aria-hidden="true" loading="lazy" decoding="async" className="pointer-events-none absolute -inset-12 h-[calc(100%+6rem)] w-[calc(100%+6rem)] max-w-none object-cover blur-lg" />
+      )}
+      <img src={src} alt={alt} onError={() => setFailed(true)} onLoad={handleLoad} style={{ ...feather, ...style }} className={`${className} ${fit}`} {...rest} />
+    </>
+  )
 }

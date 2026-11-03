@@ -26,25 +26,22 @@ export default function ProductCard({ p, priority = false }) {
       {/* 4:5 frame, the shape of most catalogue photos: those fill it edge to
           edge; other shapes are shown whole (see ProductImage `frame`). */}
       <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-sand/60">
-        <Link to={href} aria-label={`View ${p.name}`} className="absolute inset-0 z-0 flex items-center justify-center">
-          <ProductImage
-            src={img}
-            alt={p.name}
-            loading={priority ? 'eager' : 'lazy'}
-            decoding="async"
-            frame={0.8}
-            className={`h-full w-full mix-blend-multiply transition duration-700 ease-out group-hover:scale-[1.04] ${alt ? '[@media(hover:hover)]:group-hover:opacity-0' : ''} ${soldOut ? 'opacity-60 grayscale' : ''}`}
-          />
-          {/* Second photo fades in on hover (mouse devices only). */}
-          {alt && !soldOut && (
+        <Link to={href} aria-label={`View ${p.name}`} className="absolute inset-0 z-0 block">
+          <div className={`absolute inset-0 overflow-hidden transition-opacity duration-700 ${alt ? '[@media(hover:hover)]:group-hover:opacity-0' : ''} ${soldOut ? 'opacity-60 grayscale' : ''}`}>
             <ProductImage
-              src={alt}
-              alt=""
-              loading="lazy"
+              src={img}
+              alt={p.name}
+              loading={priority ? 'eager' : 'lazy'}
               decoding="async"
               frame={0.8}
-              className="pointer-events-none absolute inset-0 hidden h-full w-full opacity-0 mix-blend-multiply transition duration-700 ease-out group-hover:opacity-100 [@media(hover:hover)]:block"
+              className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             />
+          </div>
+          {/* Second photo fades in on hover (mouse devices only). */}
+          {alt && !soldOut && (
+            <div className="pointer-events-none absolute inset-0 hidden overflow-hidden opacity-0 transition-opacity duration-700 group-hover:opacity-100 [@media(hover:hover)]:block">
+              <ProductImage src={alt} alt="" loading="lazy" decoding="async" frame={0.8} className="h-full w-full" />
+            </div>
           )}
         </Link>
         <div className="pointer-events-none absolute left-4 top-4 flex gap-2">

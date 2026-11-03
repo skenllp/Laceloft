@@ -155,8 +155,9 @@ export default function Product() {
               src={images[imgIdx]}
               alt={`${p.name} — view ${imgIdx + 1}`}
               fetchpriority="high"
+              frame={1}
               style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.9)' } : undefined}
-              className="h-full w-full object-contain p-2 mix-blend-multiply transition-transform duration-200 ease-out"
+              className="h-full w-full transition-transform duration-200 ease-out"
             />
             <div className="pointer-events-none absolute left-5 top-5 flex gap-2">
               {p.isNew && <span className="rounded-full bg-espresso px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-ivory">New</span>}
