@@ -128,7 +128,10 @@ export default function Product() {
     if (Math.abs(dx) > 40) setImgIdx((i) => (i + (dx < 0 ? 1 : -1) + images.length) % images.length)
   }
 
+  // Gentle hover zoom for mouse users only (a phone tap also fires mouse events,
+  // which used to leave the photo stuck zoomed). Tap opens the full-screen viewer.
   const onZoomMove = (e) => {
+    if (e.pointerType && e.pointerType !== 'mouse') return
     const r = e.currentTarget.getBoundingClientRect()
     setZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 })
   }
@@ -154,10 +157,10 @@ export default function Product() {
             onClick={() => { if (swiped.current) { swiped.current = false; return } if (images[0]) setLightbox(true) }}
             onKeyDown={(e) => { if (e.key === 'Enter' && images[0]) setLightbox(true) }}
             className="group relative mb-3 aspect-square cursor-zoom-in overflow-hidden rounded-5xl bg-sand/60"
-            onMouseMove={onZoomMove}
+            onPointerMove={onZoomMove}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
-            onMouseLeave={() => setZoom(null)}
+            onPointerLeave={() => setZoom(null)}
           >
             <ProductImage
               key={imgIdx}
@@ -165,7 +168,7 @@ export default function Product() {
               alt={`${p.name} — view ${imgIdx + 1}`}
               fetchpriority="high"
               frame={1}
-              style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.9)' } : undefined}
+              style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.35)' } : undefined}
               className="h-full w-full transition-transform duration-200 ease-out"
             />
             <div className="pointer-events-none absolute left-5 top-5 flex gap-2">
