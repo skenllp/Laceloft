@@ -25,7 +25,7 @@ export default function ProductCard({ p, priority = false }) {
     <article className="group flex flex-col">
       {/* 4:5 frame, the shape of most catalogue photos: those fill it edge to
           edge; other shapes are shown whole (see ProductImage `frame`). */}
-      <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-sand/60">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-sand/60 dark:border dark:border-hairline dark:brightness-[.93]">
         <Link to={href} aria-label={`View ${p.name}`} className="absolute inset-0 z-0 block">
           <div className={`absolute inset-0 overflow-hidden transition-opacity duration-700 ${alt ? '[@media(hover:hover)]:group-hover:opacity-0' : ''} ${soldOut ? 'opacity-60 grayscale' : ''}`}>
             <ProductImage

@@ -12,7 +12,7 @@ export default {
         sand: 'rgb(var(--c-sand) / <alpha-value>)',        // product sections, hero background
         tan: 'rgb(var(--c-tan) / <alpha-value>)',         // secondary decorative accent
         muted: 'rgb(var(--c-muted) / <alpha-value>)',       // secondary text (AA on ivory)
-        hairline: 'rgb(var(--c-espresso) / 0.12)',
+        hairline: 'rgb(var(--c-line) / calc(<alpha-value> * var(--line-a)))',
         surface: 'rgb(var(--c-surface) / <alpha-value>)', // cards, inputs (white in light mode)
       },
       fontFamily: {
