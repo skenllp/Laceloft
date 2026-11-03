@@ -31,13 +31,6 @@ export default function ProductImage({ src, alt, className = '', placeholderClas
   const [loaded, setLoaded] = useState(false)
   const imgRef = useRef(null)
   useEffect(() => { setFailed(false); setCover(false); setFeather(null); setLoaded(false) }, [src])
-  if (!src || failed) {
-    return (
-      <div className={`flex items-center justify-center ${className}`} role="img" aria-label={alt}>
-        <SneakerPlaceholder className={`w-4/5 h-auto opacity-90 ${placeholderClass}`} />
-      </div>
-    )
-  }
   const handleLoad = (e) => {
     setLoaded(true)
     if (frame) {
@@ -67,6 +60,14 @@ export default function ProductImage({ src, alt, className = '', placeholderClas
     if (el && el.complete && el.naturalWidth) handleLoad({ currentTarget: el })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [src, failed])
+  // Every hook above runs on every render: this early return must stay below them.
+  if (!src || failed) {
+    return (
+      <div className={`flex items-center justify-center ${className}`} role="img" aria-label={alt}>
+        <SneakerPlaceholder className={`w-4/5 h-auto opacity-90 ${placeholderClass}`} />
+      </div>
+    )
+  }
   const fit = frame ? (cover ? 'object-cover' : 'object-contain relative') : ''
   return (
     <>
