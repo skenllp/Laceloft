@@ -97,10 +97,3 @@ class ProductImage(models.Model):
         # Fresh grid thumbnail for photos uploaded/replaced in /admin/.
         from .thumbs import make_thumb
         make_thumb(self.image.name, overwrite=True)
-
-
-def generate_order_id():
-    """No longer used — the Order model was removed — but migration
-    0001_initial still references it by import path, so it must exist."""
-    import random
-    return 'ELV-' + ''.join(random.choices('0123456789', k=5))

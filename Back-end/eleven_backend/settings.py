@@ -171,9 +171,6 @@ REST_FRAMEWORK = {
 # Add your real domain via the CORS_ALLOWED_ORIGINS env var on Render,
 # e.g. "https://your-laceloft-domain.com"
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5500',
-    'http://127.0.0.1:5500',
-    'http://localhost:3000',
     'http://localhost:5173',
     'http://127.0.0.1:5173',
 ] + [o.strip() for o in os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',') if o.strip()]

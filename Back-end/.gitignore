@@ -7,4 +7,6 @@ __pycache__/
 *.py[cod]
 .vscode/
 Thumbs.db
-media/products/thumbs/
+# Product photos are copied in from shop/seed_data by `seed_products`
+# (and uploaded via admin); generated, so never committed.
+media/

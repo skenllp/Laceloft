@@ -15,6 +15,11 @@ const PRICE_BANDS = [
   { id: '15-2', label: '₹1,500 – ₹2,000', test: (p) => p >= 1500 && p < 2000 },
   { id: 'o2', label: '₹2,000 & above', test: (p) => p >= 2000 },
 ]
+// "For" filter: unisex pairs count for both, since most of the catalogue is unisex.
+const FOR_OPTIONS = [
+  { id: 'men', label: 'Men', fits: ['Men', 'Unisex'] },
+  { id: 'women', label: 'Women', fits: ['Women', 'Unisex'] },
+]
 const SORTS = {
   featured: { label: 'Featured' },
   newest: { label: 'Newest first', fn: (a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0) },
@@ -45,6 +50,7 @@ export default function Shop() {
   const sort = SORTS[params.get('sort')] ? params.get('sort') : 'featured'
   const band = params.get('price') || ''
   const size = params.get('size') || ''
+  const forWho = FOR_OPTIONS.find((o) => o.id === params.get('for'))
 
   usePageMeta(cat === 'All' ? 'Shop' : cat, 'Browse the Laceloft collection of sneakers and everyday footwear.')
 
@@ -66,6 +72,7 @@ export default function Shop() {
     const term = q.trim().toLowerCase()
     let arr = products.filter((p) => {
       if (cat !== 'All' && !(p.cats || []).includes(cat)) return false
+      if (forWho && !(p.gender || ['Unisex']).some((g) => forWho.fits.includes(g))) return false
       if (band && !PRICE_BANDS.find((b) => b.id === band)?.test(p.price)) return false
       if (size && !inStockSizes(p).map(String).includes(size)) return false
       if (term && ![p.name, brandLabel(p.brand), p.colorway, ...(p.cats || [])].filter(Boolean).some((s) => s.toLowerCase().includes(term))) return false
@@ -74,16 +81,20 @@ export default function Shop() {
     const fn = SORTS[sort].fn
     if (fn) arr = [...arr].sort(fn)
     return arr
-  }, [products, cat, q, band, size, sort])
+  }, [products, cat, q, band, size, sort, forWho])
 
   // Said once here instead of as a badge on every card.
   const unconfirmed = !productsLoading && filtered.some((p) => p.inStock !== false && p.stockTracked !== true)
 
-  const activeFilters = [band, size, q].filter(Boolean).length + (cat !== 'All' ? 1 : 0)
+  const activeFilters = [band, size, q, forWho].filter(Boolean).length + (cat !== 'All' ? 1 : 0)
   const clearAll = () => { setParams({}, { replace: true }); setVisible(PAGE_SIZE) }
 
   const filters = (
     <>
+      <FilterBlock title="For">
+        <Chip on={!forWho} onClick={() => setParam('for', '')}>Everyone</Chip>
+        {FOR_OPTIONS.map((o) => <Chip key={o.id} on={forWho?.id === o.id} onClick={() => setParam('for', forWho?.id === o.id ? '' : o.id)}>{o.label}</Chip>)}
+      </FilterBlock>
       <FilterBlock title="Category">
         <Chip on={cat === 'All'} onClick={() => setParam('cat', '')}>All</Chip>
         {cats.map((c) => <Chip key={c.name} on={cat === c.name} onClick={() => setParam('cat', c.name)}>{c.name}</Chip>)}
