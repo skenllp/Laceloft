@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
-import { getCategories, inStockSizes, brandLabel } from '../lib/catalog'
+import { getCategories, inStockSizes, brandLabel, CATEGORY_GROUPS } from '../lib/catalog'
 import { usePageMeta } from '../hooks/usePageMeta'
 import ProductGridSkeleton from '../components/ProductGridSkeleton'
 import ProductCard from '../components/ProductCard'
@@ -46,13 +46,14 @@ export default function Shop() {
   const [filtersOpen, setFiltersOpen] = useState(false)
 
   const cat = params.get('cat') || 'All'
+  const group = CATEGORY_GROUPS[params.get('group')]
   const q = params.get('q') || ''
   const sort = SORTS[params.get('sort')] ? params.get('sort') : 'featured'
   const band = params.get('price') || ''
   const size = params.get('size') || ''
   const forWho = FOR_OPTIONS.find((o) => o.id === params.get('for'))
 
-  usePageMeta(cat === 'All' ? 'Shop' : cat, 'Browse the Laceloft collection of sneakers and everyday footwear.')
+  usePageMeta(group ? group.label : cat === 'All' ? 'Shop' : cat, 'Browse the Laceloft collection of sneakers and everyday footwear.')
 
   const setParam = (key, value) => {
     const next = new URLSearchParams(params)
@@ -71,6 +72,7 @@ export default function Shop() {
   const filtered = useMemo(() => {
     const term = q.trim().toLowerCase()
     let arr = products.filter((p) => {
+      if (group && !group.test(p)) return false
       if (cat !== 'All' && !(p.cats || []).includes(cat)) return false
       if (forWho && !(p.gender || ['Unisex']).some((g) => forWho.fits.includes(g))) return false
       if (band && !PRICE_BANDS.find((b) => b.id === band)?.test(p.price)) return false
@@ -81,12 +83,12 @@ export default function Shop() {
     const fn = SORTS[sort].fn
     if (fn) arr = [...arr].sort(fn)
     return arr
-  }, [products, cat, q, band, size, sort, forWho])
+  }, [products, cat, group, q, band, size, sort, forWho])
 
   // Said once here instead of as a badge on every card.
   const unconfirmed = !productsLoading && filtered.some((p) => p.inStock !== false && p.stockTracked !== true)
 
-  const activeFilters = [band, size, q, forWho].filter(Boolean).length + (cat !== 'All' ? 1 : 0)
+  const activeFilters = [band, size, q, forWho, group].filter(Boolean).length + (cat !== 'All' ? 1 : 0)
   const clearAll = () => { setParams({}, { replace: true }); setVisible(PAGE_SIZE) }
 
   const filters = (
@@ -94,6 +96,10 @@ export default function Shop() {
       <FilterBlock title="For">
         <Chip on={!forWho} onClick={() => setParam('for', '')}>Everyone</Chip>
         {FOR_OPTIONS.map((o) => <Chip key={o.id} on={forWho?.id === o.id} onClick={() => setParam('for', forWho?.id === o.id ? '' : o.id)}>{o.label}</Chip>)}
+      </FilterBlock>
+      <FilterBlock title="Type">
+        <Chip on={!group} onClick={() => setParam('group', '')}>All</Chip>
+        {Object.values(CATEGORY_GROUPS).map((g) => <Chip key={g.id} on={group?.id === g.id} onClick={() => setParam('group', group?.id === g.id ? '' : g.id)}>{g.label}</Chip>)}
       </FilterBlock>
       <FilterBlock title="Category">
         <Chip on={cat === 'All'} onClick={() => setParam('cat', '')}>All</Chip>
@@ -112,7 +118,7 @@ export default function Shop() {
 
   return (
     <>
-      <PageHeader eyebrow="The collection" title={cat === 'All' ? 'The full collection.' : `${cat}.`} crumbs={[{ label: 'Home', to: '/' }, { label: 'Shop' }]}>
+      <PageHeader eyebrow="The collection" title={group ? `${group.label}.` : cat === 'All' ? 'The full collection.' : `${cat}.`} crumbs={[{ label: 'Home', to: '/' }, { label: 'Shop' }]}>
         Sneakers, boots, sandals and more — filter by category, price and size.
       </PageHeader>
 

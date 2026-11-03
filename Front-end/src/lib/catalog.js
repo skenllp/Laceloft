@@ -47,6 +47,30 @@ export function getCategories(products, taken = new Set()) {
   return cats
 }
 
+/** The three storefront categories, mapped onto the real category tags in
+ *  the database (there is no literal "Sneakers" or "Slides" tag). Boots and
+ *  Slides & Sandals are matched by tag; Sneakers is everything else. */
+export const CATEGORY_GROUPS = {
+  sneakers: {
+    id: 'sneakers',
+    label: 'Sneakers',
+    blurb: 'Everyday comfort meets effortless style.',
+    test: (p) => !(p.cats || []).some((c) => c === 'Boots' || c === 'Sandals'),
+  },
+  boots: {
+    id: 'boots',
+    label: 'Boots',
+    blurb: 'Bold silhouettes for a confident look.',
+    test: (p) => (p.cats || []).includes('Boots'),
+  },
+  'slides-sandals': {
+    id: 'slides-sandals',
+    label: 'Slides & Sandals',
+    blurb: 'Easygoing styles for everyday wear.',
+    test: (p) => (p.cats || []).includes('Sandals'),
+  },
+}
+
 /** Best-photographed product not already shown, for feature banners. */
 export const pickFeatured = (products, exclude = new Set()) =>
   [...products].filter((p) => hasImage(p) && !exclude.has(p.sku)).sort((a, b) => photoRank(a) - photoRank(b))[0]

@@ -22,7 +22,7 @@ export default function ProductCard({ p, priority = false }) {
   }
 
   return (
-    <article className="group flex flex-col">
+    <article className="group relative flex flex-col">
       {/* 4:5 frame, the shape of most catalogue photos: those fill it edge to
           edge; other shapes are shown whole (see ProductImage `frame`). */}
       <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-sand/60 dark:border dark:border-hairline dark:brightness-[.93]">
@@ -65,7 +65,7 @@ export default function ProductCard({ p, priority = false }) {
       <div className="px-1 pt-4">
         <div className="mb-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted">{brandLabel(p.brand) || (p.cats || [])[0]}</div>
         <h3 className="mb-2 font-display text-[19px] leading-snug text-espresso">
-          <Link to={href} className="no-underline hover:text-olive-deep">{p.name}</Link>
+          <Link to={href} className="no-underline hover:text-olive-deep after:absolute after:inset-0 after:content-['']">{p.name}</Link>
         </h3>
         {sizes.length > 0 && (
           <p className="mb-3 text-[12px] text-muted">

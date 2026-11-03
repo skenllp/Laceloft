@@ -22,6 +22,7 @@ class ProductSerializer(serializers.ModelSerializer):
     thumbs = serializers.SerializerMethodField()
     isNew = serializers.BooleanField(source='is_new')
     onSale = serializers.BooleanField(source='on_sale')
+    createdAt = serializers.DateTimeField(source='created_at', read_only=True)
     # True only if the manual override is on AND at least one size actually
     # has stock left — so this flips to false automatically once the last
     # pair sells, instead of needing someone to remember to toggle it.
@@ -38,7 +39,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = [
             'sku', 'name', 'brand', 'price', 'strike',
             'cats', 'gender', 'sizes', 'sizesInStock', 'stockTracked', 'isNew', 'onSale', 'inStock',
-            'images', 'thumbs', 'colorway', 'desc',
+            'images', 'thumbs', 'colorway', 'desc', 'createdAt',
         ]
 
     def get_brand(self, obj):
