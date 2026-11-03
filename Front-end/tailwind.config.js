@@ -1,17 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
-        ivory: '#F4F0E8',       // primary background
-        espresso: '#302A25',    // headings, nav, primary buttons
-        olive: '#777F65',       // accents, active controls
-        'olive-deep': '#5C6450',// olive for small text / hover (AA on ivory)
-        sand: '#DDD3C4',        // product sections, hero background
-        tan: '#B58D6C',         // secondary decorative accent
-        muted: '#6B6158',       // secondary text (AA on ivory)
-        hairline: 'rgba(48,42,37,0.12)',
+        ivory: 'rgb(var(--c-ivory) / <alpha-value>)',       // primary background
+        espresso: 'rgb(var(--c-espresso) / <alpha-value>)',    // headings, nav, primary buttons
+        olive: 'rgb(var(--c-olive) / <alpha-value>)',       // accents, active controls
+        'olive-deep': 'rgb(var(--c-olive-deep) / <alpha-value>)',// olive for small text / hover (AA on ivory)
+        sand: 'rgb(var(--c-sand) / <alpha-value>)',        // product sections, hero background
+        tan: 'rgb(var(--c-tan) / <alpha-value>)',         // secondary decorative accent
+        muted: 'rgb(var(--c-muted) / <alpha-value>)',       // secondary text (AA on ivory)
+        hairline: 'rgb(var(--c-espresso) / 0.12)',
+        surface: 'rgb(var(--c-surface) / <alpha-value>)', // cards, inputs (white in light mode)
       },
       fontFamily: {
         display: ["'DM Serif Display'", "'Cormorant Garamond'", 'Georgia', 'serif'],

@@ -70,7 +70,7 @@ export default function Home() {
               ...(newCover ? [{ key: 'new', to: '/new-arrivals', label: 'New Arrivals', meta: `${products.filter((p) => p.isNew).length} styles`, cover: newCover }] : [])
             ].map((c, i) => (
               <Reveal key={c.key} delay={i * 60}>
-                <Link to={c.to} className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-4xl bg-sand/70 p-4 no-underline transition-colors duration-500 hover:bg-sand sm:p-5">
+                <Link to={c.to} className="on-dark group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-4xl bg-sand/70 p-4 no-underline transition-colors duration-500 hover:bg-sand sm:p-5">
                   {/* Full-bleed photo (tile is 4:5); other shapes get a blurred backdrop */}
                   <div className="absolute inset-0 overflow-hidden">
                     <ProductImage src={thumbAt(c.cover, 0)} alt="" loading="lazy" frame={0.8} className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
@@ -82,7 +82,7 @@ export default function Home() {
                       <h3 className="font-display text-xl leading-tight text-ivory sm:text-2xl">{c.label}</h3>
                       <p className="mt-1 text-[12px] text-ivory/75">{c.meta}</p>
                     </div>
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ivory text-espresso transition-colors group-hover:bg-white" aria-hidden="true">↗</span>
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ivory text-espresso transition-colors group-hover:bg-surface" aria-hidden="true">↗</span>
                   </div>
                 </Link>
               </Reveal>
@@ -155,7 +155,7 @@ export default function Home() {
       {/* WHATSAPP CTA */}
       <section className="page-pad mx-auto max-w-[1500px] pb-8" aria-labelledby="wa-title">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] bg-espresso px-6 py-16 text-center text-ivory sm:px-12 md:rounded-5xl md:py-24">
+          <div className="relative overflow-hidden on-dark rounded-[2rem] bg-espresso px-6 py-16 text-center text-ivory sm:px-12 md:rounded-5xl md:py-24">
             <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-olive/25" aria-hidden="true" />
             <div className="pointer-events-none absolute -bottom-24 -right-10 h-72 w-72 rounded-full bg-tan/15" aria-hidden="true" />
             <div className="relative">
@@ -165,7 +165,7 @@ export default function Home() {
                 href={whatsappChatLink("Hi Laceloft, I have a question about a pair.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-olive-deep px-9 py-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white no-underline transition-colors hover:bg-ivory hover:text-espresso"
+                className="mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-olive-deep px-9 py-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-ivory no-underline transition-colors hover:bg-ivory hover:text-espresso"
               >
                 <WhatsAppIcon /> Chat on WhatsApp <span aria-hidden="true">↗</span>
               </a>

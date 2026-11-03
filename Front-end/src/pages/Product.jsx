@@ -165,10 +165,10 @@ export default function Product() {
             </div>
             {images.length > 1 && (
               <>
-                <button type="button" aria-label="Previous image" onClick={() => setImgIdx((i) => (i - 1 + images.length) % images.length)} className="absolute left-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-espresso hover:bg-white">←</button>
-                <button type="button" aria-label="Next image" onClick={() => setImgIdx((i) => (i + 1) % images.length)} className="absolute right-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-espresso hover:bg-white">→</button>
+                <button type="button" aria-label="Previous image" onClick={() => setImgIdx((i) => (i - 1 + images.length) % images.length)} className="absolute left-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-surface/90 text-espresso hover:bg-surface">←</button>
+                <button type="button" aria-label="Next image" onClick={() => setImgIdx((i) => (i + 1) % images.length)} className="absolute right-4 top-1/2 hidden h-11 w-11 sm:flex -translate-y-1/2 items-center justify-center rounded-full bg-surface/90 text-espresso hover:bg-surface">→</button>
                 {/* Swipe hint on phones, where the arrows are hidden */}
-                <span className="pointer-events-none absolute bottom-4 right-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-espresso sm:hidden" aria-hidden="true">{imgIdx + 1} / {images.length}</span>
+                <span className="pointer-events-none absolute bottom-4 right-4 rounded-full bg-surface/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-espresso sm:hidden" aria-hidden="true">{imgIdx + 1} / {images.length}</span>
               </>
             )}
           </div>
@@ -201,7 +201,7 @@ export default function Product() {
             {p.strike > p.price && (
               <>
                 <span className="text-base text-muted line-through">{fmtPrice(p.strike)}</span>
-                <span className="rounded-full bg-tan/20 px-2.5 py-0.5 text-xs font-semibold text-[#7a5a40]">Save {Math.round((1 - p.price / p.strike) * 100)}%</span>
+                <span className="rounded-full bg-tan/20 px-2.5 py-0.5 text-xs font-semibold text-[#7a5a40] dark:text-[#d6b192]">Save {Math.round((1 - p.price / p.strike) * 100)}%</span>
               </>
             )}
           </div>
@@ -229,19 +229,19 @@ export default function Product() {
                       aria-pressed={selected}
                       title={oos ? 'Out of stock' : undefined}
                       onClick={() => { setSize('UK ' + s); setSizeError(false) }}
-                      className={`h-12 min-w-12 rounded-full border px-4 text-sm font-medium transition ${oos ? 'cursor-not-allowed border-hairline text-muted/40 line-through' : selected ? 'border-espresso bg-espresso text-ivory' : 'border-hairline bg-white hover:border-espresso'}`}
+                      className={`h-12 min-w-12 rounded-full border px-4 text-sm font-medium transition ${oos ? 'cursor-not-allowed border-hairline text-muted/40 line-through' : selected ? 'border-espresso bg-espresso text-ivory' : 'border-hairline bg-surface hover:border-espresso'}`}
                     >
                       {s}
                     </button>
                   )
                 })}
               </div>
-              {sizeError && <p role="alert" className="mt-3 rounded-2xl border border-[#9b4a3a]/40 bg-[#9b4a3a]/5 px-4 py-2.5 text-[13px] text-[#8a3f31]">Please choose a size before ordering.</p>}
+              {sizeError && <p role="alert" className="mt-3 rounded-2xl border border-[#9b4a3a]/40 bg-[#9b4a3a]/5 px-4 py-2.5 text-[13px] text-[#8a3f31] dark:text-[#e08a78]">Please choose a size before ordering.</p>}
             </div>
           )}
 
           <div className="mb-8 flex flex-wrap items-center gap-4">
-            <div className="flex items-center rounded-full border border-hairline bg-white" role="group" aria-label="Quantity">
+            <div className="flex items-center rounded-full border border-hairline bg-surface" role="group" aria-label="Quantity">
               <button type="button" aria-label="Decrease quantity" disabled={qty <= 1} onClick={() => setQty((q) => Math.max(1, q - 1))} className="h-12 w-12 rounded-full text-lg hover:bg-espresso/5 disabled:opacity-30">−</button>
               <span className="w-8 text-center text-sm font-semibold" aria-live="polite">{qty}</span>
               <button type="button" aria-label="Increase quantity" disabled={qty >= MAX_QTY} onClick={() => setQty((q) => Math.min(MAX_QTY, q + 1))} className="h-12 w-12 rounded-full text-lg hover:bg-espresso/5 disabled:opacity-30">+</button>
@@ -250,7 +250,7 @@ export default function Product() {
               type="button"
               aria-pressed={wished}
               onClick={() => { const now = toggleWish(p.sku); showToast(now ? 'Saved to wishlist' : 'Removed from wishlist') }}
-              className="flex h-12 items-center gap-2 rounded-full border border-hairline bg-white px-5 text-[12px] font-semibold uppercase tracking-[0.12em] hover:border-espresso"
+              className="flex h-12 items-center gap-2 rounded-full border border-hairline bg-surface px-5 text-[12px] font-semibold uppercase tracking-[0.12em] hover:border-espresso"
             >
               <HeartIcon filled={wished} width="17" height="17" className={wished ? 'text-olive-deep' : ''} /> {wished ? 'Saved' : 'Wishlist'}
             </button>

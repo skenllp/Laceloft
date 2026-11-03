@@ -3,12 +3,46 @@
 @tailwind utilities;
 
 :root {
-  --ivory: #F4F0E8;
-  --espresso: #302A25;
-  --olive: #777F65;
-  --sand: #DDD3C4;
-  --tan: #B58D6C;
-  --white: #FFFFFF;
+  /* Space-separated RGB so Tailwind opacity (bg-ivory/95) keeps working. */
+  --c-ivory: 244 240 232;
+  --c-espresso: 48 42 37;
+  --c-olive: 119 127 101;
+  --c-olive-deep: 92 100 80;
+  --c-sand: 221 211 196;
+  --c-tan: 181 141 108;
+  --c-muted: 107 97 88;
+  --c-surface: 255 255 255;
+  --ivory: rgb(var(--c-ivory));
+  --espresso: rgb(var(--c-espresso));
+  --olive: rgb(var(--c-olive));
+  --sand: rgb(var(--c-sand));
+  --tan: rgb(var(--c-tan));
+  color-scheme: light;
+}
+
+/* Dark theme: warm espresso, not black. "ivory" stays the page background and
+   "espresso" the text, so every existing class flips without edits. */
+html.dark {
+  --c-ivory: 26 22 19;
+  --c-espresso: 243 238 229;
+  --c-olive: 150 160 128;
+  --c-olive-deep: 168 178 146;
+  --c-sand: 42 36 31;
+  --c-tan: 196 156 122;
+  --c-muted: 168 158 147;
+  --c-surface: 38 33 28;
+  color-scheme: dark;
+}
+
+/* Blocks that are dark in BOTH themes (footer, WhatsApp banner, photo labels):
+   restore the light-theme palette inside them. */
+html.dark .on-dark {
+  --c-ivory: 244 240 232;
+  --c-espresso: 48 42 37;
+  --c-olive: 119 127 101;
+  --c-olive-deep: 92 100 80;
+  --c-sand: 221 211 196;
+  --c-muted: 107 97 88;
 }
 
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }

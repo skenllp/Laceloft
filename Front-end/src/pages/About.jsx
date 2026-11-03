@@ -32,7 +32,7 @@ export default function About() {
           ))}
         </div>
 
-        <Reveal className="mt-5 rounded-[2rem] bg-espresso px-8 py-14 text-center text-ivory md:rounded-5xl md:py-20">
+        <Reveal className="on-dark mt-5 rounded-[2rem] bg-espresso px-8 py-14 text-center text-ivory md:rounded-5xl md:py-20">
           <h2 className="font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-none">Find Your Next Sole.</h2>
           <p className="mx-auto mt-5 max-w-md text-[15px] text-ivory/70">Premium sneakers, timeless style. Curated for your everyday rotation.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">

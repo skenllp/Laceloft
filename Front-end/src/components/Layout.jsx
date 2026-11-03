@@ -4,6 +4,7 @@ import { useShop } from '../context/ShopContext'
 import { whatsappChatLink } from '../lib/whatsapp'
 import { WHATSAPP_DISPLAY } from '../lib/config'
 import Logo from './Logo'
+import { useTheme } from '../lib/theme'
 
 const NAV_LINKS = [
   { to: '/', label: 'Home', end: true },
@@ -21,6 +22,13 @@ export const SearchIcon = (p) => (
 export const HeartIcon = ({ filled, ...p }) => (
   <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" {...stroke} {...p} fill={filled ? 'currentColor' : 'none'}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
 )
+export const ThemeIcon = ({ dark, ...p }) => (
+  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" {...stroke} {...p}>
+    {dark
+      ? <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></>
+      : <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />}
+  </svg>
+)
 export const WhatsAppIcon = (p) => (
   <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2zm5.8 14.07c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.81-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.34-.14-.19-1.17-1.56-1.17-2.98 0-1.42.74-2.11 1.01-2.4.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.82 2 .89 2.15.08.15.13.32.03.51-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.3-.13.6.17.29.75 1.24 1.61 2.01 1.11 1 2.04 1.31 2.34 1.46.29.15.47.13.64-.08.18-.2.75-.87.95-1.17.19-.29.39-.24.65-.15.27.1 1.68.79 1.97.94.29.14.48.21.55.33.08.13.08.72-.16 1.4z" /></svg>
 )
@@ -36,6 +44,7 @@ export default function Layout() {
   const [scrolled, setScrolled] = useState(false)
   const { toast, wishlist, catalogSource } = useShop()
   const { pathname } = useLocation()
+  const [theme, toggleTheme] = useTheme()
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
@@ -86,11 +95,12 @@ export default function Layout() {
           </nav>
 
           <div className="flex items-center gap-1">
+            <button type="button" onClick={toggleTheme} aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} className={iconBtn}><ThemeIcon dark={theme === 'dark'} /></button>
             <Link to="/search" aria-label="Search" className={iconBtn}><SearchIcon /></Link>
             <Link to="/wishlist" aria-label={`Wishlist (${wishlist.length} saved)`} className={iconBtn}>
               <HeartIcon />
               {wishlist.length > 0 && (
-                <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-olive-deep px-1 text-[9px] font-bold text-white">{wishlist.length}</span>
+                <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-olive-deep px-1 text-[9px] font-bold text-ivory">{wishlist.length}</span>
               )}
             </Link>
             <a
@@ -161,7 +171,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="mt-10 rounded-t-5xl bg-espresso text-ivory">
+      <footer className="on-dark mt-10 rounded-t-5xl bg-espresso text-ivory">
         <div className="page-pad mx-auto max-w-[1500px] pb-8 pt-16">
           <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
             <div>

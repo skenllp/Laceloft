@@ -9,6 +9,8 @@ import ProductImage, { SneakerPlaceholder } from './ProductImage'
 const AUTOPLAY_SECONDS = 4
 // Subtle hero background shades, all drawn from the Laceloft palette family.
 const TINTS = ['#DDD3C4', '#D5D8C8', '#E2D2BF', '#D9D1C9', '#DCD6C0', '#D3CCBD']
+const DARK_TINTS = ['#2B2520', '#262922', '#2D2620', '#2A2522', '#2A2820', '#27241F']
+const tints = () => (document.documentElement.classList.contains('dark') ? DARK_TINTS : TINTS)
 const pad = (n) => String(n).padStart(2, '0')
 
 const prefersReducedMotion = () =>
@@ -80,7 +82,7 @@ export default function HeroCarousel({ slides }) {
         { xPercent: dir * 32, rotate: dir * 7, scale: 0.88, autoAlpha: 0 },
         { xPercent: 0, rotate: 0, scale: 1, autoAlpha: 1, duration: 1.0 * d, ease: 'power3.out' },
         0.3 * d)
-      .to(panelRef.current, { backgroundColor: TINTS[next % TINTS.length], duration: 0.8 * d, ease: 'power1.inOut' }, 0)
+      .to(panelRef.current, { backgroundColor: tints()[next % TINTS.length], duration: 0.8 * d, ease: 'power1.inOut' }, 0)
       .to(info, { autoAlpha: 0, y: -8, duration: 0.25 * d, ease: 'power1.in' }, 0)
       .call(() => setShown(next), null, 0.28 * d)
       .fromTo(info, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.5 * d, stagger: 0.06 * d, ease: 'power2.out' }, 0.32 * d)
@@ -91,6 +93,15 @@ export default function HeroCarousel({ slides }) {
   const next = () => goTo(idxRef.current + 1, 1)
   const prev = () => goTo(idxRef.current - 1, -1)
 
+  /* Re-tint the panel at once when the visitor switches theme. */
+  useEffect(() => {
+    const mo = new MutationObserver(() => {
+      if (panelRef.current) gsap.set(panelRef.current, { backgroundColor: tints()[idxRef.current % TINTS.length] })
+    })
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => mo.disconnect()
+  }, [])
+
   /* ---------- mount: initial state, ambient motion, listeners ---------- */
   useLayoutEffect(() => {
     if (!n) return undefined
@@ -98,7 +109,7 @@ export default function HeroCarousel({ slides }) {
     const ctx = gsap.context(() => {
       gsap.set('[data-shoe]', { autoAlpha: 0 })
       gsap.set('[data-shoe="0"]', { autoAlpha: 1 })
-      gsap.set(panelRef.current, { backgroundColor: TINTS[0] })
+      gsap.set(panelRef.current, { backgroundColor: tints()[0] })
 
       if (!reduce) {
         gsap.from('[data-intro]', { y: 22, autoAlpha: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out', clearProps: 'transform,opacity,visibility' })
@@ -213,12 +224,12 @@ export default function HeroCarousel({ slides }) {
           className="relative order-2 aspect-[6/5] w-full select-none sm:aspect-[16/11] lg:col-start-2 lg:row-start-1 lg:aspect-auto lg:min-h-[470px]"
         >
           {/* arch + spheres + platform */}
-          <div data-arch className="absolute bottom-[4%] left-1/2 h-[92%] w-[66%] -translate-x-1/2 rounded-t-full bg-gradient-to-b from-white/60 via-white/25 to-transparent lg:w-[62%]" aria-hidden="true" />
+          <div data-arch className="absolute bottom-[4%] left-1/2 h-[92%] w-[66%] -translate-x-1/2 rounded-t-full bg-gradient-to-b from-white/60 via-white/25 to-transparent dark:from-white/10 dark:via-white/5 lg:w-[62%]" aria-hidden="true" />
           <div data-sphere className="absolute left-[8%] top-[14%] h-[13%] w-[13%] rounded-full bg-gradient-to-br from-olive to-olive-deep opacity-90" aria-hidden="true" />
           <div data-sphere className="absolute bottom-[26%] right-[7%] h-[9%] w-[9%] rounded-full bg-gradient-to-br from-tan to-[#9a7556]" aria-hidden="true" />
-          <div data-sphere className="absolute right-[14%] top-[10%] h-[6%] w-[6%] rounded-full bg-white/80" aria-hidden="true" />
-          <div className="absolute bottom-[7%] left-1/2 h-[7%] w-[58%] -translate-x-1/2 rounded-[50%] bg-white/45" aria-hidden="true" />
-          <div data-shadow className="absolute bottom-[8.5%] left-1/2 h-[4%] w-[44%] -translate-x-1/2 rounded-[50%] bg-espresso/20 blur-md" aria-hidden="true" />
+          <div data-sphere className="absolute right-[14%] top-[10%] h-[6%] w-[6%] rounded-full bg-white/80 dark:bg-white/20" aria-hidden="true" />
+          <div className="absolute bottom-[7%] left-1/2 h-[7%] w-[58%] -translate-x-1/2 rounded-[50%] bg-white/45 dark:bg-white/10" aria-hidden="true" />
+          <div data-shadow className="absolute bottom-[8.5%] left-1/2 h-[4%] w-[44%] -translate-x-1/2 rounded-[50%] bg-espresso/20 blur-md dark:bg-black/60" aria-hidden="true" />
 
           {/* floating sneaker(s) */}
           <div ref={floatRef} className="absolute inset-x-[-2%] bottom-[11%] top-[6%] sm:inset-x-[0%]">
@@ -282,7 +293,7 @@ export default function HeroCarousel({ slides }) {
                   onClick={() => { goTo(i, i > idxRef.current ? 1 : -1) }}
                   aria-label={`Show ${p.name}`}
                   aria-current={sel ? 'true' : undefined}
-                  className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-white/55 p-1.5 transition-all duration-300 sm:rounded-3xl sm:p-2 ${sel ? 'outline outline-2 outline-offset-0 outline-olive bg-white/80' : 'outline-0 hover:bg-white/75'}`}
+                  className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-white/55 dark:bg-white/10 p-1.5 transition-all duration-300 sm:rounded-3xl sm:p-2 ${sel ? 'outline outline-2 outline-offset-0 outline-olive bg-white/80 dark:bg-white/20' : 'outline-0 hover:bg-white/75 dark:hover:bg-white/15'}`}
                 >
                   <ProductImage
                     src={HERO_THUMBS[p.sku] || thumbAt(p, 0)}

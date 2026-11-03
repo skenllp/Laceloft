@@ -41,7 +41,7 @@ export default function Contact() {
           <a href={whatsappChatLink()} target="_blank" rel="noopener noreferrer" className="btn-primary no-underline">Chat on WhatsApp <span aria-hidden="true">↗</span></a>
         </div>
 
-        <form onSubmit={submit} className="rounded-[2rem] border border-hairline bg-white p-8 sm:p-10 md:rounded-5xl">
+        <form onSubmit={submit} className="rounded-[2rem] border border-hairline bg-surface p-8 sm:p-10 md:rounded-5xl">
           <h2 className="mb-6 font-display text-3xl leading-tight">Or write your message here</h2>
           <div className="grid gap-5">
             <div>
