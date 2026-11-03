@@ -70,6 +70,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'axes',  # admin login lockout after repeated failures
 
     'shop',
 ]
@@ -84,6 +85,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',  # keep last
 ]
 
 ROOT_URLCONF = 'eleven_backend.urls'
@@ -121,6 +123,21 @@ DATABASES = {
         conn_max_age=600,
     )
 }
+
+# ---- ADMIN LOGIN PROTECTION (django-axes) ------------------------------------
+# Locks a username, and separately an IP address, for 30 minutes after 5 failed
+# logins. Locking on the username as well as the IP means a spoofed
+# X-Forwarded-For header cannot be used to get around the limit.
+from datetime import timedelta
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',  # must be first
+    'django.contrib.auth.backends.ModelBackend',
+]
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = timedelta(minutes=30)
+AXES_LOCKOUT_PARAMETERS = ['username', 'ip_address']
+AXES_RESET_ON_SUCCESS = True
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -163,14 +180,22 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',  # lets staff use the browsable API
     ],
-    # General anti-abuse limit on every endpoint.
+    # The public API only returns JSON; the browsable HTML page is for local dev.
+    'DEFAULT_RENDERER_CLASSES': (
+        ['rest_framework.renderers.JSONRenderer']
+        + (['rest_framework.renderers.BrowsableAPIRenderer'] if DEBUG else [])
+    ),
+    # General anti-abuse limit on every endpoint. Sized for real browsing (the
+    # storefront loads the catalogue, plus one request per product page).
+    # NUM_PROXIES is deliberately not set: a wrong value would put every
+    # visitor in one bucket, so confirm Render's proxy count before adding it.
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/hour',
-        'user': '1000/hour',
+        'anon': '600/hour',
+        'user': '3000/hour',
     },
 }
 

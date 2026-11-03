@@ -281,3 +281,31 @@ class NoPhotoWarningTests(TempMediaMixin, TestCase):
         ProductImage.objects.create(product=p, image=SimpleUploadedFile('big.jpg', buf.getvalue(), content_type='image/jpeg'))
         thumb = APIClient().get('/api/products/BIG-1/').json()['thumbs'][0]
         self.assertTrue(thumb.endswith('.webp'))
+
+
+@override_settings(STORAGES={
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+})
+class SecurityTests(TestCase):
+    def test_admin_login_locks_after_repeated_failures(self):
+        User.objects.create_superuser('boss', 'b@example.com', 'a-Strong-pass-123')
+        for _ in range(5):
+            self.client.post('/admin/login/', {'username': 'boss', 'password': 'wrong'})
+        # Even the correct password is refused once the account is locked.
+        res = self.client.post('/admin/login/', {'username': 'boss', 'password': 'a-Strong-pass-123'})
+        self.assertEqual(res.status_code, 429)
+        self.assertNotIn('_auth_user_id', self.client.session)
+
+    def test_admin_login_still_works_for_correct_password(self):
+        User.objects.create_superuser('boss', 'b@example.com', 'a-Strong-pass-123')
+        self.client.post('/admin/login/', {'username': 'boss', 'password': 'wrong'})
+        res = self.client.post('/admin/login/', {'username': 'boss', 'password': 'a-Strong-pass-123'})
+        self.assertEqual(res.status_code, 302)
+
+    def test_api_is_read_only_and_json_only(self):
+        c = APIClient()
+        self.assertEqual(c.post('/api/products/', {}).status_code, 405)
+        self.assertEqual(c.delete('/api/products/X/').status_code, 405)
+        res = c.get('/api/products/', HTTP_ACCEPT='text/html')
+        self.assertIn('application/json', res['Content-Type'])
