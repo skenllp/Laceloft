@@ -15,7 +15,7 @@ export default function NewArrivals() {
   return (
     <>
       <PageHeader eyebrow="Just landed" title="Fresh in the Loft." crumbs={[{ label: 'Home', to: '/' }, { label: 'New Arrivals' }]}>
-        The newest pairs in the Laceloft rotation.
+        New styles. New favourites. Discover the latest additions to Laceloft.
       </PageHeader>
 
       <section className="page-pad mx-auto max-w-[1500px] pb-16" aria-label="New arrivals">
