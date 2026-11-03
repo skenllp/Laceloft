@@ -11,9 +11,12 @@ from django.shortcuts import redirect
 from django.urls import path
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from PIL import Image, ImageOps
 
 from .models import Category, Product, ProductImage
 from .thumbs import thumb_name
+
+FRAME_RATIO = 0.8  # shop cards are 4:5 (width / height)
 
 admin.site.site_header = 'Laceloft admin'
 admin.site.site_title = 'Laceloft admin'
@@ -182,7 +185,8 @@ class ProductImageInline(admin.TabularInline):
     fields = ['preview', 'image', 'order']
     readonly_fields = ['preview']
     verbose_name = 'photo'
-    verbose_name_plural = 'Photos (lowest "order" number is shown first)'
+    # The inline's heading is the one place Django shows text next to the table.
+    verbose_name_plural = 'Photos: best as 4:5 portrait, e.g. 1200 x 1500 px (lowest "order" number is shown first)'
 
     @admin.display(description='Preview')
     def preview(self, obj):
@@ -245,6 +249,23 @@ class ProductAdmin(admin.ModelAdmin):
                 f'"{product.name}" has no photos yet, so the shop shows a grey placeholder. '
                 'Open it again, choose a photo under "Photos", and save. '
                 '(If the form showed an error before, the browser clears the chosen photo — pick it again.)',
+            )
+
+        off = []
+        for img in ProductImage.objects.filter(product=product):
+            try:
+                with Image.open(img.image) as im:
+                    w, h = ImageOps.exif_transpose(im).size
+            except Exception:  # noqa: BLE001 — unreadable file: the thumbnail step already logs it
+                continue
+            if h and abs(w / h - FRAME_RATIO) / FRAME_RATIO > 0.06:
+                off.append(f'{w}x{h}')
+        if off:
+            messages.warning(
+                request,
+                f'"{product.name}": {len(off)} photo(s) are not 4:5 portrait ({", ".join(off)}). '
+                'They show whole but with a blurred backdrop. For the cleanest look, crop them to 4:5 '
+                '(e.g. 1200 x 1500 px) and upload again.',
             )
 
     # ---- "Publish to website" button (templates/admin/shop/product/change_list.html) ----
