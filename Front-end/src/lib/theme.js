@@ -5,7 +5,9 @@ const COLORS = { light: '#F4F0E8', dark: '#000000' }
 
 const stored = () => { try { return localStorage.getItem(KEY) } catch { return null } }
 /** Dark unless the visitor chose light with the header button. */
-export const currentTheme = () => (stored() === 'light' ? 'light' : 'dark')
+// LIGHT THEME DISABLED for now: always dark. To re-enable, restore the line below.
+// export const currentTheme = () => (stored() === 'light' ? 'light' : 'dark')
+export const currentTheme = () => 'dark'
 
 export function applyTheme(theme) {
   const root = document.documentElement

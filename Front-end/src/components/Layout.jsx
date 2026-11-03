@@ -95,7 +95,9 @@ export default function Layout() {
           </nav>
 
           <div className="flex items-center gap-1">
+            {/* LIGHT THEME DISABLED for now (site stays black). Re-enable by uncommenting this button and the lines in lib/theme.js and index.html.
             <button type="button" onClick={toggleTheme} aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} className={iconBtn}><ThemeIcon dark={theme === 'dark'} /></button>
+            */}
             <Link to="/search" aria-label="Search" className={iconBtn}><SearchIcon /></Link>
             <Link to="/wishlist" aria-label={`Wishlist (${wishlist.length} saved)`} className={iconBtn}>
               <HeartIcon />

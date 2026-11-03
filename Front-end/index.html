@@ -30,7 +30,9 @@
     // Dark by default; apply the saved choice before first paint (no white flash in dark).
     (function () {
       try {
-        var dark = localStorage.getItem('laceloft-theme') !== 'light'
+        // LIGHT THEME DISABLED for now: always dark. To re-enable, restore the line below.
+        // var dark = localStorage.getItem('laceloft-theme') !== 'light'
+        var dark = true
         if (dark) {
           document.documentElement.classList.add('dark')
           document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000')
