@@ -1,0 +1,14 @@
+{% extends "admin/auth/user/add_form.html" %}
+
+{% block form_top %}
+<div class="lf-help">
+  <strong>Adding a login for someone.</strong> Give each person their own username and a strong password; never share yours.
+  <ol>
+    <li>Enter a username and password, then press <em>Save</em>.</li>
+    <li>On the next page, tick <em>Staff status</em> so they can log in.</li>
+    <li>Under <em>Groups</em>, move <em>Shop staff</em> to the right-hand box, then press <em>Save</em>.</li>
+  </ol>
+  <span class="lf-help-sub">Leave <em>Superuser status</em> unticked for staff: a superuser can do everything, including deleting other logins.</span>
+</div>
+{{ block.super }}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+{{ block.super }}
+<div class="lf-help">
+  <strong>What is a group?</strong> A group is a set of permissions. Make it once, then add people to it: everyone in the group can do what is allowed here.
+  <table class="lf-table">
+    <thead><tr><th></th><th>You (owner)</th><th>Shop staff</th></tr></thead>
+    <tbody>
+      <tr><td>Account type</td><td>Superuser: can do everything</td><td>Staff member in the <em>Shop staff</em> group</td></tr>
+      <tr><td>Add and edit products</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Delete products</td><td>Yes</td><td>No (safer)</td></tr>
+      <tr><td>Create or remove logins</td><td>Yes</td><td>No</td></tr>
+    </tbody>
+  </table>
+  <span class="lf-help-sub">A <em>Shop staff</em> group is already set up for you. To allow something, move it from the left box to the right box; to remove it, move it back. Then press <em>Save</em>. Leave out <em>delete</em> to prevent accidents.</span>
+</div>
+{% endblock %}

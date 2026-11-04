@@ -119,3 +119,22 @@ fieldset .description { font-size: 0.9375rem; color: var(--body-quiet-color, #66
   #result_list .field-price input { width: 8em; }
   #changelist-search #searchbar { width: 100%; box-sizing: border-box; }
 }
+
+/* Owner vs staff example table on the Group page. */
+.lf-table { width: 100%; margin: 10px 0 4px; border-collapse: collapse; font-size: 0.875rem; }
+.lf-table th, .lf-table td { padding: 6px 8px; border-bottom: 1px solid var(--hairline-color, #ddd); text-align: left; vertical-align: top; }
+.lf-table thead th { background: transparent; color: var(--body-fg); font-weight: 600; }
+.lf-help ul { margin: 6px 0 0; padding-left: 1.3em; }
+
+/* Recent actions: a closed toggle under the dashboard instead of a side column. */
+.dashboard #content.colMS { margin-right: 0; }
+.lf-recent { clear: both; margin: 20px 0 0; }
+.lf-recent > summary {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; cursor: pointer;
+  border: 1px solid var(--hairline-color, #ddd); border-radius: 999px; font-weight: 600; color: var(--body-fg);
+  list-style: none;
+}
+.lf-recent > summary::-webkit-details-marker { display: none; }
+.lf-recent > summary::before { content: "+"; margin-right: 8px; }
+.lf-recent[open] > summary::before { content: "\2212"; }
+.lf-recent #content-related { float: none; width: auto; max-width: 600px; margin: 12px 0 0; }

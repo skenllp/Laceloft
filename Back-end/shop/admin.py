@@ -5,8 +5,10 @@ import urllib.request
 from django import forms
 from django.conf import settings
 from django.contrib import admin, messages
+from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin, UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group, Permission, User
 from django.core.files.storage import default_storage
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import redirect
 from django.urls import path
 from django.utils.html import format_html
@@ -331,3 +333,59 @@ class CategoryAdmin(admin.ModelAdmin):
     @admin.display(description='Products', ordering='n')
     def product_count(self, obj):
         return obj.n
+
+
+# ---- Staff logins: readable permission lists -----------------------------------
+# Django lists every permission in the project ("axes | access attempt | Can add
+# access attempt" ...). Staff only need the shop's and the login ones, worded plainly.
+PERMISSION_ACTIONS = {'add': 'add new', 'change': 'edit', 'delete': 'delete', 'view': 'view'}
+
+
+def friendly_permission(perm):
+    model = perm.content_type.model_class()
+    name = model._meta.verbose_name_plural.capitalize() if model else perm.content_type.model
+    action = perm.codename.split('_', 1)[0]
+    return f'{name}: {PERMISSION_ACTIONS.get(action, perm.name)}'
+
+
+def shop_permissions():
+    return (
+        Permission.objects.select_related('content_type')
+        .filter(Q(content_type__app_label='shop') | Q(content_type__app_label='auth', content_type__model__in=['user', 'group']))
+        .order_by('-content_type__app_label', 'content_type__model', 'codename')
+    )
+
+
+class FriendlyPermissionsMixin:
+    permission_fields = ()
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name in self.permission_fields:
+            kwargs['queryset'] = shop_permissions()
+            field = super().formfield_for_manytomany(db_field, request=request, **kwargs)
+            field.label_from_instance = friendly_permission
+            return field
+        return super().formfield_for_manytomany(db_field, request=request, **kwargs)
+
+
+admin.site.unregister(Group)
+admin.site.unregister(User)
+
+
+@admin.register(Group)
+class GroupAdmin(FriendlyPermissionsMixin, BaseGroupAdmin):
+    permission_fields = ('permissions',)
+    list_display = ['name', 'member_count']
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(members=Count('user'))
+
+    @admin.display(description='People in this group', ordering='members')
+    def member_count(self, obj):
+        return obj.members
+
+
+@admin.register(User)
+class UserAdmin(FriendlyPermissionsMixin, BaseUserAdmin):
+    permission_fields = ('user_permissions',)
+    list_display = ['username', 'first_name', 'is_staff', 'is_superuser', 'is_active']

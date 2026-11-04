@@ -317,3 +317,26 @@ class SecurityTests(TestCase):
         self.assertEqual(c.delete('/api/products/X/').status_code, 405)
         res = c.get('/api/products/', HTTP_ACCEPT='text/html')
         self.assertIn('application/json', res['Content-Type'])
+
+
+@override_settings(STORAGES={
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+})
+class StaffGroupTests(TestCase):
+    def test_shop_staff_group_can_add_and_edit_but_not_delete(self):
+        from django.contrib.auth.models import Group
+        codes = set(Group.objects.get(name='Shop staff').permissions.values_list('codename', flat=True))
+        self.assertIn('add_product', codes)
+        self.assertIn('change_product', codes)
+        self.assertIn('add_productimage', codes)
+        self.assertNotIn('delete_product', codes)
+        self.assertFalse(any(c.endswith('_user') for c in codes))
+
+    def test_group_page_lists_permissions_in_plain_words(self):
+        from django.contrib.auth.models import Group
+        self.client.force_login(User.objects.create_superuser('boss', 'b@example.com', 'a-Strong-pass-123'))
+        page = self.client.get(f'/admin/auth/group/{Group.objects.get(name="Shop staff").pk}/change/').content.decode()
+        self.assertIn('Products: edit', page)
+        self.assertIn('What is a group?', page)
+        self.assertNotIn('access attempt', page)

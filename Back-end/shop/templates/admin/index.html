@@ -36,3 +36,11 @@
 </div>
 {{ block.super }}
 {% endblock %}
+
+{% block sidebar %}
+{# Recent actions: tucked away behind a toggle, closed by default. #}
+<details class="lf-recent">
+  <summary>Show recent actions</summary>
+  {{ block.super }}
+</details>
+{% endblock %}

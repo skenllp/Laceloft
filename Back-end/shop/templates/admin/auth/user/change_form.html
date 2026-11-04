@@ -1,0 +1,14 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+{{ block.super }}
+<div class="lf-help">
+  <strong>The three boxes under Permissions:</strong>
+  <ul>
+    <li><em>Active</em>: untick to block this login (better than deleting it).</li>
+    <li><em>Staff status</em>: needed to log in to the shop manager at all.</li>
+    <li><em>Superuser status</em>: can do everything. Only for the owner.</li>
+  </ul>
+  <span class="lf-help-sub">For staff, put them in the <em>Shop staff</em> group instead of ticking individual permissions.</span>
+</div>
+{% endblock %}
