@@ -10,6 +10,8 @@
     <a class="lf-btn" href="{% url 'admin:shop_product_changelist' %}">See all products</a>
   </div>
 
+  <div class="lf-cols">
+  <div>
   <h3>Common jobs</h3>
   <ol class="lf-steps">
     <li><strong>Add a new pair.</strong> Press <em>Add a new pair</em>. Fill in the name, price and sizes, type how many you have in each size, add photos, then press <em>Save</em>.</li>
@@ -18,7 +20,9 @@
     <li><strong>Hide a pair from the shop.</strong> Untick <em>Available to order</em> and save. It is better than deleting, because you can switch it back on later.</li>
     <li><strong>After adding or renaming a product.</strong> Open <em>Products</em> and press <em>Publish to website</em> once. This only updates link previews on WhatsApp and Google; the product is already live.</li>
   </ol>
+  </div>
 
+  <div>
   <h3>Good to know</h3>
   <ul class="lf-notes">
     <li><strong>Orders are not taken here.</strong> Customers message the shop on WhatsApp, so you update stock numbers yourself.</li>
@@ -27,6 +31,8 @@
     <li><strong>Product code (SKU)</strong> is a short unique name such as AD-SMB-BRN. It becomes part of the web address, so it cannot be changed after saving.</li>
     <li><strong>Need to log out?</strong> Use <em>Log out</em> at the top of the page, especially on a shared phone or computer.</li>
   </ul>
+  </div>
+  </div>
 </div>
 {{ block.super }}
 {% endblock %}

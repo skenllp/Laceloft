@@ -1,3 +1,8 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
+{% block dark-mode-vars %}
+  {# Start everyone in the light theme once (easier to read); the header toggle still switches it, and that choice is kept. #}
+  <script>try { if (!localStorage.getItem('lf-theme-default')) { localStorage.setItem('theme', 'light'); localStorage.setItem('lf-theme-default', '1') } } catch (e) {}</script>
+  {{ block.super }}
+{% endblock %}
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'shop/admin.css' %}">{% endblock %}

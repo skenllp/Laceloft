@@ -14,8 +14,9 @@
 .object-tools .publish-btn:hover { background: var(--object-tools-hover-bg, #666); }
 
 /* ======================= Laceloft branding =======================
-   Only colours that read well in both Django's light and dark themes. */
-:root {
+   Only colours that read well in both Django's light and dark themes. Django sets
+   its own on html[data-theme=...], so match that specificity. */
+:root, html[data-theme="light"], html[data-theme="dark"], html[data-theme="auto"] {
   --primary: #16130f;
   --secondary: #2a2622;
   --accent: #d4a574;
@@ -66,6 +67,12 @@ fieldset .description { font-size: 0.9375rem; color: var(--body-quiet-color, #66
 
 /* Keep Save reachable without scrolling to the bottom of a long form. */
 .submit-row { position: sticky; bottom: 0; z-index: 5; box-shadow: 0 -6px 14px rgba(0,0,0,0.08); }
+
+/* Django caps the dashboard at 600px, leaving most of a desktop screen empty. */
+.dashboard #content { width: auto; max-width: 1400px; }
+@media (min-width: 1024px) {
+  .lf-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
+}
 
 /* ======================= Phones ======================= */
 @media (max-width: 767px) {
