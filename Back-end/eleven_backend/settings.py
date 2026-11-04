@@ -93,7 +93,8 @@ ROOT_URLCONF = 'eleven_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Checked before the apps' own templates, so shop/templates/admin/* can restyle Django's admin.
+        'DIRS': [BASE_DIR / 'shop' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

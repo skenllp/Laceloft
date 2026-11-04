@@ -1,0 +1,19 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+{{ block.super }}
+<div class="lf-help">
+  {% if add %}
+    <strong>Adding a new pair.</strong> Work down the page:
+    <ol>
+      <li><em>Basics:</em> a clear name, a short product code, and the categories it belongs in.</li>
+      <li><em>Price:</em> what customers pay.</li>
+      <li><em>Sizes &amp; stock:</em> tick the sizes, then type how many pairs you have of each.</li>
+      <li><em>Photos</em> at the bottom: add portrait pictures, then press <em>Save</em>.</li>
+    </ol>
+  {% else %}
+    <strong>Editing this pair.</strong> Change what you need and press <em>Save</em>; the shop updates straight away.
+    To mark it sold out, set its sizes to 0 under <em>Stock per size</em> or untick <em>Available to order</em>.
+  {% endif %}
+</div>
+{% endblock %}

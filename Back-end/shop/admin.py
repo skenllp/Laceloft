@@ -18,9 +18,24 @@ from .thumbs import thumb_name
 
 FRAME_RATIO = 0.8  # shop cards are 4:5 (width / height)
 
-admin.site.site_header = 'Laceloft admin'
-admin.site.site_title = 'Laceloft admin'
-admin.site.index_title = 'Manage the shop'
+admin.site.site_header = 'Laceloft shop manager'
+admin.site.site_title = 'Laceloft shop manager'
+admin.site.index_title = 'Start here'
+admin.site.site_url = 'https://laceloft.onrender.com'  # the "View site" link in the header
+
+_original_get_app_list = admin.site.get_app_list
+
+
+def _get_app_list(request, app_label=None):
+    """Dashboard order: Shop first, and the technical login-lockout log hidden."""
+    apps = _original_get_app_list(request, app_label)
+    if app_label is None:
+        apps = [a for a in apps if a['app_label'] != 'axes']
+        apps.sort(key=lambda a: a['app_label'] != 'shop')
+    return apps
+
+
+admin.site.get_app_list = _get_app_list
 
 
 class StockWidget(forms.Textarea):
@@ -186,7 +201,7 @@ class ProductImageInline(admin.TabularInline):
     readonly_fields = ['preview']
     verbose_name = 'photo'
     # The inline's heading is the one place Django shows text next to the table.
-    verbose_name_plural = 'Photos: best as 4:5 portrait, e.g. 1200 x 1500 px (lowest "order" number is shown first)'
+    verbose_name_plural = 'Photos: portrait 4:5 (e.g. 1200 x 1500 px). The lowest Order number is shown first.'
 
     @admin.display(description='Preview')
     def preview(self, obj):
@@ -208,10 +223,22 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     list_per_page = 50
     fieldsets = (
-        ('Basics', {'fields': ('sku', 'name', 'brand', 'colorway', 'categories', 'gender')}),
-        ('Price', {'fields': ('price', 'strike', 'on_sale')}),
-        ('Sizes & stock', {'fields': ('sizes', 'stock', 'in_stock')}),
-        ('Description & badge', {'fields': ('desc', 'is_new')}),
+        ('Basics', {
+            'description': 'The name customers see, a short product code, and the categories it belongs in (customers use these to filter the shop).',
+            'fields': ('sku', 'name', 'brand', 'colorway', 'categories', 'gender'),
+        }),
+        ('Price', {
+            'description': 'Selling price is what the customer pays. Fill in Original price only when the pair is on sale: it is shown crossed out next to the selling price.',
+            'fields': ('price', 'strike', 'on_sale'),
+        }),
+        ('Sizes & stock', {
+            'description': 'Tick the sizes this pair comes in, then type how many pairs you have of each. A size at 0 shows as sold out.',
+            'fields': ('sizes', 'stock', 'in_stock'),
+        }),
+        ('Description & badge', {
+            'description': 'A few lines about the material, fit and styling. The "New" badge is for your latest pairs only.',
+            'fields': ('desc', 'is_new'),
+        }),
     )
 
     class Media:

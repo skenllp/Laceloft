@@ -12,3 +12,103 @@
   font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; line-height: 20px;
 }
 .object-tools .publish-btn:hover { background: var(--object-tools-hover-bg, #666); }
+
+/* ======================= Laceloft branding =======================
+   Only colours that read well in both Django's light and dark themes. */
+:root {
+  --primary: #16130f;
+  --secondary: #2a2622;
+  --accent: #d4a574;
+  --primary-fg: #fff;
+  --header-bg: #0b0b0b;
+  --header-color: #d4a574;
+  --header-branding-color: #d4a574;
+  --header-link-color: #f4f0e8;
+  --breadcrumbs-bg: #1c1916;
+  --breadcrumbs-fg: #d4a574;
+  --breadcrumbs-link-fg: #f4f0e8;
+  --object-tools-bg: #2a2622;
+  --object-tools-hover-bg: #8a6a45;
+  --button-bg: #2a2622;
+  --button-hover-bg: #8a6a45;
+  --default-button-bg: #8a6a45;
+  --default-button-hover-bg: #6f5436;
+}
+#site-name a { letter-spacing: 0.02em; }
+
+/* ======================= Help panels ======================= */
+.lf-guide, .lf-help {
+  margin: 0 0 20px; padding: 16px 18px; border: 1px solid var(--hairline-color, #ddd);
+  border-left: 4px solid #d4a574; border-radius: 10px; background: var(--darkened-bg, #f8f8f8);
+  line-height: 1.55; color: var(--body-fg);
+}
+.lf-guide h2 { margin: 0 0 6px; font-size: 1.3rem; color: var(--body-fg); }
+.lf-guide h3 { margin: 18px 0 8px; font-size: 1rem; color: var(--body-fg); }
+.lf-lead { margin: 0 0 14px; font-size: 1rem; }
+.lf-steps, .lf-notes, .lf-help ol { margin: 0; padding-left: 1.3em; }
+.lf-steps li, .lf-notes li, .lf-help li { margin: 0 0 8px; }
+.lf-help { font-size: 0.9375rem; }
+.lf-help ol { margin-top: 6px; }
+.lf-help-sub { display: block; margin-top: 6px; color: var(--body-quiet-color, #666); font-size: 0.875rem; }
+.lf-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 6px; }
+.lf-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px;
+  border-radius: 999px; border: 1px solid #2a2622; background: transparent; color: var(--body-fg);
+  font-weight: 600; text-decoration: none;
+}
+.lf-btn:hover { background: #2a2622; color: #fff; }
+a.lf-btn, a.lf-btn:visited, a.lf-btn:hover { text-decoration: none !important; }
+a.lf-btn:visited { color: var(--body-fg); }
+a.lf-btn-primary, a.lf-btn-primary:visited { background: #8a6a45; border-color: #8a6a45; color: #fff; }
+a.lf-btn-primary:hover { background: #6f5436; border-color: #6f5436; color: #fff; }
+.module h2, .module caption { letter-spacing: 0.02em; }
+fieldset .description { font-size: 0.9375rem; color: var(--body-quiet-color, #666); margin: 0 0 4px; }
+
+/* Keep Save reachable without scrolling to the bottom of a long form. */
+.submit-row { position: sticky; bottom: 0; z-index: 5; box-shadow: 0 -6px 14px rgba(0,0,0,0.08); }
+
+/* ======================= Phones ======================= */
+@media (max-width: 767px) {
+  /* 16px inputs stop iPhones zooming in on tap; 44px targets are easy to hit. */
+  input[type=text], input[type=number], input[type=search], input[type=password], select, textarea { font-size: 16px; min-height: 44px; }
+  .button, input[type=submit], input[type=button], .submit-row a.deletelink, .object-tools a, .publish-btn { min-height: 44px; display: inline-flex; align-items: center; }
+  .object-tools { float: none; margin: 0 0 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .object-tools li { margin: 0; }
+  .lf-guide, .lf-help { padding: 14px; }
+  .lf-btn { flex: 1 1 100%; }
+
+  /* Save bar: not sticky on phones (it would cover a third of the screen); the
+     three save buttons share one row and Delete sits below them. */
+  .submit-row { position: static !important; box-shadow: none; display: flex !important; flex-wrap: wrap; gap: 6px; padding: 8px; }
+  .submit-row input[type=submit], .submit-row input.default {
+    flex: 1 1 30% !important; width: auto !important; margin: 0 !important; float: none !important;
+    padding: 6px 8px; font-size: 13px; line-height: 1.25; height: auto !important; min-height: 48px;
+  }
+  .submit-row p.deletelink-box { flex: 1 1 100%; margin: 0; float: none; }
+  .submit-row a.deletelink { display: flex !important; justify-content: center; margin: 0 !important; width: 100%; box-sizing: border-box; }
+
+  /* Product list: one card per product instead of a wide table. */
+  #changelist .results { overflow: visible; }
+  #result_list, #result_list tbody { display: block; width: 100%; }
+  #result_list thead { display: none; }
+  #result_list tr {
+    display: block; margin: 0 0 12px; padding: 6px 12px; border: 1px solid var(--hairline-color, #ddd);
+    border-radius: 12px; background: var(--body-bg);
+  }
+  #result_list td, #result_list th {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 8px 0; border: 0; width: auto; text-align: left;
+  }
+  #result_list td::before, #result_list th::before { color: var(--body-quiet-color, #666); font-size: 0.8125rem; font-weight: 600; }
+  #result_list td.action-checkbox::before { content: "Select"; }
+  #result_list th.field-photo, #result_list td.field-photo { justify-content: flex-start; }
+  #result_list .field-sku::before { content: "Code"; }
+  #result_list .field-price::before { content: "Price (₹)"; }
+  #result_list .field-is_new::before { content: "Show New badge"; }
+  #result_list .field-on_sale::before { content: "On sale"; }
+  #result_list .field-in_stock::before { content: "Available"; }
+  #result_list .field-stock_summary::before { content: "Stock"; }
+  #result_list th.field-name, #result_list td.field-name { font-size: 1.0625rem; font-weight: 600; }
+  #result_list .field-price input { width: 8em; }
+  #changelist-search #searchbar { width: 100%; box-sizing: border-box; }
+}

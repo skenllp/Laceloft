@@ -4,8 +4,17 @@
   <li>
     <form method="post" action="{% url 'admin:shop_product_publish' %}" style="display:inline">
       {% csrf_token %}
-      <button type="submit" class="publish-btn" title="Rebuild the website so new products get link previews and appear in the sitemap">Publish to website</button>
+      <button type="submit" class="publish-btn" title="Updates WhatsApp and Google link previews for new or renamed products. Products are already live without this.">Publish to website</button>
     </form>
   </li>
   {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="lf-help">
+  <strong>Quick edits:</strong> change the <em>Price</em>, <em>New</em>, <em>On sale</em> or <em>Available</em> boxes right in this list, then press <em>Save</em> at the bottom.
+  Click a name to change photos, sizes and stock.
+  <span class="lf-help-sub">Added or renamed a pair? Press <em>Publish to website</em> once (top of the page) so link previews are updated. It is optional: the product is already visible in the shop.</span>
+</div>
+{{ block.super }}
 {% endblock %}
