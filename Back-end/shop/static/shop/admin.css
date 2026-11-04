@@ -138,3 +138,4 @@ fieldset .description { font-size: 0.9375rem; color: var(--body-quiet-color, #66
 .lf-recent > summary::before { content: "+"; margin-right: 8px; }
 .lf-recent[open] > summary::before { content: "\2212"; }
 .lf-recent #content-related { float: none; width: auto; max-width: 600px; margin: 12px 0 0; }
+.lf-recent-note { max-width: 600px; margin: 12px 0 0; color: var(--body-quiet-color, #666); font-size: 0.875rem; }
