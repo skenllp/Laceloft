@@ -1,6 +1,7 @@
 /* Size tick boxes in one wrapping row instead of a long vertical list.
    (Django renders CheckboxSelectMultiple as nested <div>s.) */
-#id_sizes { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+#id_sizes { display: flex; flex-wrap: wrap; gap: 6px 16px; width: 100%; min-width: 0; flex: 1 1 100%; }
+#id_sizes > div { min-width: 64px; }
 #id_sizes > div { margin: 0; }
 #id_sizes label { display: inline-flex; align-items: center; gap: 4px; width: auto; padding: 0; font-weight: normal; }
 
