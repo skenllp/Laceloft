@@ -90,6 +90,37 @@ export const FALLBACK_PRODUCTS = [
     "desc": "Nike P6000 bringing you a mash-up of iconic style that's breathable, comfortable and evocative of that early-2000s vibe."
   },
   {
+    "sku": "LL-004",
+    "name": "Asics GEL NYC",
+    "brand": "Asics",
+    "price": 3199,
+    "strike": 3799,
+    "cats": [
+      "Lifestyle"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-004/1.webp",
+      "/images/products/LL-004/2.webp",
+      "/images/products/LL-004/3.webp",
+      "/images/products/LL-004/4.webp",
+      "/images/products/LL-004/5.webp"
+    ],
+    "colorway": "White / Midnight",
+    "desc": "A popular lifestyle and fashion sneaker that blends archival heritage running designs with modern comfort technology"
+  },
+  {
     "sku": "LL-005",
     "name": "New Balance 1906U",
     "brand": "New Balance",
@@ -578,6 +609,62 @@ export const FALLBACK_PRODUCTS = [
     "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
   },
   {
+    "sku": "LL-022",
+    "name": "Mexico 66 Ballerina",
+    "brand": "Onitsuka Tiger",
+    "price": 3099,
+    "strike": 3899,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-022/1.webp",
+      "/images/products/LL-022/2.webp",
+      "/images/products/LL-022/3.webp"
+    ],
+    "colorway": "White / Pink",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-023",
+    "name": "Arizona Big Buckle Natural Leather Oiled",
+    "brand": "Birkenstock",
+    "price": 1299,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-023/1.webp",
+      "/images/products/LL-023/2.webp"
+    ],
+    "colorway": "Red / Zinfandel",
+    "desc": "BIRKENSTOCK Arizona is a genuine classic that has been delighting both men and women with its timeless design for decades."
+  },
+  {
     "sku": "LL-024",
     "name": "Madrid Big Buckle Nubuck",
     "brand": "Birkenstock",
@@ -634,6 +721,148 @@ export const FALLBACK_PRODUCTS = [
     "desc": "BIRKENSTOCK Mayari thong sandal is a jaunty model with a toe loop."
   },
   {
+    "sku": "LL-026",
+    "name": "Arizona Mixed Leather",
+    "brand": "Birkenstock",
+    "price": 1199,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-026/1.webp",
+      "/images/products/LL-026/2.webp"
+    ],
+    "colorway": "Brown",
+    "desc": "A comfort legend and a fashion staple. With adjustable straps and a magical cork footbed that conforms to the shape of your foot"
+  },
+  {
+    "sku": "LL-027",
+    "name": "Gizeh Black Birko-Flor Toe Post Sandals",
+    "brand": "Birkenstock",
+    "price": 1199,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-027/1.webp",
+      "/images/products/LL-027/2.webp"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Gizeh is a genuine classic and a stylish all-rounder. Our elegant thong sandal combines optimum grip with minimalist, fashionable design."
+  },
+  {
+    "sku": "LL-028",
+    "name": "Mayari Oiled Leather",
+    "brand": "Birkenstock",
+    "price": 1199,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-028/1.webp",
+      "/images/products/LL-028/2.webp",
+      "/images/products/LL-028/3.webp"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Mayari thong sandal is a jaunty model with a toe loop."
+  },
+  {
+    "sku": "LL-029",
+    "name": "Madrid Big Buckle EVA Pink Clay",
+    "brand": "Birkenstock",
+    "price": 999,
+    "strike": 1299,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-029/1.webp",
+      "/images/products/LL-029/2.webp",
+      "/images/products/LL-029/3.webp"
+    ],
+    "colorway": "Pink / Pink Clay",
+    "desc": "This version features our popular Big Buckle made from a stainless synthetic material and makes an impression with its durability and minimalist design"
+  },
+  {
+    "sku": "LL-030",
+    "name": "Arizona EVA Brown Two Strap Sandals",
+    "brand": "Birkenstock",
+    "price": 1099,
+    "strike": 1599,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-030/1.webp",
+      "/images/products/LL-030/2.webp"
+    ],
+    "colorway": "Brown / Roast",
+    "desc": "BIRKENSTOCK Arizona is a true classic. Modeled on the cork sandal, it is made from ultra light and highly flexible EVA."
+  },
+  {
     "sku": "LL-031",
     "name": "Gizeh Essentials EVA Waterproof Sandals",
     "brand": "Birkenstock",
@@ -659,5 +888,62 @@ export const FALLBACK_PRODUCTS = [
     ],
     "colorway": "Pink / Pink Clay",
     "desc": "Gizeh - a modern thong sandal from BIRKENSTOCK. This version made from ultra light and highly flexible EVA. These sandals are shock absorbing, waterproof, and skin-friendly."
+  },
+  {
+    "sku": "LL-032",
+    "name": "Arizona EVA Lightweight Waterproof Sandals",
+    "brand": "Birkenstock",
+    "price": 1099,
+    "strike": 1599,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-032/1.webp",
+      "/images/products/LL-032/2.webp"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Arizona is a true classic. Modeled on the cork sandal, it is made from ultra light and highly flexible EVA."
+  },
+  {
+    "sku": "LL-033",
+    "name": "Barbados Black Waterproof Beach Slippers",
+    "brand": "Birkenstock",
+    "price": 499,
+    "strike": 699,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-033/1.webp",
+      "/images/products/LL-033/2.webp",
+      "/images/products/LL-033/3.webp"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Barbados is a sporty mule with a hexagon pattern and logo lettering. It's perfect for anyone who is looking in particular for function and comfort. Modeled on the cork sandal."
   }
 ]

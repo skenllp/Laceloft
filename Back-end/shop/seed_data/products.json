@@ -1,5 +1,74 @@
 [
   {
+    "sku": "LL-033",
+    "name": "Barbados Black Waterproof Beach Slippers",
+    "brand": "Birkenstock",
+    "price": 499,
+    "strike": 699,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "stock": {
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-033/1.jpg",
+      "images/products/LL-033/2.jpg",
+      "images/products/LL-033/3.jpg"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Barbados is a sporty mule with a hexagon pattern and logo lettering. It's perfect for anyone who is looking in particular for function and comfort. Modeled on the cork sandal."
+  },
+  {
+    "sku": "LL-032",
+    "name": "Arizona EVA Lightweight Waterproof Sandals",
+    "brand": "Birkenstock",
+    "price": 1099,
+    "strike": 1599,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "stock": {
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-032/1.jpg",
+      "images/products/LL-032/2.jpg"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Arizona is a true classic. Modeled on the cork sandal, it is made from ultra light and highly flexible EVA."
+  },
+  {
     "sku": "LL-031",
     "name": "Gizeh Essentials EVA Waterproof Sandals",
     "brand": "Birkenstock",
@@ -30,6 +99,178 @@
     ],
     "colorway": "Pink / Pink Clay",
     "desc": "Gizeh - a modern thong sandal from BIRKENSTOCK. This version made from ultra light and highly flexible EVA. These sandals are shock absorbing, waterproof, and skin-friendly."
+  },
+  {
+    "sku": "LL-030",
+    "name": "Arizona EVA Brown Two Strap Sandals",
+    "brand": "Birkenstock",
+    "price": 1099,
+    "strike": 1599,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "stock": {
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-030/1.jpg",
+      "images/products/LL-030/2.jpg"
+    ],
+    "colorway": "Brown / Roast",
+    "desc": "BIRKENSTOCK Arizona is a true classic. Modeled on the cork sandal, it is made from ultra light and highly flexible EVA."
+  },
+  {
+    "sku": "LL-029",
+    "name": "Madrid Big Buckle EVA Pink Clay",
+    "brand": "Birkenstock",
+    "price": 999,
+    "strike": 1299,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "stock": {
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-029/1.jpg",
+      "images/products/LL-029/2.jpg",
+      "images/products/LL-029/3.jpg"
+    ],
+    "colorway": "Pink / Pink Clay",
+    "desc": "This version features our popular Big Buckle made from a stainless synthetic material and makes an impression with its durability and minimalist design"
+  },
+  {
+    "sku": "LL-028",
+    "name": "Mayari Oiled Leather",
+    "brand": "Birkenstock",
+    "price": 1199,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "stock": {
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-028/1.jpg",
+      "images/products/LL-028/2.jpg",
+      "images/products/LL-028/3.jpg"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Mayari thong sandal is a jaunty model with a toe loop."
+  },
+  {
+    "sku": "LL-027",
+    "name": "Gizeh Black Birko-Flor Toe Post Sandals",
+    "brand": "Birkenstock",
+    "price": 1199,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8
+    ],
+    "stock": {
+      "7": 1,
+      "8": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-027/1.jpg",
+      "images/products/LL-027/2.jpg"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Gizeh is a genuine classic and a stylish all-rounder. Our elegant thong sandal combines optimum grip with minimalist, fashionable design."
+  },
+  {
+    "sku": "LL-026",
+    "name": "Arizona Mixed Leather",
+    "brand": "Birkenstock",
+    "price": 1199,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "stock": {
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-026/1.jpg",
+      "images/products/LL-026/2.jpg"
+    ],
+    "colorway": "Brown",
+    "desc": "A comfort legend and a fashion staple. With adjustable straps and a magical cork footbed that conforms to the shape of your foot"
   },
   {
     "sku": "LL-025",
@@ -98,6 +339,73 @@
     ],
     "colorway": "Black",
     "desc": "BIRKENSTOCK Madrid is a veritable classic that delights the world of fashion with its minimalist design."
+  },
+  {
+    "sku": "LL-023",
+    "name": "Arizona Big Buckle Natural Leather Oiled",
+    "brand": "Birkenstock",
+    "price": 1299,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "stock": {
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-023/1.jpg",
+      "images/products/LL-023/2.jpg"
+    ],
+    "colorway": "Red / Zinfandel",
+    "desc": "BIRKENSTOCK Arizona is a genuine classic that has been delighting both men and women with its timeless design for decades."
+  },
+  {
+    "sku": "LL-022",
+    "name": "Mexico 66 Ballerina",
+    "brand": "Onitsuka Tiger",
+    "price": 3099,
+    "strike": 3899,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5
+    ],
+    "stock": {
+      "3": 1,
+      "4": 1,
+      "5": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-022/1.jpg",
+      "images/products/LL-022/2.jpg",
+      "images/products/LL-022/3.jpg"
+    ],
+    "colorway": "White / Pink",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
   },
   {
     "sku": "LL-021",
@@ -673,6 +981,43 @@
     ],
     "colorway": "Black Sea salt Magnet",
     "desc": "A utility-focused variant of the 2000s-inspired New Balance 1906 running silhouette"
+  },
+  {
+    "sku": "LL-004",
+    "name": "Asics GEL NYC",
+    "brand": "Asics",
+    "price": 3199,
+    "strike": 3799,
+    "cats": [
+      "Lifestyle"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "stock": {
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1
+    },
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "images/products/LL-004/1.jpg",
+      "images/products/LL-004/2.jpg",
+      "images/products/LL-004/3.jpg",
+      "images/products/LL-004/4.jpg",
+      "images/products/LL-004/5.jpg"
+    ],
+    "colorway": "White / Midnight",
+    "desc": "A popular lifestyle and fashion sneaker that blends archival heritage running designs with modern comfort technology"
   },
   {
     "sku": "LL-003",
