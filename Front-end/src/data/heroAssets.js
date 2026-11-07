@@ -4,8 +4,8 @@
 export const HERO_ASSETS = {
   'LL-001': '/images/hero/LL-001.webp',
   'LL-002': '/images/hero/LL-002.webp',
-  'LL-008': '/images/hero/LL-008.webp',
-  'LL-013': '/images/hero/LL-013.webp',
+  'LL-011': '/images/hero/LL-011.webp',
+  'LL-017': '/images/hero/LL-017.webp',
 }
 
 /* The same cutouts, trimmed to the shoe and shrunk, for the small thumbnail
