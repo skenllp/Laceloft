@@ -67,6 +67,7 @@ export default function ProductCard({ p, priority = false }) {
         <h3 className="mb-2 font-display text-[19px] leading-snug text-espresso">
           <Link to={href} className="no-underline hover:text-olive-deep after:absolute after:inset-0 after:content-['']">{p.name}</Link>
         </h3>
+        {p.colorway && <p className="mb-1 truncate text-[12px] text-muted">{p.colorway}</p>}
         {sizes.length > 0 && (
           <p className="mb-3 text-[12px] text-muted">
             UK {sizes.slice(0, 5).join(' · ')}{sizes.length > 5 ? ' …' : ''}
@@ -77,7 +78,7 @@ export default function ProductCard({ p, priority = false }) {
             <span className="text-[15px] font-semibold">{fmtPrice(p.price)}</span>
             {p.strike > p.price && <span className="text-[12px] text-muted line-through">{fmtPrice(p.strike)}</span>}
           </div>
-          <Link to={href} className="-my-3 -mr-2 py-3 pl-3 pr-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-espresso no-underline underline-offset-4 hover:underline">
+          <Link to={href} className="-my-3 -mr-2 hidden py-3 pl-3 pr-2 text-[11px] sm:block font-semibold uppercase tracking-[0.14em] text-espresso no-underline underline-offset-4 hover:underline">
             View ↗
           </Link>
         </div>

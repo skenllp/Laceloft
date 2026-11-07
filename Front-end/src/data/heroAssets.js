@@ -2,10 +2,10 @@
    catalogue photographs. Any unavailable asset falls back to the original
    photo without breaking the carousel. Swap an image here if needed. */
 export const HERO_ASSETS = {
-  'AD-SMB-BRN': '/images/hero/adidas-samba-brown.webp',
-  'NB-9060-NRG': '/images/hero/new-balance-9060.webp',
-  'AJ4-SB-PINE': '/images/hero/jordan-sb-pine.webp',
-  'OT-MX66-CRM': '/images/hero/onitsuka-cream.webp',
+  'LL-001': '/images/hero/LL-001.webp',
+  'LL-002': '/images/hero/LL-002.webp',
+  'LL-008': '/images/hero/LL-008.webp',
+  'LL-013': '/images/hero/LL-013.webp',
 }
 
 /* The same cutouts, trimmed to the shoe and shrunk, for the small thumbnail

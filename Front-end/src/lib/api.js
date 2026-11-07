@@ -7,7 +7,7 @@
 import { API_BASE } from './config'
 import { FALLBACK_PRODUCTS } from '../data/fallbackProducts'
 
-const CATALOG_CACHE_KEY = 'laceloft_catalog_cache'
+const CATALOG_CACHE_KEY = 'laceloft_catalog_cache_v2'
 
 let catalogPromise = null
 let catalogSource = 'loading'

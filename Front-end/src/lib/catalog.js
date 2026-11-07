@@ -12,8 +12,7 @@ export const thumbAt = (p, i = 0) => (p?.thumbs && p.thumbs[i]) || (p?.images &&
  *  used to choose homepage/category imagery so handheld or cluttered
  *  photos stay on the product pages. Unknown SKUs simply rank lower. */
 export const STUDIO_SKUS = [
-  'AD-SMB-BRN', 'OT-MX66-CRM', 'AJ4-SB-PINE', 'NB-9060-NRG', 'AJ4-RED-SDE', 'AJ4-NVW-RD',
-  'OT-MX66-YLW', 'AD-SMB-FLR', 'AJ4-THDR-BY', 'NB-CHK-BLK', 'AD-FRM-WHT', 'SLD-WHT', 'PM-RC-RED',
+  'LL-001', 'LL-002', 'LL-008', 'LL-013', 'LL-005', 'LL-006', 'LL-014', 'LL-020', 'LL-024', 'LL-025', 'LL-031',
 ]
 
 /** Lower is better: studio photos first, then any photo, then none. */
@@ -60,7 +59,6 @@ export const CATEGORY_GROUPS = {
   boots: {
     id: 'boots',
     label: 'Boots',
-    coverSku: 'USP-BT-TAN', // clean product-on-box photo; the other boot shots are hand-held
     blurb: 'Bold silhouettes for a confident look.',
     test: (p) => (p.cats || []).includes('Boots'),
   },
@@ -89,7 +87,7 @@ export function splitDescription(desc = '') {
  *  Choose clean-background sneaker photography first; if a SKU is absent,
  *  fill with other photographed catalogue products without inventing listings.
  */
-export const FEATURED_HERO_SKUS = ['AD-SMB-BRN', 'NB-9060-NRG', 'AJ4-SB-PINE', 'OT-MX66-CRM']
+export const FEATURED_HERO_SKUS = ['LL-001', 'LL-002', 'LL-008', 'LL-013']
 
 export function pickHeroProducts(products, count = 4) {
   const pool = products.filter(hasImage)

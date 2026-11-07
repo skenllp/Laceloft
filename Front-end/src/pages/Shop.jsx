@@ -8,12 +8,12 @@ import ProductCard from '../components/ProductCard'
 import PageHeader from '../components/PageHeader'
 
 const PAGE_SIZE = 12
-// Bands sized to the actual catalogue (roughly ₹800–₹2,200).
+// Bands sized to the actual catalogue (roughly ₹1,000–₹3,300).
 const PRICE_BANDS = [
-  { id: 'u1', label: 'Under ₹1,000', test: (p) => p < 1000 },
-  { id: '1-15', label: '₹1,000 – ₹1,500', test: (p) => p >= 1000 && p < 1500 },
-  { id: '15-2', label: '₹1,500 – ₹2,000', test: (p) => p >= 1500 && p < 2000 },
-  { id: 'o2', label: '₹2,000 & above', test: (p) => p >= 2000 },
+  { id: 'u15', label: 'Under ₹1,500', test: (p) => p < 1500 },
+  { id: '15-25', label: '₹1,500 – ₹2,500', test: (p) => p >= 1500 && p < 2500 },
+  { id: '25-3', label: '₹2,500 – ₹3,000', test: (p) => p >= 2500 && p < 3000 },
+  { id: 'o3', label: '₹3,000 & above', test: (p) => p >= 3000 },
 ]
 // "For" filter: unisex pairs count for both, since most of the catalogue is unisex.
 const FOR_OPTIONS = [
@@ -63,6 +63,7 @@ export default function Shop() {
   }
 
   const cats = useMemo(() => getCategories(products), [products])
+  const groups = useMemo(() => Object.values(CATEGORY_GROUPS).filter((g) => products.some(g.test)), [products])
   const sizes = useMemo(() => {
     const set = new Set()
     products.forEach((p) => inStockSizes(p).forEach((s) => set.add(s)))
@@ -99,7 +100,7 @@ export default function Shop() {
       </FilterBlock>
       <FilterBlock title="Type">
         <Chip on={!group} onClick={() => setParam('group', '')}>All</Chip>
-        {Object.values(CATEGORY_GROUPS).map((g) => <Chip key={g.id} on={group?.id === g.id} onClick={() => setParam('group', group?.id === g.id ? '' : g.id)}>{g.label}</Chip>)}
+        {groups.map((g) => <Chip key={g.id} on={group?.id === g.id} onClick={() => setParam('group', group?.id === g.id ? '' : g.id)}>{g.label}</Chip>)}
       </FilterBlock>
       <FilterBlock title="Category">
         <Chip on={cat === 'All'} onClick={() => setParam('cat', '')}>All</Chip>
@@ -119,7 +120,7 @@ export default function Shop() {
   return (
     <>
       <PageHeader eyebrow="The collection" title={group ? `${group.label}.` : cat === 'All' ? 'The full collection.' : `${cat}.`} crumbs={[{ label: 'Home', to: '/' }, { label: 'Shop' }]}>
-        Sneakers, boots, sandals and more — filter by category, price and size.
+        Sneakers, sandals and more — filter by category, price and size.
       </PageHeader>
 
       <div className="page-pad mx-auto max-w-[1500px] pb-10 lg:grid lg:grid-cols-[250px_1fr] lg:gap-12">

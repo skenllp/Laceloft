@@ -3,612 +3,661 @@
 
 export const FALLBACK_PRODUCTS = [
   {
-    sku: 'SBD-STU-001',
-    name: 'Low-Top Skate-Style Sneaker — Green / Gold',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1799,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/sb-dunk-stussy/1.jpeg','/images/products/sb-dunk-stussy/2.jpeg','/images/products/sb-dunk-stussy/3.jpeg','/images/products/sb-dunk-stussy/4.jpeg'],
-    colorway: 'Pine Green / Sail / Gold',
-    desc: 'Affordable fashion footwear in Pine Green / Sail / Gold. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-001",
+    "name": "Nike Shox R4",
+    "brand": "Nike",
+    "price": 3199,
+    "strike": 3999,
+    "cats": [
+      "Lifestyle"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-001/1.webp",
+      "/images/products/LL-001/2.webp",
+      "/images/products/LL-001/3.webp",
+      "/images/products/LL-001/4.webp"
+    ],
+    "colorway": "Racer Blue / Metallic Silver",
+    "desc": "Shox R4 shattered the mould of traditional sneakers with its futuristic look"
   },
   {
-    sku: 'NB-9060-NRG',
-    name: 'Chunky 9060-Style Sneaker — Green',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1799,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9, 10],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/nb-9060-nori/1.jpeg','/images/products/nb-9060-nori/2.jpeg','/images/products/nb-9060-nori/3.jpeg','/images/products/nb-9060-nori/4.jpeg'],
-    colorway: 'Nori Green',
-    desc: 'Affordable fashion footwear in Nori Green. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-002",
+    "name": "Nike Shox Z",
+    "brand": "Nike",
+    "price": 3199,
+    "strike": 3999,
+    "cats": [
+      "Lifestyle"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      6,
+      7,
+      8
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-002/1.webp",
+      "/images/products/LL-002/2.webp",
+      "/images/products/LL-002/3.webp",
+      "/images/products/LL-002/4.webp"
+    ],
+    "colorway": "Black / University Red",
+    "desc": "The Shox Z has a slim low-profile shape and a new take on the iconic column design."
   },
   {
-    sku: 'NK-CTZ-WGO',
-    name: 'Classic Runner-Style Sneaker',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 999,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9, 10, 11],
-    isNew: false,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/nike-cortez/1.jpeg','/images/products/nike-cortez/2.jpeg','/images/products/nike-cortez/3.jpeg','/images/products/nike-cortez/4.jpeg'],
-    colorway: 'White / Green / Orange',
-    desc: 'Affordable fashion footwear in White / Green / Orange. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-003",
+    "name": "Nike P-6000",
+    "brand": "Nike",
+    "price": 3299,
+    "strike": 3899,
+    "cats": [
+      "Lifestyle"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-003/1.webp",
+      "/images/products/LL-003/2.webp",
+      "/images/products/LL-003/3.webp",
+      "/images/products/LL-003/4.webp"
+    ],
+    "colorway": "Anthracite / Black / High Voltage",
+    "desc": "Nike P6000 bringing you a mash-up of iconic style that's breathable, comfortable and evocative of that early-2000s vibe."
   },
   {
-    sku: 'NB-1906R-BS',
-    name: 'Retro Runner-Style Sneaker — Silver',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1699,
-    strike: 0,
-    cats: ['Running','Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/nb-1906r/1.jpeg','/images/products/nb-1906r/2.jpeg','/images/products/nb-1906r/3.jpeg'],
-    colorway: 'Black / Silver / Tan',
-    desc: 'Affordable fashion footwear in Black / Silver / Tan. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-005",
+    "name": "New Balance 1906U",
+    "brand": "New Balance",
+    "price": 3199,
+    "strike": 3899,
+    "cats": [
+      "Running"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-005/1.webp",
+      "/images/products/LL-005/2.webp",
+      "/images/products/LL-005/3.webp",
+      "/images/products/LL-005/4.webp",
+      "/images/products/LL-005/5.webp"
+    ],
+    "colorway": "Black Sea salt Magnet",
+    "desc": "A utility-focused variant of the 2000s-inspired New Balance 1906 running silhouette"
   },
   {
-    sku: 'AJ4-THDR-BY',
-    name: 'Basketball-Style Sneaker — Thunder',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1999,
-    strike: 0,
-    cats: ['Basketball'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/aj4-thunder/1.jpeg','/images/products/aj4-thunder/2.jpeg','/images/products/aj4-thunder/3.jpeg','/images/products/aj4-thunder/4.jpeg'],
-    colorway: 'Black / Tour Yellow',
-    desc: 'Affordable fashion footwear in Black / Tour Yellow. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-006",
+    "name": "New Balance 1906",
+    "brand": "New Balance",
+    "price": 3199,
+    "strike": 3899,
+    "cats": [
+      "Lifestyle"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-006/1.webp",
+      "/images/products/LL-006/2.webp",
+      "/images/products/LL-006/3.webp"
+    ],
+    "colorway": "Black / Taos Taupe / Magnet",
+    "desc": "ACTEVA LITE midsole, ABZORB SBS heel cushioning, and an N-ERGY outsole with Stability Web technology."
   },
   {
-    sku: 'OT-MX66-BP',
-    name: 'Retro Stripe Sneaker — Classic',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1299,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9],
-    isNew: false,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/onitsuka-mexico66/1.jpeg','/images/products/onitsuka-mexico66/2.jpeg','/images/products/onitsuka-mexico66/3.jpeg','/images/products/onitsuka-mexico66/4.jpeg'],
-    colorway: 'Birch / Peacoat',
-    desc: 'Affordable fashion footwear in Birch / Peacoat. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-007",
+    "name": "Adidas Samba OG",
+    "brand": "Adidas",
+    "price": 2399,
+    "strike": 3299,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-007/1.webp",
+      "/images/products/LL-007/2.webp",
+      "/images/products/LL-007/3.webp",
+      "/images/products/LL-007/4.webp",
+      "/images/products/LL-007/5.webp"
+    ],
+    "colorway": "Cloud White / Core Black / Clear Granite",
+    "desc": "Low-profile retro sneaker that originated as a 1949 indoor football trainer and evolved into a global streetwear icon"
   },
   {
-    sku: 'AJ4-RED-SDE',
-    name: 'Basketball-Style Sneaker — Red Suede',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1999,
-    strike: 0,
-    cats: ['Basketball'],
-    gender: ['Unisex'],
-    sizes: [8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/aj4-red-suede/1.jpeg','/images/products/aj4-red-suede/2.jpeg','/images/products/aj4-red-suede/3.jpeg'],
-    colorway: 'University Red Suede',
-    desc: 'Affordable fashion footwear in University Red Suede. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-008",
+    "name": "Adidas Samba OG",
+    "brand": "Adidas",
+    "price": 2299,
+    "strike": 3299,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-008/1.webp",
+      "/images/products/LL-008/2.webp",
+      "/images/products/LL-008/3.webp",
+      "/images/products/LL-008/4.webp"
+    ],
+    "colorway": "Core Black / Cloud White / Clear Granite",
+    "desc": "Low-profile retro sneaker that originated as a 1949 indoor football trainer and evolved into a global streetwear icon"
   },
   {
-    sku: 'AJ4-NVW-RD',
-    name: 'Basketball-Style Sneaker — Navy',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 2199,
-    strike: 0,
-    cats: ['Basketball'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/aj4-navy-white/1.jpeg','/images/products/aj4-navy-white/2.jpeg','/images/products/aj4-navy-white/3.jpeg','/images/products/aj4-navy-white/4.jpeg'],
-    colorway: 'Navy / White / Red / Gold',
-    desc: 'Affordable fashion footwear in Navy / White / Red / Gold. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-009",
+    "name": "Mexico 66",
+    "brand": "Onitsuka Tiger",
+    "price": 2699,
+    "strike": 3299,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-009/1.webp",
+      "/images/products/LL-009/2.webp",
+      "/images/products/LL-009/3.webp"
+    ],
+    "colorway": "Black / White",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
   },
   {
-    sku: 'AJ4-SB-PINE',
-    name: 'Basketball-Style Sneaker — Pine Green',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 2199,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/aj4-sb-pine/1.jpeg','/images/products/aj4-sb-pine/2.jpeg','/images/products/aj4-sb-pine/3.jpeg','/images/products/aj4-sb-pine/4.jpeg'],
-    colorway: 'White / Pine Green / Gum',
-    desc: 'Affordable fashion footwear in White / Pine Green / Gum. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
+    "sku": "LL-010",
+    "name": "Mexico 66",
+    "brand": "Onitsuka Tiger",
+    "price": 2699,
+    "strike": 3299,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-010/1.webp",
+      "/images/products/LL-010/2.webp",
+      "/images/products/LL-010/3.webp",
+      "/images/products/LL-010/4.webp"
+    ],
+    "colorway": "Black / Black",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-011",
+    "name": "Mexico 66",
+    "brand": "Onitsuka Tiger",
+    "price": 2699,
+    "strike": 3299,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-011/1.webp",
+      "/images/products/LL-011/2.webp",
+      "/images/products/LL-011/3.webp",
+      "/images/products/LL-011/4.webp"
+    ],
+    "colorway": "Beige / Grass Green",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-012",
+    "name": "Mexico 66",
+    "brand": "Onitsuka Tiger",
+    "price": 2699,
+    "strike": 3299,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-012/1.webp",
+      "/images/products/LL-012/2.webp",
+      "/images/products/LL-012/3.webp"
+    ],
+    "colorway": "White / Black",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-013",
+    "name": "Mexico 66",
+    "brand": "Onitsuka Tiger",
+    "price": 2699,
+    "strike": 3299,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      8,
+      9
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-013/1.webp",
+      "/images/products/LL-013/2.webp",
+      "/images/products/LL-013/3.webp"
+    ],
+    "colorway": "Yellow / Black",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-014",
+    "name": "Mexico 66",
+    "brand": "Onitsuka Tiger",
+    "price": 2699,
+    "strike": 3299,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-014/1.webp",
+      "/images/products/LL-014/2.webp",
+      "/images/products/LL-014/3.webp",
+      "/images/products/LL-014/4.webp"
+    ],
+    "colorway": "Cream / Piquant Orange",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-015",
+    "name": "Nike Air Force 1 '07",
+    "brand": "Nike",
+    "price": 2200,
+    "strike": 3699,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Men"
+    ],
+    "sizes": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-015/1.webp",
+      "/images/products/LL-015/2.webp",
+      "/images/products/LL-015/3.webp",
+      "/images/products/LL-015/4.webp"
+    ],
+    "colorway": "White",
+    "desc": "Comfortable, durable and timeless it's number 1 for a reason."
+  },
+  {
+    "sku": "LL-016",
+    "name": "Nike P-6000",
+    "brand": "Nike",
+    "price": 3299,
+    "strike": 3899,
+    "cats": [
+      "Lifestyle"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-016/1.webp",
+      "/images/products/LL-016/2.webp",
+      "/images/products/LL-016/3.webp",
+      "/images/products/LL-016/4.webp"
+    ],
+    "colorway": "White / Pink",
+    "desc": "Nike P-6000 features breathable mesh with horizontal and vertical overlays for a 2000s running look that is as striking as, say, a majestic winged horse."
+  },
+  {
+    "sku": "LL-017",
+    "name": "Nike P-6000",
+    "brand": "Nike",
+    "price": 3299,
+    "strike": 3899,
+    "cats": [
+      "Lifestyle"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-017/1.webp",
+      "/images/products/LL-017/2.webp",
+      "/images/products/LL-017/3.webp"
+    ],
+    "colorway": "Brown and Light Pink",
+    "desc": "Nike P-6000 features breathable mesh with horizontal and vertical overlays for a 2000s running look that is as striking as, say, a majestic winged horse."
+  },
+  {
+    "sku": "LL-018",
+    "name": "Mexico 66",
+    "brand": "Onitsuka Tiger",
+    "price": 2699,
+    "strike": 3499,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-018/1.webp",
+      "/images/products/LL-018/2.webp",
+      "/images/products/LL-018/3.webp"
+    ],
+    "colorway": "Yellow / Black",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-019",
+    "name": "Adidas Samba OG",
+    "brand": "Adidas",
+    "price": 2399,
+    "strike": 3199,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-019/1.webp",
+      "/images/products/LL-019/2.webp",
+      "/images/products/LL-019/3.webp"
+    ],
+    "colorway": "Cloud White / Core Black / Clear Granite",
+    "desc": "Low-profile retro sneaker that originated as a 1949 indoor football trainer and evolved into a global streetwear icon"
+  },
+  {
+    "sku": "LL-020",
+    "name": "Mexico 66",
+    "brand": "Onitsuka Tiger",
+    "price": 2799,
+    "strike": 3499,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-020/1.webp",
+      "/images/products/LL-020/2.webp",
+      "/images/products/LL-020/3.webp"
+    ],
+    "colorway": "Silver / Off White",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-021",
+    "name": "Mexico 66 TGRS",
+    "brand": "Onitsuka Tiger",
+    "price": 3099,
+    "strike": 3899,
+    "cats": [
+      "Classic"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-021/1.webp",
+      "/images/products/LL-021/2.webp",
+      "/images/products/LL-021/3.webp"
+    ],
+    "colorway": "Crystal Pink / Cream",
+    "desc": "MEXICO 66 heritage shoe by ONITSUKA TIGER showcases a retro '60s look with contemporary touches that bring it bang up to date."
+  },
+  {
+    "sku": "LL-024",
+    "name": "Madrid Big Buckle Nubuck",
+    "brand": "Birkenstock",
+    "price": 1199,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-024/1.webp",
+      "/images/products/LL-024/2.webp"
+    ],
+    "colorway": "Black",
+    "desc": "BIRKENSTOCK Madrid is a veritable classic that delights the world of fashion with its minimalist design."
+  },
+  {
+    "sku": "LL-025",
+    "name": "Mayari Brown Birko-Flor Nubuck",
+    "brand": "Birkenstock",
+    "price": 1199,
+    "strike": 1550,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-025/1.webp",
+      "/images/products/LL-025/2.webp"
+    ],
+    "colorway": "Brown / Stone",
+    "desc": "BIRKENSTOCK Mayari thong sandal is a jaunty model with a toe loop."
+  },
+  {
+    "sku": "LL-031",
+    "name": "Gizeh Essentials EVA Waterproof Sandals",
+    "brand": "Birkenstock",
+    "price": 1099,
+    "strike": 1599,
+    "cats": [
+      "Sandals"
+    ],
+    "gender": [
+      "Women"
+    ],
+    "sizes": [
+      3,
+      4,
+      5
+    ],
+    "isNew": true,
+    "onSale": true,
+    "inStock": true,
+    "images": [
+      "/images/products/LL-031/1.webp",
+      "/images/products/LL-031/2.webp"
+    ],
+    "colorway": "Pink / Pink Clay",
+    "desc": "Gizeh - a modern thong sandal from BIRKENSTOCK. This version made from ultra light and highly flexible EVA. These sandals are shock absorbing, waterproof, and skin-friendly."
   }
-,
-  {
-    sku: 'PM-MJ-SLV',
-    name: 'Mary Jane Flats, Silver',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1099,
-    strike: 0,
-    cats: ['Flats','Lifestyle'],
-    gender: ['Women'],
-    sizes: [4, 5, 6, 7, 8],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/puma-mj-silver/1.jpeg', '/images/products/puma-mj-silver/2.jpeg', '/images/products/puma-mj-silver/3.jpeg', '/images/products/puma-mj-silver/4.jpeg', '/images/products/puma-mj-silver/5.jpeg', '/images/products/puma-mj-silver/6.jpeg', '/images/products/puma-mj-silver/7.jpeg'],
-    colorway: 'Metallic Silver / White',
-    desc: 'Affordable fashion footwear in Metallic Silver / White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'RD-SDE-LOW',
-    name: 'Suede Low-Top Sneaker, Red',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1199,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/red-suede-low/1.jpeg', '/images/products/red-suede-low/2.jpeg'],
-    colorway: 'Red Suede / White',
-    desc: 'Affordable fashion footwear in Red Suede / White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'OT-MX66-CRM',
-    name: 'Retro Stripe Sneaker — Cream Brown',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1299,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9],
-    isNew: false,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/ot-mexico66-cream/1.jpeg', '/images/products/ot-mexico66-cream/2.jpeg', '/images/products/ot-mexico66-cream/3.jpeg'],
-    colorway: 'Cream / Brown',
-    desc: 'Affordable fashion footwear in Cream / Brown. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'AD-SMB-BRN',
-    name: 'Terrace-Style Sneaker — Brown',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1199,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9, 10],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/adidas-samba-brown/1.jpeg', '/images/products/adidas-samba-brown/2.jpeg', '/images/products/adidas-samba-brown/3.jpeg'],
-    colorway: 'White / Brown / Gum',
-    desc: 'Affordable fashion footwear in White / Brown / Gum. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'CHK-WHT-FUT',
-    name: 'Chunky Futuristic Sneaker, White Silver',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1599,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/chunky-white-future/1.jpeg', '/images/products/chunky-white-future/2.jpeg'],
-    colorway: 'White / Silver',
-    desc: 'Affordable fashion footwear in White / Silver. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'NB-CHK-BLK',
-    name: 'Chunky Lifestyle Sneaker — Black',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1699,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/nb-chunky-black/1.jpeg', '/images/products/nb-chunky-black/2.jpeg'],
-    colorway: 'Triple Black',
-    desc: 'Affordable fashion footwear in Triple Black. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'AD-SMB-RED',
-    name: 'Terrace-Style Sneaker — Red',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1199,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9, 10],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/adidas-samba-red/1.jpeg'],
-    colorway: 'Red / White',
-    desc: 'Affordable fashion footwear in Red / White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'OT-MX66-RED',
-    name: 'Retro Stripe Sneaker — Red White',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1299,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9],
-    isNew: false,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/ot-mexico66-red/1.jpeg', '/images/products/ot-mexico66-red/2.jpeg'],
-    colorway: 'Red / White',
-    desc: 'Affordable fashion footwear in Red / White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'NB-CHK-BLKGLD',
-    name: 'Chunky Lifestyle Sneaker — Black Gold',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1799,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/nb-chunky-blackgold/1.jpeg', '/images/products/nb-chunky-blackgold/2.jpeg', '/images/products/nb-chunky-blackgold/3.jpeg'],
-    colorway: 'Black / Gold',
-    desc: 'Affordable fashion footwear in Black / Gold. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'PM-RC-RED',
-    name: 'Racing Flat, Red White',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1099,
-    strike: 0,
-    cats: ['Flats','Lifestyle'],
-    gender: ['Women'],
-    sizes: [4, 5, 6, 7, 8],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/puma-racing-red/1.jpeg', '/images/products/puma-racing-red/2.jpeg', '/images/products/puma-racing-red/3.jpeg', '/images/products/puma-racing-red/4.jpeg'],
-    colorway: 'Red / White',
-    desc: 'Affordable fashion footwear in Red / White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'OT-MX66-BW',
-    name: 'Retro Stripe Sneaker — Black White',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1299,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9],
-    isNew: false,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/ot-mexico66-blackwhite/1.jpeg', '/images/products/ot-mexico66-blackwhite/2.jpeg', '/images/products/ot-mexico66-blackwhite/3.jpeg', '/images/products/ot-mexico66-blackwhite/4.jpeg'],
-    colorway: 'Black / White',
-    desc: 'Affordable fashion footwear in Black / White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'OT-MX66-YLW',
-    name: 'Retro Stripe Sneaker — Mustard',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1299,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/ot-mexico66-yellow/1.jpeg', '/images/products/ot-mexico66-yellow/2.jpeg', '/images/products/ot-mexico66-yellow/3.jpeg', '/images/products/ot-mexico66-yellow/4.jpeg'],
-    colorway: 'Mustard Yellow / Black',
-    desc: 'Affordable fashion footwear in Mustard Yellow / Black. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'AD-FRM-WHT',
-    name: 'Forum-Style High-Top Sneaker — White Black',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1599,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/adidas-forum-white/1.jpeg', '/images/products/adidas-forum-white/2.jpeg', '/images/products/adidas-forum-white/3.jpeg'],
-    colorway: 'White / Black',
-    desc: 'Affordable fashion footwear in White / Black. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'DSG-HI-BLK',
-    name: 'Designer High-Top Sneaker, Black',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1799,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/blackhi-designer/1.jpeg', '/images/products/blackhi-designer/2.jpeg'],
-    colorway: 'Black',
-    desc: 'Affordable fashion footwear in Black. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'AD-LOW-BLK',
-    name: 'Classic Low-Top Sneaker — Black',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1099,
-    strike: 0,
-    cats: ['Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: false,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/adidas-lowtop-black/1.jpeg', '/images/products/adidas-lowtop-black/2.jpeg'],
-    colorway: 'Triple Black',
-    desc: 'Affordable fashion footwear in Triple Black. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'AJ1-CRT-PPL',
-    name: 'High-Top Basketball-Style Sneaker — Purple',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1799,
-    strike: 0,
-    cats: ['Basketball'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/aj1-court-purple/1.jpeg', '/images/products/aj1-court-purple/2.jpeg'],
-    colorway: 'Court Purple / Black / White',
-    desc: 'Affordable fashion footwear in Court Purple / Black / White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'AJ1-HI-TS',
-    name: 'High-Top Basketball-Style Sneaker — Brown',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1999,
-    strike: 0,
-    cats: ['Basketball'],
-    gender: ['Unisex'],
-    sizes: [8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/aj1-high-travis/1.jpeg'],
-    colorway: 'Brown Suede / Grey',
-    desc: 'Affordable fashion footwear in Brown Suede / Grey. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'AJ1-HI-UNC',
-    name: 'High-Top Basketball-Style Sneaker — Blue',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1899,
-    strike: 0,
-    cats: ['Basketball'],
-    gender: ['Unisex'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/aj1-high-blue/1.jpeg', '/images/products/aj1-high-blue/2.jpeg'],
-    colorway: 'University Blue / White / Grey',
-    desc: 'Affordable fashion footwear in University Blue / White / Grey. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'JEL-BBL-RED',
-    name: 'Bubble Slip-On, Red',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 899,
-    strike: 0,
-    cats: ['Slip-Ons','Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9, 10],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/jelly-red/1.jpeg', '/images/products/jelly-red/2.jpeg', '/images/products/jelly-red/3.jpeg', '/images/products/jelly-red/4.jpeg'],
-    colorway: 'Red',
-    desc: 'Affordable fashion footwear in Red. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'JEL-BBL-WHT',
-    name: 'Bubble Slip-On, White',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 899,
-    strike: 0,
-    cats: ['Slip-Ons','Lifestyle'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9, 10],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/jelly-white/1.jpeg', '/images/products/jelly-white/2.jpeg', '/images/products/jelly-white/3.jpeg'],
-    colorway: 'White',
-    desc: 'Affordable fashion footwear in White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'SLD-RED',
-    name: 'Slide Sandal, Red White',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 799,
-    strike: 0,
-    cats: ['Sandals'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9, 10],
-    isNew: false,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/slide-red/1.jpeg'],
-    colorway: 'Red / White',
-    desc: 'Affordable fashion footwear in Red / White. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'SLD-WHT',
-    name: 'Slide Sandal, White Black',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 799,
-    strike: 0,
-    cats: ['Sandals'],
-    gender: ['Unisex'],
-    sizes: [6, 7, 8, 9, 10],
-    isNew: false,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/slide-white/1.jpeg'],
-    colorway: 'White / Black',
-    desc: 'Affordable fashion footwear in White / Black. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'AD-SMB-FLR',
-    name: 'Terrace-Style Sneaker — Floral',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1399,
-    strike: 0,
-    cats: ['Lifestyle','Classic'],
-    gender: ['Women'],
-    sizes: [5, 6, 7, 8, 9],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/adidas-samba-floral/1.jpeg', '/images/products/adidas-samba-floral/2.jpeg'],
-    colorway: 'Cream / Floral Print',
-    desc: 'Affordable fashion footwear in Cream / Floral Print. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'CHL-BT-BRN',
-    name: 'Chelsea Boot, Brown Leather',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1999,
-    strike: 0,
-    cats: ['Boots'],
-    gender: ['Men'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/chelsea-boot-brown/1.jpeg', '/images/products/chelsea-boot-brown/2.jpeg'],
-    colorway: 'Brown',
-    desc: 'Affordable fashion footwear in Brown. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'CHL-BT-BLK',
-    name: 'Chelsea Boot, Black Leather',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1999,
-    strike: 0,
-    cats: ['Boots'],
-    gender: ['Men'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/chelsea-boot-black/1.jpeg'],
-    colorway: 'Black',
-    desc: 'Affordable fashion footwear in Black. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'USP-BT-GRY',
-    name: 'Suede Casual Boot — Grey',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1699,
-    strike: 0,
-    cats: ['Boots'],
-    gender: ['Men'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/polo-boot-grey/1.jpeg'],
-    colorway: 'Grey Suede',
-    desc: 'Affordable fashion footwear in Grey Suede. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'USP-BT-BLK',
-    name: 'Suede Casual Boot — Black',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1699,
-    strike: 0,
-    cats: ['Boots'],
-    gender: ['Men'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/polo-boot-black/1.jpeg'],
-    colorway: 'Black Suede',
-    desc: 'Affordable fashion footwear in Black Suede. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'USP-BT-TAN',
-    name: 'Suede Casual Boot — Tan',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 1699,
-    strike: 0,
-    cats: ['Boots'],
-    gender: ['Men'],
-    sizes: [7, 8, 9, 10, 11],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/polo-boot-tan/1.jpeg'],
-    colorway: 'Tan Suede',
-    desc: 'Affordable fashion footwear in Tan Suede. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  },
-  {
-    sku: 'PAT-BT-BLK',
-    name: 'Patent Leather Ankle Boot, Black',
-    brand: 'Unbranded / Brand Not Verified',
-    price: 2199,
-    strike: 0,
-    cats: ['Boots'],
-    gender: ['Women'],
-    sizes: [5, 6, 7, 8, 9],
-    isNew: true,
-    onSale: false,
-    inStock: true,
-    images: ['/images/products/patent-boot-black/1.jpeg'],
-    colorway: 'Black Patent',
-    desc: 'Affordable fashion footwear in Black Patent. Style reference only; not represented as an original or officially affiliated branded product. Confirm materials, sizing and availability before ordering.'
-  }
-];
+]

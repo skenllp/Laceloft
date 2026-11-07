@@ -51,6 +51,7 @@ class Command(BaseCommand):
                 'strike': item.get('strike', 0),
                 'gender': (item.get('gender') or ['Unisex'])[0],
                 'sizes': item.get('sizes', []),
+                'stock': item.get('stock', {}),
                 'colorway': item.get('colorway', ''),
                 'desc': item.get('desc', ''),
                 'is_new': item.get('isNew', False),

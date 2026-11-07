@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 python manage.py migrate
 python manage.py createsuperuser  # your admin login
-python manage.py seed_products    # optional: load the 38 starter products
+python manage.py seed_products    # optional: load the product catalogue
 python manage.py runserver
 ```
 

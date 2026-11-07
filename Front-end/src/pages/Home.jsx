@@ -63,14 +63,14 @@ export default function Home() {
       {!productsLoading && categories.length > 0 && (
         <section className="page-pad mx-auto max-w-[1500px] py-20 md:py-28" aria-labelledby="fit-title">
           <SectionHead eyebrow="Find your style" title={<span id="fit-title">Every Step, Your Way.</span>} action={<ArrowLink to="/collections">All collections</ArrowLink>} />
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5">
+          <div className={`grid grid-cols-1 gap-3 sm:gap-5 ${categories.length === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-3'}`}>
             {categories.map((c, i) => (
               <Reveal key={c.id} delay={i * 60}>
                 <Link to={`/shop?group=${c.id}`} className="on-dark group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-4xl bg-sand/70 p-5 no-underline transition-colors duration-500 hover:bg-sand sm:p-6">
                   <div className="absolute inset-0 overflow-hidden">
                     <ProductImage src={thumbAt(c.cover, 0)} alt="" loading="lazy" frame={0.8} className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
                   </div>
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-espresso/90 via-espresso/50 to-transparent" aria-hidden="true" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-espresso/90 via-espresso/40 to-transparent" aria-hidden="true" />
                   <div className="relative flex items-end justify-between gap-3">
                     <div>
                       <h3 className="font-display text-2xl leading-tight text-ivory">{c.label}</h3>
@@ -107,7 +107,7 @@ export default function Home() {
           <p className="label-eyebrow mb-5">Our story</p>
           <h2 id="about-title" className="font-display text-[clamp(2.4rem,6vw,4.4rem)] leading-none text-espresso [text-wrap:balance]">Good Shoes. Great Rotation.</h2>
           <p className="mx-auto mt-7 max-w-xl text-[16px] leading-relaxed text-muted">
-            The right pair can change how an outfit feels. Laceloft brings together sneakers, boots and everyday footwear for people who like to express themselves through what they wear.
+            The right pair can change how an outfit feels. Laceloft brings together sneakers, sandals and everyday footwear for people who like to express themselves through what they wear.
           </p>
           <Link to="/about" className="mt-8 inline-block text-[12px] font-semibold uppercase tracking-[0.16em] text-espresso no-underline underline-offset-[6px] hover:underline">Read our story ↗</Link>
         </Reveal>

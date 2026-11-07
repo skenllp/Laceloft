@@ -340,3 +340,31 @@ class StaffGroupTests(TestCase):
         self.assertIn('Products: edit', page)
         self.assertIn('What is a group?', page)
         self.assertNotIn('access attempt', page)
+
+
+class RealCatalogueTests(TempMediaMixin, TestCase):
+    def seed(self):
+        call_command('seed_products', stdout=open('nul' if __import__('os').name == 'nt' else '/dev/null', 'w'))
+
+    def test_stock_per_size_is_loaded(self):
+        self.seed()
+        item = APIClient().get('/api/products/LL-001/').json()
+        self.assertEqual(item['name'], 'Nike Shox R4')
+        self.assertEqual(item['price'], 3199)
+        self.assertEqual(item['sizesInStock'], [7, 8])
+        self.assertTrue(item['inStock'])
+        self.assertTrue(item['images'])
+
+    def test_every_selling_price_is_below_its_original_price(self):
+        self.seed()
+        for p in Product.objects.all():
+            self.assertLess(p.price, p.strike, p.sku)
+
+    def test_old_catalogue_removal_spares_other_products(self):
+        from importlib import import_module
+        from django.apps import apps
+        migration = import_module('shop.migrations.0012_remove_old_catalogue')
+        Product.objects.create(sku='AD-SMB-BRN', name='Old', brand='B', price=1)
+        Product.objects.create(sku='ADMIN-ADDED', name='Kept', brand='B', price=1)
+        migration.remove_old_products(apps, None)
+        self.assertEqual(list(Product.objects.values_list('sku', flat=True)), ['ADMIN-ADDED'])

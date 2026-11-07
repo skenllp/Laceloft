@@ -37,7 +37,7 @@ export default function Product() {
   const swiped = useRef(false)
   const [lightbox, setLightbox] = useState(false)
 
-  usePageMeta(p?.name, p ? `${p.name} at Laceloft — ${fmtPrice(p.price)}. Enquire and order directly through WhatsApp.` : undefined)
+  usePageMeta(p ? `${p.name}${p.colorway ? ` — ${p.colorway}` : ''}` : undefined, p ? `${p.name} at Laceloft — ${fmtPrice(p.price)}. Enquire and order directly through WhatsApp.` : undefined)
 
   useEffect(() => {
     let alive = true
@@ -86,7 +86,7 @@ export default function Product() {
 
   if (loading) return (
     <div className="page-pad mx-auto grid max-w-[1500px] animate-pulse gap-10 pb-16 pt-16 lg:grid-cols-[1.15fr_1fr] lg:gap-16" aria-busy="true" aria-label="Loading product">
-      <div className="aspect-square rounded-5xl bg-sand/60" />
+      <div className="aspect-[4/5] rounded-5xl bg-sand/60" />
       <div className="space-y-5 lg:pt-4">
         <div className="h-3 w-32 rounded-full bg-sand/80" />
         <div className="h-12 w-4/5 rounded-2xl bg-sand/80" />
@@ -156,7 +156,7 @@ export default function Product() {
             aria-label="Open photos full screen"
             onClick={() => { if (swiped.current) { swiped.current = false; return } if (images[0]) setLightbox(true) }}
             onKeyDown={(e) => { if (e.key === 'Enter' && images[0]) setLightbox(true) }}
-            className="group relative mb-3 aspect-square cursor-zoom-in overflow-hidden rounded-5xl bg-sand/60"
+            className="group relative mb-3 aspect-[4/5] cursor-zoom-in overflow-hidden rounded-5xl bg-sand/60"
             onPointerMove={onZoomMove}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
@@ -167,7 +167,7 @@ export default function Product() {
               src={images[imgIdx]}
               alt={`${p.name} — view ${imgIdx + 1}`}
               fetchpriority="high"
-              frame={1}
+              frame={0.8}
               style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.35)' } : undefined}
               className="h-full w-full transition-transform duration-200 ease-out"
             />
@@ -195,7 +195,7 @@ export default function Product() {
                   aria-current={i === imgIdx}
                   className={`h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-sand/60 p-1.5 transition ${i === imgIdx ? 'outline outline-2 outline-olive' : 'opacity-80 hover:opacity-100'}`}
                 >
-                  <ProductImage src={thumbAt(p, i) || src} alt="" loading="lazy" className="h-full w-full object-contain mix-blend-multiply" placeholderClass="w-full" />
+                  <ProductImage src={thumbAt(p, i) || src} alt="" loading="lazy" className="h-full w-full object-cover" placeholderClass="w-full" />
                 </button>
               ))}
             </div>

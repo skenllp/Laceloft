@@ -185,12 +185,12 @@ export default function HeroCarousel({ slides }) {
         {/* LEFT: eyebrow, headline, copy, CTA, progress */}
         <div className="contents lg:col-start-1 lg:row-start-1 lg:flex lg:flex-col lg:justify-between lg:self-stretch lg:pt-4">
           <div className="order-1 lg:order-none">
-            <p data-intro className="label-eyebrow mb-4 text-espresso/70">Sneakers · Boots · Everyday</p>
+            <p data-intro className="label-eyebrow mb-4 text-espresso/70">Sneakers · Sandals · Everyday</p>
             <h1 data-intro className="font-display text-[clamp(3rem,9vw,4.5rem)] leading-[0.95] text-espresso lg:text-[clamp(3.2rem,4.5vw,5.6rem)]">
               Find Your<br />Next Sole.
             </h1>
             <p data-intro className="mt-6 hidden max-w-[300px] text-[15px] leading-relaxed text-espresso/75 lg:block">
-              Pairs chosen to suit your style, from clean everyday sneakers to confident boots. Find the one that feels like you.
+              Pairs chosen to suit your style, from standout sneakers to easygoing sandals. Find the one that feels like you.
             </p>
           </div>
 

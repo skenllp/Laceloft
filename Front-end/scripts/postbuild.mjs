@@ -46,7 +46,7 @@ function setMeta(html, attr, key, value) {
 
 function productPage(template, p) {
   const url = `${SITE_URL}/product/${encodeURIComponent(p.sku)}/`
-  const title = `${p.name} | Laceloft`
+  const title = `${p.name}${p.colorway ? ` — ${p.colorway}` : ''} | Laceloft`
   const full = p.desc || `${p.name} at Laceloft. Enquire and order directly on WhatsApp.`
   const desc = full.length <= 200 ? full : full.slice(0, 200).replace(/\s+\S*$/, '') + '…'
   let html = template.replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
