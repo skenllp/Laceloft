@@ -218,7 +218,7 @@ export default function Layout() {
                 <a href={DEVELOPER_URL} target="_blank" rel="noopener noreferrer" className="text-ivory/80 underline underline-offset-4 hover:text-white">{DEVELOPER_NAME}</a>
               </span>
             </div>
-            <span className="font-display text-2xl leading-none text-ivory sm:text-3xl">Find Your Next Sole.</span>
+            <span className="font-display text-2xl leading-none text-ivory sm:mr-16 sm:text-3xl">Find Your Next Sole.</span>
           </div>
         </div>
       </footer>
