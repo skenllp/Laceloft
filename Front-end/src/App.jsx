@@ -9,6 +9,7 @@ import Contact from './pages/Contact'
 import About from './pages/About'
 import NewArrivals from './pages/NewArrivals'
 import Collections from './pages/Collections'
+import Policy from './pages/Policy'
 import NotFound from './pages/NotFound'
 
 export default function App() {
@@ -24,6 +25,9 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/new-arrivals" element={<NewArrivals />} />
         <Route path="/collections" element={<Collections />} />
+        <Route path="/shipping" element={<Policy slug="shipping" />} />
+        <Route path="/exchange" element={<Policy slug="exchange" />} />
+        <Route path="/privacy" element={<Policy slug="privacy" />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

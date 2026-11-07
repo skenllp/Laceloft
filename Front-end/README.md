@@ -1,6 +1,6 @@
-# Laceloft — premium sneaker storefront
+# Laceloft — footwear storefront
 
-Redesigned from the original ELEVEN project. **Django + DRF backend is unchanged** (models, migrations, API contract); the React/Vite/Tailwind storefront in `Front-end/` is fully re-skinned as Laceloft.
+Redesigned from the original ELEVEN project. The API is a Django + DRF backend in `Back-end/`; the React/Vite/Tailwind storefront in `Front-end/` is fully re-skinned as Laceloft.
 
 ## Run locally
 ```bash

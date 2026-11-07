@@ -5,6 +5,7 @@ import { whatsappChatLink } from '../lib/whatsapp'
 import { WHATSAPP_DISPLAY, DEVELOPER_NAME, DEVELOPER_URL } from '../lib/config'
 import Logo from './Logo'
 import { useTheme } from '../lib/theme'
+import ErrorBoundary from './ErrorBoundary'
 
 const NAV_LINKS = [
   { to: '/', label: 'Home', end: true },
@@ -45,6 +46,8 @@ export default function Layout() {
   const { toast, wishlist, catalogSource } = useShop()
   const { pathname } = useLocation()
   const [theme, toggleTheme] = useTheme()
+  const routeKey = pathname.replace(/\/$/, '') || '/'
+  const isProduct = pathname.startsWith('/product/')
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
@@ -170,13 +173,16 @@ export default function Layout() {
             Catalogue preview: live prices and stock could not be checked. Please confirm details on WhatsApp before ordering.
           </div>
         )}
-        <Outlet />
+        {/* Keyed by page: a soft fade between pages, and a crash stays on its own page */}
+        <ErrorBoundary key={routeKey}>
+          <div className="page-fade"><Outlet /></div>
+        </ErrorBoundary>
       </main>
 
       <footer className="on-dark mt-10 rounded-t-5xl bg-espresso text-ivory">
-        <div className="page-pad mx-auto max-w-[1500px] pb-8 pt-16">
-          <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
-            <div>
+        <div className={`page-pad mx-auto max-w-[1500px] pt-16 ${isProduct ? 'pb-28 lg:pb-8' : 'pb-8'}`}>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+            <div className="col-span-2 md:col-span-4 lg:col-span-1">
               <Logo tone="light" className="mb-5 h-9 w-auto" />
               <p className="max-w-[300px] text-sm leading-relaxed text-ivory/70">
                 Your next favourite pair is a step away. Explore sneakers, sandals and everyday footwear at Laceloft.
@@ -192,6 +198,11 @@ export default function Layout() {
               <FooterLink to="/about">About</FooterLink>
               <FooterLink to="/contact">Contact</FooterLink>
               <FooterLink to="/search">Search</FooterLink>
+            </FooterCol>
+            <FooterCol title="Help">
+              <FooterLink to="/shipping">Shipping Information</FooterLink>
+              <FooterLink to="/exchange">Exchange Policy</FooterLink>
+              <FooterLink to="/privacy">Privacy Policy</FooterLink>
             </FooterCol>
             <FooterCol title="Enquire">
               <a href={whatsappChatLink()} target="_blank" rel="noopener noreferrer" className="block py-2.5 text-sm text-ivory/80 no-underline hover:text-white md:mb-1 md:py-1">WhatsApp</a>
@@ -214,7 +225,7 @@ export default function Layout() {
 
       {/* Floating WhatsApp shortcut. Hidden on product pages, which have
           their own order button (and a sticky order bar on mobile). */}
-      {!pathname.startsWith('/product/') && (
+      {!isProduct && (
         <a
           href={whatsappChatLink("Hi Laceloft, I'd like some help choosing a pair.")}
           target="_blank"

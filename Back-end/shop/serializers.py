@@ -21,7 +21,8 @@ class ProductSerializer(serializers.ModelSerializer):
     # or the original photo where no thumb exists yet.
     thumbs = serializers.SerializerMethodField()
     isNew = serializers.BooleanField(source='is_new')
-    onSale = serializers.BooleanField(source='on_sale')
+    # Worked out from the prices, so a Sale badge can't disagree with them.
+    onSale = serializers.SerializerMethodField()
     createdAt = serializers.DateTimeField(source='created_at', read_only=True)
     # True only if the manual override is on AND at least one size actually
     # has stock left — so this flips to false automatically once the last
@@ -49,6 +50,9 @@ class ProductSerializer(serializers.ModelSerializer):
         # .all() (not values_list) so this uses the view's prefetch instead
         # of running one extra query per product.
         return [c.name for c in obj.categories.all()]
+
+    def get_onSale(self, obj):
+        return obj.strike > obj.price
 
     def get_gender(self, obj):
         return [obj.gender]

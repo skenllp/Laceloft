@@ -3,7 +3,7 @@ import { usePageMeta } from '../hooks/usePageMeta'
 import { SneakerPlaceholder } from '../components/ProductImage'
 
 export default function NotFound() {
-  usePageMeta('Page not found')
+  usePageMeta('Page not found', undefined, { noindex: true })
   return (
     <div className="page-pad mx-auto max-w-xl py-24 text-center">
       <SneakerPlaceholder className="mx-auto mb-8 w-56 opacity-80" />

@@ -38,7 +38,7 @@ export default function Contact() {
           <WhatsAppIcon width="30" height="30" className="mb-6 text-olive-deep" />
           <h2 className="font-display text-3xl leading-tight">Chat on WhatsApp</h2>
           <p className="mb-8 mt-3 text-[15px] leading-relaxed text-muted">{WHATSAPP_DISPLAY}</p>
-          <a href={whatsappChatLink()} target="_blank" rel="noopener noreferrer" className="btn-primary no-underline">Chat on WhatsApp <span aria-hidden="true">↗</span></a>
+          <a href={whatsappChatLink()} target="_blank" rel="noopener noreferrer" className="btn-primary no-underline">Chat on WhatsApp</a>
         </div>
 
         <form onSubmit={submit} className="rounded-[2rem] border border-hairline bg-surface p-8 sm:p-10 md:rounded-5xl">
@@ -58,7 +58,7 @@ export default function Contact() {
               <label htmlFor="c-msg" className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Message</label>
               <textarea id="c-msg" required rows={5} value={form.message} onChange={set('message')} className="input-field !rounded-3xl" />
             </div>
-            <button type="submit" className="btn-primary w-full sm:w-auto sm:self-start">Continue on WhatsApp <span aria-hidden="true">↗</span></button>
+            <button type="submit" className="btn-primary w-full sm:w-auto sm:self-start">Continue on WhatsApp</button>
             {opened && <p className="text-[13px] text-muted" role="status">WhatsApp should have opened with your message ready — press send there to reach Laceloft.</p>}
           </div>
         </form>

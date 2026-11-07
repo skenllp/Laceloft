@@ -22,11 +22,11 @@
   --accent: #d4a574;
   --primary-fg: #fff;
   --header-bg: #0b0b0b;
-  --header-color: #d4a574;
-  --header-branding-color: #d4a574;
+  --header-color: var(--accent);
+  --header-branding-color: var(--accent);
   --header-link-color: #f4f0e8;
   --breadcrumbs-bg: #1c1916;
-  --breadcrumbs-fg: #d4a574;
+  --breadcrumbs-fg: var(--accent);
   --breadcrumbs-link-fg: #f4f0e8;
   --object-tools-bg: #2a2622;
   --object-tools-hover-bg: #8a6a45;
@@ -40,7 +40,7 @@
 /* ======================= Help panels ======================= */
 .lf-guide, .lf-help {
   margin: 0 0 20px; padding: 16px 18px; border: 1px solid var(--hairline-color, #ddd);
-  border-left: 4px solid #d4a574; border-radius: 10px; background: var(--darkened-bg, #f8f8f8);
+  border-left: 4px solid var(--accent); border-radius: 10px; background: var(--darkened-bg, #f8f8f8);
   line-height: 1.55; color: var(--body-fg);
 }
 .lf-guide h2 { margin: 0 0 6px; font-size: 1.3rem; color: var(--body-fg); }
@@ -112,7 +112,6 @@ fieldset .description { font-size: 0.9375rem; color: var(--body-quiet-color, #66
   #result_list .field-sku::before { content: "Code"; }
   #result_list .field-price::before { content: "Price (₹)"; }
   #result_list .field-is_new::before { content: "Show New badge"; }
-  #result_list .field-on_sale::before { content: "On sale"; }
   #result_list .field-in_stock::before { content: "Available"; }
   #result_list .field-stock_summary::before { content: "Stock"; }
   #result_list th.field-name, #result_list td.field-name { font-size: 1.0625rem; font-weight: 600; }

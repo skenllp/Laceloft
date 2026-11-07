@@ -185,7 +185,7 @@ export default function HeroCarousel({ slides }) {
         {/* LEFT: eyebrow, headline, copy, CTA, progress */}
         <div className="contents lg:col-start-1 lg:row-start-1 lg:flex lg:flex-col lg:justify-between lg:self-stretch lg:pt-4">
           <div className="order-1 lg:order-none">
-            <p data-intro className="label-eyebrow mb-4 text-espresso/70">Sneakers · Sandals · Everyday</p>
+            <p data-intro className="label-eyebrow mb-4 text-espresso/70">Sneakers, sandals and more</p>
             <h1 data-intro className="font-display text-[clamp(3rem,9vw,4.5rem)] leading-[0.95] text-espresso lg:text-[clamp(3.2rem,4.5vw,5.6rem)]">
               Find Your<br />Next Sole.
             </h1>
@@ -197,7 +197,7 @@ export default function HeroCarousel({ slides }) {
           <div className="order-4 lg:order-none">
             <div data-intro className="flex flex-col gap-3 sm:flex-row">
               <Link to="/shop" className="btn-primary w-full whitespace-nowrap no-underline sm:w-auto">
-                Explore Footwear <span aria-hidden="true">↗</span>
+                Explore Footwear
               </Link>
               {cur && (
                 <Link to={productPath(cur.sku)} className="btn-outline w-full whitespace-nowrap no-underline sm:w-auto">

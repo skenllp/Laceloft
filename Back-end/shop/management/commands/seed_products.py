@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+from django.contrib.admin.models import DELETION, LogEntry
+from django.contrib.contenttypes.models import ContentType
 from django.core.files import File
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
@@ -41,9 +43,18 @@ class Command(BaseCommand):
             self.stdout.write('Cleared existing products.')
 
         data = json.loads(PRODUCTS_JSON.read_text(encoding='utf-8'))
-        created = updated = repaired = 0
+        created = updated = repaired = skipped = 0
+        # A product someone deleted in /admin/ stays deleted: the admin's own
+        # log records it, and this runs on every deploy.
+        removed = set(LogEntry.objects.filter(
+            content_type=ContentType.objects.get_for_model(Product), action_flag=DELETION,
+        ).values_list('object_id', flat=True))
+        existing = set(Product.objects.values_list('sku', flat=True))
 
         for item in data:
+            if item['sku'] in removed and item['sku'] not in existing:
+                skipped += 1
+                continue
             fields = {
                 'name': item['name'],
                 'brand': item['brand'],
@@ -86,7 +97,8 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(
             f'Done. {created} created, {updated} updated, {repaired} had missing photos restored, '
-            f'{len(data) - created - updated} existing products left as they are.'
+            f'{len(data) - created - updated - skipped} existing products left as they are, '
+            f'{skipped} deleted in the admin and not restored.'
         ))
 
     def write_seed_images(self, sku, rel_paths):

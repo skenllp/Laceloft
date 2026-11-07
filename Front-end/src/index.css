@@ -108,6 +108,15 @@ img { max-width: 100%; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
+/* A soft fade between pages (opacity only, so nothing moves or delays shopping). */
+.page-fade { animation: page-in .22s ease-out; }
+@keyframes page-in { from { opacity: 0; } }
+
+/* Phone filter drawer. */
+.drawer-in { animation: drawer-in .24s ease-out; }
+.drawer-fade { animation: page-in .24s ease-out; }
+@keyframes drawer-in { from { transform: translateX(100%); } }
+
 /* Photos fade in as they arrive, over a soft shimmer, instead of popping in. */
 .img-loading { opacity: 0; }
 .img-ready { animation: img-in .55s ease both; }

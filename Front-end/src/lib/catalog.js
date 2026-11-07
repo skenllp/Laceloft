@@ -1,6 +1,8 @@
 /* Small helpers that derive homepage/shop data from the live catalogue,
    so nothing on the storefront is hardcoded or invented. */
 
+import { HERO_ASSETS } from '../data/heroAssets'
+
 export const hasImage = (p) => Array.isArray(p.images) && p.images.length > 0 && !!p.images[0]
 
 /** Grid-size photo i (small WebP from the API), falling back to the full
@@ -11,9 +13,15 @@ export const thumbAt = (p, i = 0) => (p?.thumbs && p.thumbs[i]) || (p?.images &&
  *  Picked by measuring each photo's background and then checked by eye;
  *  used to choose homepage/category imagery so handheld or cluttered
  *  photos stay on the product pages. Unknown SKUs simply rank lower. */
-export const STUDIO_SKUS = [
-  'LL-001', 'LL-002', 'LL-008', 'LL-013', 'LL-005', 'LL-006', 'LL-014', 'LL-020', 'LL-024', 'LL-025', 'LL-031',
-]
+export const FEATURED_HERO_SKUS = Object.keys(HERO_ASSETS)
+const ABOUT_SKUS = ['LL-014', 'LL-020']
+export const STUDIO_SKUS = [...FEATURED_HERO_SKUS, 'LL-005', 'LL-006', ...ABOUT_SKUS, 'LL-024', 'LL-025', 'LL-031']
+
+/** Newest first, by the date the product was really added. */
+export const byNewest = (a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || ''))
+
+/** Whole-number discount, from the real selling and original prices. */
+export const salePercent = (p) => (p.strike > p.price ? Math.round(((p.strike - p.price) / p.strike) * 100) : 0)
 
 /** Lower is better: studio photos first, then any photo, then none. */
 export const photoRank = (p) => {
@@ -70,9 +78,13 @@ export const CATEGORY_GROUPS = {
   },
 }
 
-/** Best-photographed product not already shown, for feature banners. */
-export const pickFeatured = (products, exclude = new Set()) =>
-  [...products].filter((p) => hasImage(p) && !exclude.has(p.sku)).sort((a, b) => photoRank(a) - photoRank(b))[0]
+/** Two photographed products for the brand story; other pairs if these are gone. */
+export function pickEditorialProducts(products) {
+  const pool = products.filter(hasImage)
+  const chosen = ABOUT_SKUS.map((sku) => pool.find((p) => p.sku === sku)).filter(Boolean)
+  const rest = pool.filter((p) => !chosen.includes(p) && !FEATURED_HERO_SKUS.includes(p.sku))
+  return [...chosen, ...rest].slice(0, 2)
+}
 
 /** Seed descriptions end with a legal note ("Style reference only; ...").
  *  Split it off so the page can lead with the description and show the
@@ -83,12 +95,8 @@ export function splitDescription(desc = '') {
   return { body: desc.slice(0, i).trim(), note: desc.slice(i).trim() }
 }
 
-/** Featured products curated from the existing Laceloft catalogue.
- *  Choose clean-background sneaker photography first; if a SKU is absent,
- *  fill with other photographed catalogue products without inventing listings.
- */
-export const FEATURED_HERO_SKUS = ['LL-001', 'LL-002', 'LL-008', 'LL-013']
-
+/** Hero pairs are the ones with cutouts in heroAssets.js; if a SKU is absent,
+ *  fill with other photographed catalogue products without inventing listings. */
 export function pickHeroProducts(products, count = 4) {
   const pool = products.filter(hasImage)
   const picked = FEATURED_HERO_SKUS

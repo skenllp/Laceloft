@@ -40,6 +40,12 @@ never pile up duplicates.
 - `--update` overwrites existing seed products' details and photos with `products.json`.
 - `--clear` deletes all products first. Never use it on live data.
 
+Products deleted in `/admin/` are not restored by seeding (the admin's log records the deletion).
+
+## Admin login lockout
+
+`django-axes` locks a username for 30 minutes after 5 failed logins. Each deploy clears lockouts (`build.sh`), so redeploying unlocks an account straight away.
+
 ## Tests
 
 ```bash

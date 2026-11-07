@@ -13,7 +13,7 @@ export function whatsappChatLink(text) {
   return text ? `${base}?text=${encodeURIComponent(text)}` : base
 }
 
-/** Prefilled order message for a product (size / colour / quantity). */
+/** Prefilled enquiry message for a product (size / colour / quantity). */
 export function buildWhatsAppLink(product, { size, color, quantity = 1 } = {}) {
   const colour = color || product.colorway
   const productUrl =
@@ -21,7 +21,7 @@ export function buildWhatsAppLink(product, { size, color, quantity = 1 } = {}) {
       ? window.location.origin + productPath(product.sku)
       : ''
   const lines = [
-    "Hi Laceloft, I'd like to place an order.",
+    "Hi Laceloft, I'd like to enquire about this pair.",
     '',
     `Product: ${product.name}`,
     size ? `Size: ${size}` : null,

@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
-import { getCategories, inStockSizes, brandLabel, CATEGORY_GROUPS } from '../lib/catalog'
+import { getCategories, inStockSizes, brandLabel, byNewest, CATEGORY_GROUPS } from '../lib/catalog'
 import { usePageMeta } from '../hooks/usePageMeta'
 import ProductGridSkeleton from '../components/ProductGridSkeleton'
 import ProductCard from '../components/ProductCard'
@@ -22,7 +22,7 @@ const FOR_OPTIONS = [
 ]
 const SORTS = {
   featured: { label: 'Featured' },
-  newest: { label: 'Newest first', fn: (a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0) },
+  newest: { label: 'Newest first', fn: byNewest },
   'price-asc': { label: 'Price: low to high', fn: (a, b) => a.price - b.price },
   'price-desc': { label: 'Price: high to low', fn: (a, b) => b.price - a.price },
 }
@@ -44,16 +44,21 @@ export default function Shop() {
   const [params, setParams] = useSearchParams()
   const [visible, setVisible] = useState(PAGE_SIZE)
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const openButton = useRef(null)
+  const drawer = useRef(null)
 
   const cat = params.get('cat') || 'All'
-  const group = CATEGORY_GROUPS[params.get('group')]
+  // Values come from the address bar, so only trust the ones we defined.
+  const groupId = params.get('group')
+  const group = groupId && Object.hasOwn(CATEGORY_GROUPS, groupId) ? CATEGORY_GROUPS[groupId] : null
   const q = params.get('q') || ''
-  const sort = SORTS[params.get('sort')] ? params.get('sort') : 'featured'
-  const band = params.get('price') || ''
+  const sort = Object.hasOwn(SORTS, params.get('sort') || '') ? params.get('sort') : 'featured'
+  const priceBand = PRICE_BANDS.find((b) => b.id === params.get('price'))
+  const band = priceBand?.id || ''
   const size = params.get('size') || ''
   const forWho = FOR_OPTIONS.find((o) => o.id === params.get('for'))
 
-  usePageMeta(group ? group.label : cat === 'All' ? 'Shop' : cat, 'Browse the Laceloft collection of sneakers and everyday footwear.')
+  usePageMeta(group ? group.label : cat === 'All' ? 'Shop' : cat, 'Browse the Laceloft collection of sneakers, sandals and everyday footwear.')
 
   const setParam = (key, value) => {
     const next = new URLSearchParams(params)
@@ -76,7 +81,7 @@ export default function Shop() {
       if (group && !group.test(p)) return false
       if (cat !== 'All' && !(p.cats || []).includes(cat)) return false
       if (forWho && !(p.gender || ['Unisex']).some((g) => forWho.fits.includes(g))) return false
-      if (band && !PRICE_BANDS.find((b) => b.id === band)?.test(p.price)) return false
+      if (priceBand && !priceBand.test(p.price)) return false
       if (size && !inStockSizes(p).map(String).includes(size)) return false
       if (term && ![p.name, brandLabel(p.brand), p.colorway, ...(p.cats || [])].filter(Boolean).some((s) => s.toLowerCase().includes(term))) return false
       return true
@@ -84,16 +89,51 @@ export default function Shop() {
     const fn = SORTS[sort].fn
     if (fn) arr = [...arr].sort(fn)
     return arr
-  }, [products, cat, group, q, band, size, sort, forWho])
+  }, [products, cat, group, q, priceBand, size, sort, forWho])
 
   // Said once here instead of as a badge on every card.
   const unconfirmed = !productsLoading && filtered.some((p) => p.inStock !== false && p.stockTracked !== true)
 
-  const activeFilters = [band, size, q, forWho, group].filter(Boolean).length + (cat !== 'All' ? 1 : 0)
+  const active = [
+    forWho && { key: 'for', label: `For ${forWho.label.toLowerCase()}` },
+    group && { key: 'group', label: group.label },
+    cat !== 'All' && { key: 'cat', label: cat },
+    priceBand && { key: 'price', label: priceBand.label },
+    size && { key: 'size', label: `UK ${size}` },
+    q && { key: 'q', label: `"${q}"` },
+  ].filter(Boolean)
   const clearAll = () => { setParams({}, { replace: true }); setVisible(PAGE_SIZE) }
 
-  const filters = (
+  // Phone filter drawer: lock the page behind it, close on Esc, keep Tab inside.
+  useEffect(() => {
+    if (!filtersOpen) return undefined
+    const button = openButton.current
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    drawer.current?.querySelector('button')?.focus()
+    const onKey = (e) => {
+      if (e.key === 'Escape') setFiltersOpen(false)
+      if (e.key !== 'Tab') return
+      const items = drawer.current?.querySelectorAll('button, input')
+      if (!items?.length) return
+      const first = items[0], last = items[items.length - 1]
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+      if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = previous
+      button?.focus()
+    }
+  }, [filtersOpen])
+
+  const filters = (idPrefix) => (
     <>
+      <div className="mb-7">
+        <label htmlFor={`${idPrefix}-q`} className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Search</label>
+        <input id={`${idPrefix}-q`} type="search" value={q} onChange={(e) => setParam('q', e.target.value)} placeholder="Name, brand, colour…" className="input-field" />
+      </div>
       <FilterBlock title="For">
         <Chip on={!forWho} onClick={() => setParam('for', '')}>Everyone</Chip>
         {FOR_OPTIONS.map((o) => <Chip key={o.id} on={forWho?.id === o.id} onClick={() => setParam('for', forWho?.id === o.id ? '' : o.id)}>{o.label}</Chip>)}
@@ -119,46 +159,47 @@ export default function Shop() {
 
   return (
     <>
-      <PageHeader eyebrow="The collection" title={group ? `${group.label}.` : cat === 'All' ? 'The full collection.' : `${cat}.`} crumbs={[{ label: 'Home', to: '/' }, { label: 'Shop' }]}>
-        Sneakers, sandals and more — filter by category, price and size.
-      </PageHeader>
+      <PageHeader title={group ? `${group.label}.` : cat === 'All' ? 'The full collection.' : `${cat}.`} crumbs={[{ label: 'Home', to: '/' }, { label: 'Shop' }]} compact />
 
       <div className="page-pad mx-auto max-w-[1500px] pb-10 lg:grid lg:grid-cols-[250px_1fr] lg:gap-12">
-        {/* Filters: sidebar on desktop, collapsible on mobile */}
-        <aside aria-label="Filters" className="lg:sticky lg:top-24 lg:self-start">
-          <button
-            type="button"
-            className="btn-outline mb-5 w-full lg:hidden"
-            aria-expanded={filtersOpen}
-            onClick={() => setFiltersOpen((o) => !o)}
-          >
-            {filtersOpen ? 'Hide filters' : `Filters${activeFilters ? ` (${activeFilters})` : ''}`}
-          </button>
-          <div className={`${filtersOpen ? 'block' : 'hidden'} mb-8 lg:block`}>
-            <div className="mb-7">
-              <label htmlFor="shop-q" className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Search</label>
-              <input id="shop-q" type="search" value={q} onChange={(e) => setParam('q', e.target.value)} placeholder="Name, brand, colour…" className="input-field" />
-            </div>
-            {filters}
-            {activeFilters > 0 && <button type="button" onClick={clearAll} className="text-[12px] font-semibold uppercase tracking-[0.14em] text-espresso underline underline-offset-4">Clear all</button>}
-          </div>
+        {/* Desktop filters. Phones use the drawer below. */}
+        <aside aria-label="Filters" className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
+          {filters('side')}
         </aside>
 
         <div>
-          <div className="mb-6 flex items-center justify-between gap-4 border-b border-hairline pb-4">
-            <p className="text-[13px] text-muted" aria-live="polite">
+          <div className="mb-4 flex items-center justify-between gap-3 border-b border-hairline pb-4">
+            <p className="shrink-0 text-[13px] text-muted" aria-live="polite">
               {productsLoading ? 'Loading…' : `${filtered.length} ${filtered.length === 1 ? 'pair' : 'pairs'}`}
             </p>
-            <label className="flex items-center gap-2 text-[13px] text-muted">
-              <span className="sr-only sm:not-sr-only">Sort</span>
-              <select value={sort} onChange={(e) => setParam('sort', e.target.value === 'featured' ? '' : e.target.value)} className="rounded-full border border-hairline bg-surface px-4 py-2 text-base text-espresso sm:text-[13px] focus:border-olive focus:outline-none">
-                {Object.entries(SORTS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
-              </select>
-            </label>
+            <div className="flex min-w-0 items-center gap-2">
+              <button ref={openButton} type="button" className="chip shrink-0 lg:hidden" aria-haspopup="dialog" onClick={() => setFiltersOpen(true)}>
+                Filters{active.length ? ` (${active.length})` : ''}
+              </button>
+              <label className="flex min-w-0 items-center gap-2 text-[13px] text-muted">
+                <span className="sr-only lg:not-sr-only">Sort</span>
+                <select value={sort} onChange={(e) => setParam('sort', e.target.value === 'featured' ? '' : e.target.value)} className="min-w-0 max-w-[10.5rem] rounded-full border border-hairline bg-surface px-3 py-2 text-base text-espresso sm:text-[13px] focus:border-olive focus:outline-none">
+                  {Object.entries(SORTS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+                </select>
+              </label>
+            </div>
           </div>
 
+          {active.length > 0 && (
+            <ul aria-label="Active filters" className="mb-5 flex flex-wrap items-center gap-2">
+              {active.map((f) => (
+                <li key={f.key}>
+                  <button type="button" onClick={() => setParam(f.key, '')} aria-label={`Remove filter: ${f.label}`} className="chip chip-active">
+                    {f.label} <span aria-hidden="true" className="ml-1">×</span>
+                  </button>
+                </li>
+              ))}
+              <li><button type="button" onClick={clearAll} className="px-2 py-2 text-[12px] font-semibold text-espresso underline underline-offset-4">Clear all</button></li>
+            </ul>
+          )}
+
           {unconfirmed && (
-            <p className="-mt-2 mb-6 flex items-center gap-2 text-[12px] text-muted">
+            <p className="mb-6 flex items-center gap-2 text-[12px] text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-olive" aria-hidden="true" />
               Sizes move fast — we confirm availability on WhatsApp before every order.
             </p>
@@ -186,6 +227,24 @@ export default function Shop() {
           )}
         </div>
       </div>
+
+      {/* Phone filter drawer: sits above the header and the floating WhatsApp button */}
+      {filtersOpen && (
+        <div className="fixed inset-0 z-[250] lg:hidden">
+          <div className="drawer-fade absolute inset-0 bg-black/70" onClick={() => setFiltersOpen(false)} aria-hidden="true" />
+          <div ref={drawer} role="dialog" aria-modal="true" aria-label="Filters" className="drawer-in absolute inset-y-0 right-0 flex w-[min(100%,24rem)] flex-col bg-ivory">
+            <div className="flex items-center justify-between border-b border-hairline px-5 py-4">
+              <h2 className="font-display text-2xl leading-none">Filters</h2>
+              <button type="button" onClick={() => setFiltersOpen(false)} className="-mr-2 px-2 py-2 text-[13px] font-semibold text-espresso underline underline-offset-4">Close</button>
+            </div>
+            <div className="min-h-0 flex-1 overflow-y-auto px-5 pt-5">{filters('drawer')}</div>
+            <div className="flex items-center gap-3 border-t border-hairline px-5 py-4">
+              {active.length > 0 && <button type="button" onClick={clearAll} className="shrink-0 px-2 py-3 text-[12px] font-semibold text-espresso underline underline-offset-4">Clear all</button>}
+              <button type="button" onClick={() => setFiltersOpen(false)} className="btn-primary flex-1">Show {filtered.length} {filtered.length === 1 ? 'pair' : 'pairs'}</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

@@ -1,5 +1,6 @@
 import shutil
 import tempfile
+from io import StringIO
 
 from django.contrib.auth.models import User
 from django.core.management import call_command
@@ -9,6 +10,12 @@ from django.test.utils import CaptureQueriesContext
 from rest_framework.test import APIClient
 
 from .models import Category, Product, ProductImage
+
+
+PLAIN_STORAGES = {
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+}
 
 
 class TempMediaMixin:
@@ -107,10 +114,7 @@ class ProductApiTests(TempMediaMixin, TestCase):
 
 # The production static storage needs `collectstatic` to have been run before
 # admin pages can render; tests use the plain one instead.
-@override_settings(STORAGES={
-    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
-    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
-})
+@override_settings(STORAGES=PLAIN_STORAGES)
 class AdminTests(TempMediaMixin, TestCase):
     def test_product_admin_pages_load(self):
         admin = User.objects.create_superuser('admin', 'a@example.com', 'pw')
@@ -186,7 +190,7 @@ class SeedCommandTests(TempMediaMixin, TestCase):
         return sorted(os.listdir(f'{self._media}/products'))
 
     def test_seed_creates_then_keeps_admin_edits(self):
-        call_command('seed_products', stdout=open('nul' if __import__('os').name == 'nt' else '/dev/null', 'w'))
+        call_command('seed_products', stdout=StringIO())
         count = Product.objects.count()
         self.assertGreater(count, 0)
         files = self.media_files()
@@ -195,14 +199,14 @@ class SeedCommandTests(TempMediaMixin, TestCase):
         p = Product.objects.first()
         p.price = 1
         p.save()
-        call_command('seed_products', stdout=open('nul' if __import__('os').name == 'nt' else '/dev/null', 'w'))
+        call_command('seed_products', stdout=StringIO())
         p.refresh_from_db()
         self.assertEqual(p.price, 1)  # admin edit survived a redeploy
         self.assertEqual(Product.objects.count(), count)
         self.assertEqual(self.media_files(), files)  # no duplicate copies
 
     def test_update_flag_overwrites(self):
-        devnull = open('nul' if __import__('os').name == 'nt' else '/dev/null', 'w')
+        devnull = StringIO()
         call_command('seed_products', stdout=devnull)
         p = Product.objects.first()
         original = p.price
@@ -213,7 +217,7 @@ class SeedCommandTests(TempMediaMixin, TestCase):
         self.assertEqual(p.price, original)
 
     def test_missing_photo_files_are_restored(self):
-        devnull = open('nul' if __import__('os').name == 'nt' else '/dev/null', 'w')
+        devnull = StringIO()
         call_command('seed_products', stdout=devnull)
         p = Product.objects.filter(images__isnull=False).first()
         n = p.images.count()
@@ -226,7 +230,7 @@ class SeedCommandTests(TempMediaMixin, TestCase):
 
 class ThumbnailTests(TempMediaMixin, TestCase):
     def test_thumbs_created_and_served(self):
-        devnull = open('nul' if __import__('os').name == 'nt' else '/dev/null', 'w')
+        devnull = StringIO()
         call_command('seed_products', stdout=devnull)
         sku = ProductImage.objects.first().product.sku
         # Seed photos are bulk-created; before make_thumbs the API falls back
@@ -255,10 +259,7 @@ class ThumbnailTests(TempMediaMixin, TestCase):
             self.assertEqual(im.width, 640)
 
 
-@override_settings(STORAGES={
-    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
-    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
-})
+@override_settings(STORAGES=PLAIN_STORAGES)
 class NoPhotoWarningTests(TempMediaMixin, TestCase):
     def test_warns_when_saved_without_a_photo(self):
         admin = User.objects.create_superuser('admin', 'a@example.com', 'pw')
@@ -283,10 +284,7 @@ class NoPhotoWarningTests(TempMediaMixin, TestCase):
         self.assertTrue(thumb.endswith('.webp'))
 
 
-@override_settings(STORAGES={
-    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
-    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
-})
+@override_settings(STORAGES=PLAIN_STORAGES)
 class SecurityTests(TestCase):
     def test_admin_login_locks_after_repeated_failures(self):
         User.objects.create_superuser('boss', 'b@example.com', 'a-Strong-pass-123')
@@ -319,10 +317,7 @@ class SecurityTests(TestCase):
         self.assertIn('application/json', res['Content-Type'])
 
 
-@override_settings(STORAGES={
-    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
-    'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
-})
+@override_settings(STORAGES=PLAIN_STORAGES)
 class StaffGroupTests(TestCase):
     def test_shop_staff_group_can_add_and_edit_but_not_delete(self):
         from django.contrib.auth.models import Group
@@ -344,7 +339,7 @@ class StaffGroupTests(TestCase):
 
 class RealCatalogueTests(TempMediaMixin, TestCase):
     def seed(self):
-        call_command('seed_products', stdout=open('nul' if __import__('os').name == 'nt' else '/dev/null', 'w'))
+        call_command('seed_products', stdout=StringIO())
 
     def test_stock_per_size_is_loaded(self):
         self.seed()
@@ -368,3 +363,46 @@ class RealCatalogueTests(TempMediaMixin, TestCase):
         Product.objects.create(sku='ADMIN-ADDED', name='Kept', brand='B', price=1)
         migration.remove_old_products(apps, None)
         self.assertEqual(list(Product.objects.values_list('sku', flat=True)), ['ADMIN-ADDED'])
+
+    def test_product_deleted_in_admin_is_not_restored_by_seed(self):
+        from django.contrib.admin.models import DELETION, LogEntry
+        from django.contrib.contenttypes.models import ContentType
+        self.seed()
+        user = User.objects.create_superuser('boss', 'b@example.com', 'a-Strong-pass-123')
+        Product.objects.get(sku='LL-001').delete()
+        LogEntry.objects.create(
+            user=user, content_type=ContentType.objects.get_for_model(Product), object_id='LL-001',
+            object_repr='Nike Shox R4', action_flag=DELETION,
+        )
+        self.seed()
+        self.assertFalse(Product.objects.filter(sku='LL-001').exists())
+        self.assertTrue(Product.objects.filter(sku='LL-002').exists())
+
+
+class SaleConsistencyTests(TestCase):
+    def test_on_sale_follows_the_prices_not_the_stored_flag(self):
+        Product.objects.create(sku='A', name='A', brand='', price=1000, strike=1500, on_sale=False)
+        Product.objects.create(sku='B', name='B', brand='', price=1000, strike=0, on_sale=True)
+        items = {p['sku']: p for p in APIClient().get('/api/products/').json()}
+        self.assertTrue(items['A']['onSale'])
+        self.assertFalse(items['B']['onSale'])
+
+    def test_admin_rejects_original_price_at_or_below_selling_price(self):
+        from .admin import ProductAdminForm
+        form = ProductAdminForm(data={'sku': 'C', 'name': 'C', 'brand': '', 'price': 2000, 'strike': 1500, 'gender': 'Men', 'stock': '{}'})
+        self.assertFalse(form.is_valid())
+        self.assertIn('strike', form.errors)
+
+
+@override_settings(STORAGES=PLAIN_STORAGES)
+class HiddenPermissionTests(TestCase):
+    def test_saving_a_group_keeps_permissions_the_form_does_not_list(self):
+        from django.contrib.auth.models import Group, Permission
+        group = Group.objects.get(name='Shop staff')
+        hidden = Permission.objects.get(codename='add_logentry')
+        group.permissions.add(hidden)
+        listed = list(group.permissions.exclude(pk=hidden.pk).values_list('pk', flat=True))
+        self.client.force_login(User.objects.create_superuser('boss', 'b@example.com', 'a-Strong-pass-123'))
+        res = self.client.post(f'/admin/auth/group/{group.pk}/change/', {'name': 'Shop staff', 'permissions': listed})
+        self.assertEqual(res.status_code, 302)
+        self.assertTrue(group.permissions.filter(pk=hidden.pk).exists())

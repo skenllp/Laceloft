@@ -23,7 +23,7 @@ FRAME_RATIO = 0.8  # shop cards are 4:5 (width / height)
 admin.site.site_header = 'Laceloft shop manager'
 admin.site.site_title = 'Laceloft shop manager'
 admin.site.index_title = 'Start here'
-admin.site.site_url = 'https://laceloft.onrender.com'  # the "View site" link in the header
+admin.site.site_url = settings.FRONTEND_URL  # the "View site" link in the header
 
 _original_get_app_list = admin.site.get_app_list
 
@@ -151,14 +151,13 @@ class ProductAdminForm(forms.ModelForm):
             'desc': 'Description',
             'colorway': 'Colour',
             'is_new': 'Show "New" badge',
-            'on_sale': 'On sale',
             'in_stock': 'Available to order',
             'stock': 'Stock per size',
         }
         help_texts = {
-            'sku': 'Short unique code, e.g. AD-SMB-BRN. It is part of the product link, so it cannot be changed after saving.',
+            'sku': 'Short unique code, e.g. LL-040. It is part of the product link, so it cannot be changed after saving.',
             'brand': 'Leave empty if the brand is not verified — nothing is shown on the site then.',
-            'strike': 'Price before discount, shown crossed out. Leave 0 if not on sale.',
+            'strike': 'Price before discount, shown crossed out. It must be higher than the selling price. Leave 0 if not on sale.',
             'desc': 'A few lines on material, fit and styling.',
             'is_new': 'Keep this on for only your latest 6–8 pairs, so the badge still means something.',
             'in_stock': 'Untick to show the pair as sold out whatever the stock numbers say.',
@@ -176,6 +175,9 @@ class ProductAdminForm(forms.ModelForm):
 
     def clean(self):
         data = super().clean()
+        price, strike = data.get('price'), data.get('strike')
+        if price is not None and strike and strike <= price:
+            self.add_error('strike', 'The original price must be higher than the selling price. Use 0 if this pair is not on sale.')
         stock = data.get('stock') or {}
         stocked = set()
         for size, qty in (stock.items() if isinstance(stock, dict) else []):
@@ -216,10 +218,10 @@ class ProductImageInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
     change_list_template = 'admin/shop/product/change_list.html'
-    list_display = ['photo', 'name', 'sku', 'price', 'is_new', 'on_sale', 'in_stock', 'stock_summary']
+    list_display = ['photo', 'name', 'sku', 'price', 'is_new', 'in_stock', 'stock_summary']
     list_display_links = ['photo', 'name']
-    list_editable = ['price', 'is_new', 'on_sale', 'in_stock']
-    list_filter = ['is_new', 'on_sale', 'in_stock', 'gender', 'categories']
+    list_editable = ['price', 'is_new', 'in_stock']
+    list_filter = ['is_new', 'in_stock', 'gender', 'categories']
     search_fields = ['name', 'sku', 'brand', 'colorway']
     filter_horizontal = ['categories']
     inlines = [ProductImageInline]
@@ -230,8 +232,8 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('sku', 'name', 'brand', 'colorway', 'categories', 'gender'),
         }),
         ('Price', {
-            'description': 'Selling price is what the customer pays. Fill in Original price only when the pair is on sale: it is shown crossed out next to the selling price.',
-            'fields': ('price', 'strike', 'on_sale'),
+            'description': 'Selling price is what the customer pays. Fill in Original price only when the pair is on sale: it is shown crossed out, and the discount badge appears automatically.',
+            'fields': ('price', 'strike'),
         }),
         ('Sizes & stock', {
             'description': 'Tick the sizes this pair comes in, then type how many pairs you have of each. A size at 0 shows as sold out.',
@@ -366,6 +368,17 @@ class FriendlyPermissionsMixin:
             field.label_from_instance = friendly_permission
             return field
         return super().formfield_for_manytomany(db_field, request=request, **kwargs)
+
+    def save_related(self, request, form, formsets, change):
+        # The form only lists shop permissions, so saving it would silently drop
+        # any others. Put those back.
+        hidden = {
+            name: list(getattr(form.instance, name).exclude(pk__in=shop_permissions().order_by().values('pk')))
+            for name in self.permission_fields
+        } if change else {}
+        super().save_related(request, form, formsets, change)
+        for name, permissions in hidden.items():
+            getattr(form.instance, name).add(*permissions)
 
 
 admin.site.unregister(Group)

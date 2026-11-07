@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { byNewest } from '../lib/catalog'
 import ProductGridSkeleton from '../components/ProductGridSkeleton'
 import ProductCard from '../components/ProductCard'
 import PageHeader from '../components/PageHeader'
@@ -9,8 +10,9 @@ import Reveal from '../components/Reveal'
 export default function NewArrivals() {
   usePageMeta('New Arrivals', 'The latest pairs to land at Laceloft.')
   const { products, productsLoading } = useShop()
-  const fresh = products.filter((p) => p.isNew)
-  const sale = products.filter((p) => p.onSale)
+  const fresh = products.filter((p) => p.isNew).sort(byNewest)
+  // Only pairs not already shown above, so nothing appears twice.
+  const sale = products.filter((p) => p.onSale && !p.isNew)
 
   return (
     <>

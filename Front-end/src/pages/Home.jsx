@@ -1,14 +1,15 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
-import { CATEGORY_GROUPS, pickHeroProducts, photoRank, hasImage, thumbAt } from '../lib/catalog'
+import { CATEGORY_GROUPS, byNewest, pickHeroProducts, photoRank, hasImage, thumbAt } from '../lib/catalog'
 import { whatsappChatLink } from '../lib/whatsapp'
-import { HERO_SLIDES, WHATSAPP_DISPLAY } from '../lib/config'
+import { ABOUT_TEXT, HERO_SLIDES, WHATSAPP_DISPLAY } from '../lib/config'
 import { usePageMeta } from '../hooks/usePageMeta'
 import HeroCarousel from '../components/HeroCarousel'
 import ProductGridSkeleton from '../components/ProductGridSkeleton'
 import ProductCard from '../components/ProductCard'
 import ProductImage from '../components/ProductImage'
+import EditorialPhotos from '../components/EditorialPhotos'
 import Reveal from '../components/Reveal'
 import { WhatsAppIcon } from '../components/Layout'
 
@@ -26,7 +27,7 @@ function SectionHead({ eyebrow, title, action }) {
 
 const ArrowLink = ({ to, children }) => (
   <Link to={to} className="hidden shrink-0 text-[12px] font-semibold uppercase tracking-[0.16em] text-espresso no-underline underline-offset-[6px] hover:underline sm:block">
-    {children} ↗
+    {children}
   </Link>
 )
 
@@ -35,23 +36,21 @@ export default function Home() {
   const { products, productsLoading } = useShop()
 
   const heroSlides = useMemo(() => pickHeroProducts(products, HERO_SLIDES), [products])
-  // Each image slot on the page gets a different product, best photos first:
-  // hero, then category tiles, then the New Arrivals tile and featured banner.
+  // Each image slot on the page gets a different product, best photos first.
   const heroSkus = useMemo(() => new Set(heroSlides.map((p) => p.sku)), [heroSlides])
   // Three storefront categories; each cover is the best-photographed pair in
   // the group, avoiding the hero pairs and each other where possible.
   const categories = useMemo(() => {
     const used = new Set(heroSkus)
     return Object.values(CATEGORY_GROUPS).map((g) => {
-      const ranked = products.filter((p) => g.test(p) && hasImage(p)).sort((x, y) => (y.sku === g.coverSku) - (x.sku === g.coverSku) || photoRank(x) - photoRank(y))
+      const ranked = products.filter((p) => g.test(p) && hasImage(p)).sort((x, y) => photoRank(x) - photoRank(y))
       const cover = ranked.find((p) => !used.has(p.sku)) || ranked[0]
       if (cover) used.add(cover.sku)
       return { ...g, cover }
     }).filter((g) => g.cover)
   }, [products, heroSkus])
-  // Newest first by real creation date (the API returns newest first, but sort to be safe).
   const fresh = useMemo(
-    () => products.filter((p) => p.isNew).sort((x, y) => String(y.createdAt || '').localeCompare(String(x.createdAt || ''))).slice(0, 8),
+    () => products.filter((p) => p.isNew).sort(byNewest).slice(0, 8),
     [products],
   )
 
@@ -76,7 +75,6 @@ export default function Home() {
                       <h3 className="font-display text-2xl leading-tight text-ivory">{c.label}</h3>
                       <p className="mt-1 text-[13px] leading-snug text-ivory/80">{c.blurb}</p>
                     </div>
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ivory text-espresso transition-colors group-hover:bg-surface" aria-hidden="true">↗</span>
                   </div>
                 </Link>
               </Reveal>
@@ -103,14 +101,15 @@ export default function Home() {
 
       {/* ABOUT */}
       <section className="page-pad mx-auto max-w-[1500px] pb-20 md:pb-28" aria-labelledby="about-title">
-        <Reveal className="mx-auto max-w-3xl text-center">
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+        <Reveal>
           <p className="label-eyebrow mb-5">Our story</p>
           <h2 id="about-title" className="font-display text-[clamp(2.4rem,6vw,4.4rem)] leading-none text-espresso [text-wrap:balance]">Good Shoes. Great Rotation.</h2>
-          <p className="mx-auto mt-7 max-w-xl text-[16px] leading-relaxed text-muted">
-            The right pair can change how an outfit feels. Laceloft brings together sneakers, sandals and everyday footwear for people who like to express themselves through what they wear.
-          </p>
-          <Link to="/about" className="mt-8 inline-block text-[12px] font-semibold uppercase tracking-[0.16em] text-espresso no-underline underline-offset-[6px] hover:underline">Read our story ↗</Link>
+          <p className="mt-7 max-w-xl text-[16px] leading-relaxed text-muted">{ABOUT_TEXT}</p>
+          <Link to="/about" className="mt-8 inline-block text-[12px] font-semibold uppercase tracking-[0.16em] text-espresso no-underline underline-offset-[6px] hover:underline">Read our story</Link>
         </Reveal>
+        <Reveal><EditorialPhotos products={products} /></Reveal>
+        </div>
       </section>
 
       {/* WHATSAPP CTA */}
@@ -128,7 +127,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-olive-deep px-9 py-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-ivory no-underline transition-colors hover:bg-ivory hover:text-espresso"
               >
-                <WhatsAppIcon /> Enquire on WhatsApp <span aria-hidden="true">↗</span>
+                <WhatsAppIcon /> Enquire on WhatsApp
               </a>
               <p className="mt-4 text-xs text-ivory/50">{WHATSAPP_DISPLAY}</p>
             </div>

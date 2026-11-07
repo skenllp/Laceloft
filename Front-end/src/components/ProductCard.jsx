@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { fmtPrice } from '../lib/api'
 import ProductImage from './ProductImage'
-import { brandLabel, inStockSizes, productPath, thumbAt } from '../lib/catalog'
+import { brandLabel, inStockSizes, productPath, salePercent, thumbAt } from '../lib/catalog'
 
 export default function ProductCard({ p, priority = false }) {
   const { isWished, toggleWish, showToast } = useShop()
@@ -13,7 +13,8 @@ export default function ProductCard({ p, priority = false }) {
   const soldOut = p.inStock === false || (p.stockTracked === true && Array.isArray(p.sizes) && p.sizes.length > 0 && sizes.length === 0)
   // One badge at most, in order of importance. "Confirm availability" used
   // to sit on every card; the shop page now says it once instead.
-  const badge = soldOut ? 'Sold out' : p.onSale ? 'Sale' : p.isNew ? 'New' : null
+  const discount = salePercent(p)
+  const badge = soldOut ? 'Sold out' : discount ? `Save ${discount}%` : p.isNew ? 'New' : null
   const href = productPath(p.sku)
 
   const handleWish = () => {
@@ -25,7 +26,7 @@ export default function ProductCard({ p, priority = false }) {
     <article className="group relative flex flex-col">
       {/* 4:5 frame, the shape of most catalogue photos: those fill it edge to
           edge; other shapes are shown whole (see ProductImage `frame`). */}
-      <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-sand/60 dark:border dark:border-hairline dark:brightness-[.93]">
+      <div className="relative z-[1] aspect-[4/5] overflow-hidden rounded-4xl bg-sand/60 dark:border dark:border-hairline dark:brightness-[.93]">
         <Link to={href} aria-label={`View ${p.name}`} className="absolute inset-0 z-0 block">
           <div className={`absolute inset-0 overflow-hidden transition-opacity duration-700 ${alt ? '[@media(hover:hover)]:group-hover:opacity-0' : ''} ${soldOut ? 'opacity-60 grayscale' : ''}`}>
             <ProductImage
@@ -46,7 +47,7 @@ export default function ProductCard({ p, priority = false }) {
         </Link>
         <div className="pointer-events-none absolute left-4 top-4 flex gap-2">
           {badge && (
-            <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${badge === 'Sold out' ? 'bg-surface text-muted' : badge === 'Sale' ? 'bg-tan text-white' : 'bg-espresso text-ivory'}`}>{badge}</span>
+            <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${badge === 'Sold out' ? 'bg-surface text-muted' : discount && !soldOut ? 'bg-tan text-[#16130f]' : 'bg-espresso text-ivory'}`}>{badge}</span>
           )}
         </div>
         <button
@@ -79,7 +80,7 @@ export default function ProductCard({ p, priority = false }) {
             {p.strike > p.price && <span className="text-[12px] text-muted line-through">{fmtPrice(p.strike)}</span>}
           </div>
           <Link to={href} className="-my-3 -mr-2 hidden py-3 pl-3 pr-2 text-[11px] sm:block font-semibold uppercase tracking-[0.14em] text-espresso no-underline underline-offset-4 hover:underline">
-            View ↗
+            View
           </Link>
         </div>
       </div>

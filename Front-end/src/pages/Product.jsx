@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useShop } from '../context/ShopContext'
 import { fetchProduct, fmtPrice } from '../lib/api'
 import { buildWhatsAppLink } from '../lib/whatsapp'
-import { inStockSizes, brandLabel, productPath, splitDescription, thumbAt } from '../lib/catalog'
+import { inStockSizes, brandLabel, productPath, salePercent, splitDescription, thumbAt } from '../lib/catalog'
+import { SITE_URL } from '../lib/config'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { Breadcrumbs } from '../components/PageHeader'
 import ProductImage from '../components/ProductImage'
@@ -37,7 +38,7 @@ export default function Product() {
   const swiped = useRef(false)
   const [lightbox, setLightbox] = useState(false)
 
-  usePageMeta(p ? `${p.name}${p.colorway ? ` — ${p.colorway}` : ''}` : undefined, p ? `${p.name} at Laceloft — ${fmtPrice(p.price)}. Enquire and order directly through WhatsApp.` : undefined)
+  usePageMeta(p ? `${p.name}${p.colorway ? ` — ${p.colorway}` : ''}` : undefined, p ? `${p.name} at Laceloft — ${fmtPrice(p.price)}. Enquire directly through WhatsApp.` : undefined, { noindex: !loading && !p })
 
   useEffect(() => {
     let alive = true
@@ -76,8 +77,9 @@ export default function Product() {
         '@type': 'Offer',
         priceCurrency: 'INR',
         price: p.price,
-        url: window.location.href,
-        availability: soldOut ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+        url: SITE_URL + productPath(p.sku),
+        // Say nothing when stock isn't tracked: only what we actually know.
+        availability: soldOut ? 'https://schema.org/OutOfStock' : p.inStock === true ? 'https://schema.org/InStock' : undefined,
       },
     })
     document.head.appendChild(el)
@@ -85,7 +87,10 @@ export default function Product() {
   }, [p, soldOut])
 
   if (loading) return (
-    <div className="page-pad mx-auto grid max-w-[1500px] animate-pulse gap-10 pb-16 pt-16 lg:grid-cols-[1.15fr_1fr] lg:gap-16" aria-busy="true" aria-label="Loading product">
+    <div className="page-pad mx-auto max-w-[1500px] animate-pulse pb-28 pt-8 lg:pb-16" aria-busy="true" aria-label="Loading product">
+      {/* Same spacing as the loaded page, so nothing jumps when it arrives */}
+      <div className="mb-6 h-[18px] w-40 rounded-full bg-sand/70" />
+      <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
       <div className="aspect-[4/5] rounded-5xl bg-sand/60" />
       <div className="space-y-5 lg:pt-4">
         <div className="h-3 w-32 rounded-full bg-sand/80" />
@@ -93,6 +98,7 @@ export default function Product() {
         <div className="h-8 w-28 rounded-full bg-sand/80" />
         <div className="flex gap-2 pt-4">{[0, 1, 2, 3, 4].map((i) => <div key={i} className="h-12 w-12 rounded-full bg-sand/70" />)}</div>
         <div className="h-14 w-full rounded-full bg-sand/80" />
+      </div>
       </div>
     </div>
   )
@@ -139,7 +145,7 @@ export default function Product() {
   const OrderButton = ({ className = '' }) => (
     <button type="button" disabled={soldOut} onClick={order} className={`btn-primary ${className}`}>
       <WhatsAppIcon />
-      {soldOut ? 'Sold out' : stockUnconfirmed ? 'Enquire on WhatsApp' : 'Order on WhatsApp'}
+      {soldOut ? 'Sold out' : 'Enquire on WhatsApp'}
     </button>
   )
 
@@ -168,12 +174,14 @@ export default function Product() {
               alt={`${p.name} — view ${imgIdx + 1}`}
               fetchpriority="high"
               frame={0.8}
+              srcSet={thumbAt(p, imgIdx) !== images[imgIdx] ? `${thumbAt(p, imgIdx)} 640w, ${images[imgIdx]} 1122w` : undefined}
+              sizes="(min-width: 1024px) 50vw, 100vw"
               style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%`, transform: 'scale(1.35)' } : undefined}
               className="h-full w-full transition-transform duration-200 ease-out"
             />
             <div className="pointer-events-none absolute left-5 top-5 flex gap-2">
               {p.isNew && <span className="rounded-full bg-espresso px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-ivory">New</span>}
-              {p.onSale && <span className="rounded-full bg-tan px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">Sale</span>}
+              {salePercent(p) > 0 && <span className="rounded-full bg-tan px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#16130f]">Sale</span>}
             </div>
             {images.length > 1 && (
               <>

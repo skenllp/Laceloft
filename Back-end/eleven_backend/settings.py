@@ -22,6 +22,10 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 # so new products get link previews. Optional; the button explains if unset.
 FRONTEND_DEPLOY_HOOK = os.environ.get('FRONTEND_DEPLOY_HOOK', '')
 
+# The public shop, for the admin's "View site" link. Set this when the shop
+# moves to its own domain.
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://laceloft.onrender.com')
+
 ALLOWED_HOSTS = []
 # Render sets this automatically to your service's *.onrender.com hostname.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')

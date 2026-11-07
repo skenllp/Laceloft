@@ -5,11 +5,11 @@ This is the integrated Laceloft rebrand of the ELEVEN footwear project. It combi
 ## Branding and shopping
 
 - Brand: **Laceloft** · ivory `#F4F0E8`, espresso `#302A25`, muted olive `#777F65`
-- Currency: **INR (₹)**; existing catalogue prices were not converted or altered.
+- Currency: **INR (₹)**; prices come from the client's product sheet.
 - WhatsApp: **+971 56 434 5294** (`971564345294` in source).
 - Homepage hero: a GSAP-based rounded floating-sneaker carousel with four curated existing catalogue SKUs and matching, extracted PNG artwork in `Front-end/public/images/hero/`.
 - WhatsApp-first checkout: a product + selected UK size + quantity opens a prefilled WhatsApp enquiry. No payment or order-completion claim is made by simply opening WhatsApp.
-- Original Django model/migration structure, SKU values, stock records, and all existing media assets remain intact.
+- The catalogue is the client's real product list. It was loaded through `Back-end/shop/seed_data/`; migration `0012` removed the 38 original placeholder products.
 - Historical stock records that do not have per-size inventory configured are treated as **availability unconfirmed**; the site permits a WhatsApp enquiry, not an asserted purchase of in-stock goods.
 - When the API is unavailable, the frontend can show its static or locally cached catalogue **with a warning** to confirm current prices and availability.
 
