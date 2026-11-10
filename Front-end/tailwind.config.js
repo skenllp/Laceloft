@@ -13,6 +13,8 @@ export default {
         tan: 'rgb(var(--c-tan) / <alpha-value>)',         // secondary decorative accent
         muted: 'rgb(var(--c-muted) / <alpha-value>)',       // secondary text (AA on ivory)
         hairline: 'rgb(var(--c-line) / calc(<alpha-value> * var(--line-a)))',
+        accent: 'rgb(var(--c-accent) / <alpha-value>)',          // neon fill
+        'on-accent': 'rgb(var(--c-on-accent) / <alpha-value>)',  // navy text on neon
         surface: 'rgb(var(--c-surface) / <alpha-value>)', // cards, inputs (white in light mode)
       },
       fontFamily: {

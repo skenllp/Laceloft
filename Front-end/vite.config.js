@@ -17,8 +17,8 @@ export default defineConfig(({ mode }) => {
         description: 'Curated sneakers and everyday footwear. Enquire directly through WhatsApp.',
         start_url: '/',
         display: 'standalone',
-        background_color: '#000000',
-        theme_color: '#000000',
+        background_color: '#092742',
+        theme_color: '#092742',
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },

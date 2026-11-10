@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Laceloft | Find Your Next Sole</title>
   <meta name="description" content="Discover sneakers, sandals and everyday footwear at Laceloft. Find the pair that feels like you, and enquire directly on WhatsApp." />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#092742" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
@@ -35,7 +35,7 @@
         var dark = true
         if (dark) {
           document.documentElement.classList.add('dark')
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000')
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#092742')
         }
       } catch (e) {
         document.documentElement.classList.add('dark')
@@ -45,18 +45,18 @@
   <style>
     /* Splash loader: shown before the app's JS/CSS arrive, removed by
        src/lib/splash.js once the catalogue is ready (or after 3s). */
-    #splash { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; background: #F4F0E8; transition: opacity .5s ease, visibility .5s ease; }
+    #splash { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; background: #FEFFFA; transition: opacity .5s ease, visibility .5s ease; }
     #splash.is-done { opacity: 0; visibility: hidden; }
-    #splash .mark { font: 400 44px/1 'DM Serif Display', Georgia, serif; letter-spacing: -0.02em; color: #302A25; opacity: 0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease; }
+    #splash .mark { font: 400 44px/1 'DM Serif Display', Georgia, serif; letter-spacing: -0.02em; color: #092742; opacity: 0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease; }
     #splash.fonts-ready .mark { opacity: 1; transform: none; }
-    #splash .mark i { font-style: normal; color: #777F65; }
-    #splash .bar { position: relative; width: 120px; height: 2px; overflow: hidden; border-radius: 2px; background: rgba(48,42,37,.12); }
-    #splash .bar::after { content: ''; position: absolute; inset: 0; width: 40%; border-radius: 2px; background: #777F65; animation: splash-sweep 1.1s ease-in-out infinite; }
-    html.dark body { background: #000000; }
-    html.dark #splash { background: #000000; }
-    html.dark #splash .mark { color: #F5F3EE; }
-    html.dark #splash .bar { background: rgba(245,243,238,.14); }
-    html.dark #splash .mark i, html.dark #splash .bar::after { color: #D4A574; background-color: #D4A574; }
+    #splash .mark i { font-style: normal; color: #709600; }
+    #splash .bar { position: relative; width: 120px; height: 2px; overflow: hidden; border-radius: 2px; background: rgba(9,39,66,.12); }
+    #splash .bar::after { content: ''; position: absolute; inset: 0; width: 40%; border-radius: 2px; background: #709600; animation: splash-sweep 1.1s ease-in-out infinite; }
+    html.dark body { background: #092742; }
+    html.dark #splash { background: #092742; }
+    html.dark #splash .mark { color: #FEFFFA; }
+    html.dark #splash .bar { background: rgba(254,255,250,.16); }
+    html.dark #splash .mark i, html.dark #splash .bar::after { color: #D2F600; background-color: #D2F600; }
     html.dark #splash .mark i { background: none; }
     @keyframes splash-sweep { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
     @media (prefers-reduced-motion: reduce) { #splash .bar::after { animation: none; width: 100%; opacity: .5; } }

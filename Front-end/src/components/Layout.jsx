@@ -105,7 +105,7 @@ export default function Layout() {
             <Link to="/wishlist" aria-label={`Wishlist (${wishlist.length} saved)`} className={iconBtn}>
               <HeartIcon />
               {wishlist.length > 0 && (
-                <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-olive-deep px-1 text-[9px] font-bold text-ivory">{wishlist.length}</span>
+                <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[9px] font-bold text-on-accent">{wishlist.length}</span>
               )}
             </Link>
             <a

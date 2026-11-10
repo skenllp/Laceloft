@@ -8,8 +8,8 @@ import ProductImage, { SneakerPlaceholder } from './ProductImage'
 
 const AUTOPLAY_SECONDS = 4
 // Subtle hero background shades, all drawn from the Laceloft palette family.
-const TINTS = ['#DDD3C4', '#D5D8C8', '#E2D2BF', '#D9D1C9', '#DCD6C0', '#D3CCBD']
-const DARK_TINTS = ['#141414', '#131513', '#151312', '#141313', '#141412', '#121212']
+const TINTS = ['#E3EBF1', '#E5EEEE', '#E8EEF3', '#E2E9F0', '#E6EDF1', '#E0E8EF']
+const DARK_TINTS = ['#0D3156', '#0C3055', '#0E3358', '#0C2F53', '#0D3255', '#0B2E51']
 const tints = () => (document.documentElement.classList.contains('dark') ? DARK_TINTS : TINTS)
 const pad = (n) => String(n).padStart(2, '0')
 
@@ -180,7 +180,7 @@ export default function HeroCarousel({ slides }) {
         ref={panelRef}
         tabIndex={0}
         aria-label="Sneaker showcase. Use left and right arrow keys to change sneaker."
-        className="relative flex flex-col gap-6 overflow-hidden rounded-[2rem] bg-sand p-6 outline-none focus-visible:ring-2 focus-visible:ring-olive sm:p-8 md:rounded-5xl lg:grid lg:min-h-[690px] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.5fr)_minmax(0,1fr)] lg:grid-rows-[1fr_auto] lg:gap-x-4 lg:gap-y-6 lg:p-12"
+        className="relative flex flex-col gap-6 overflow-hidden rounded-[2rem] bg-sand p-6 before:pointer-events-none before:absolute before:inset-0 before:content-[''] dark:before:bg-[radial-gradient(ellipse_70%_60%_at_50%_42%,rgba(56,189,248,0.16),transparent_70%)] outline-none focus-visible:ring-2 focus-visible:ring-olive sm:p-8 md:rounded-5xl lg:grid lg:min-h-[690px] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.5fr)_minmax(0,1fr)] lg:grid-rows-[1fr_auto] lg:gap-x-4 lg:gap-y-6 lg:p-12"
       >
         {/* LEFT: eyebrow, headline, copy, CTA, progress */}
         <div className="contents lg:col-start-1 lg:row-start-1 lg:flex lg:flex-col lg:justify-between lg:self-stretch lg:pt-4">
@@ -227,10 +227,10 @@ export default function HeroCarousel({ slides }) {
           className="relative order-2 aspect-[6/5] w-full select-none sm:aspect-[16/11] lg:col-start-2 lg:row-start-1 lg:aspect-auto lg:min-h-[470px]"
         >
           {/* arch + spheres + platform */}
-          <div data-arch className="absolute bottom-[4%] left-1/2 h-[92%] w-[66%] -translate-x-1/2 rounded-t-full bg-gradient-to-b from-white/60 via-white/25 to-transparent dark:from-olive/25 dark:via-olive/10 lg:w-[62%]" aria-hidden="true" />
-          <div data-sphere className="absolute left-[8%] top-[14%] h-[13%] w-[13%] rounded-full bg-gradient-to-br from-olive to-olive-deep opacity-90 dark:opacity-80 dark:shadow-[0_0_46px_8px_rgba(212,165,116,0.32)]" aria-hidden="true" />
-          <div data-sphere className="absolute bottom-[26%] right-[7%] h-[9%] w-[9%] rounded-full bg-gradient-to-br from-tan to-[#9a7556] dark:shadow-[0_0_34px_6px_rgba(201,150,98,0.28)]" aria-hidden="true" />
-          <div data-sphere className="absolute right-[14%] top-[10%] h-[6%] w-[6%] rounded-full bg-white/80 dark:bg-olive/10 dark:ring-2 dark:ring-olive/70 dark:shadow-[0_0_22px_2px_rgba(212,165,116,0.35)]" aria-hidden="true" />
+          <div data-arch className="absolute bottom-[4%] left-1/2 h-[92%] w-[66%] -translate-x-1/2 rounded-t-full bg-gradient-to-b from-white/60 via-white/25 to-transparent dark:from-[#38BDF8]/20 dark:via-[#38BDF8]/[0.07] lg:w-[62%]" aria-hidden="true" />
+          <div data-sphere className="absolute left-[8%] top-[14%] h-[13%] w-[13%] rounded-full bg-gradient-to-br from-olive to-olive-deep opacity-90 dark:opacity-85 dark:shadow-[0_0_46px_8px_rgba(210,246,0,0.22)]" aria-hidden="true" />
+          <div data-sphere className="absolute bottom-[26%] right-[7%] h-[9%] w-[9%] rounded-full bg-gradient-to-br from-tan to-[#8FB300] dark:shadow-[0_0_34px_6px_rgba(210,246,0,0.2)]" aria-hidden="true" />
+          <div data-sphere className="absolute right-[14%] top-[10%] h-[6%] w-[6%] rounded-full bg-white/80 dark:bg-olive/10 dark:ring-2 dark:ring-olive/70 dark:shadow-[0_0_22px_2px_rgba(210,246,0,0.3)]" aria-hidden="true" />
           <div className="absolute bottom-[7%] left-1/2 h-[7%] w-[58%] -translate-x-1/2 rounded-[50%] bg-white/45 dark:bg-white/10" aria-hidden="true" />
           <div data-shadow className="absolute bottom-[8.5%] left-1/2 h-[4%] w-[44%] -translate-x-1/2 rounded-[50%] bg-espresso/20 blur-md dark:bg-black/60" aria-hidden="true" />
 

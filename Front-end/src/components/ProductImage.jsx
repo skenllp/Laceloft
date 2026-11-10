@@ -11,7 +11,7 @@ export function SneakerPlaceholder({ className = '' }) {
       <path d="M30 184v8c0 12 10 22 28 22h284c18 0 28-8 28-22v-8" fill="rgb(var(--c-sand))" stroke="rgb(var(--c-espresso))" strokeWidth="3" strokeLinejoin="round" />
       <path d="M150 90c14 22 42 40 78 50" stroke="rgb(var(--c-olive))" strokeWidth="3" strokeLinecap="round" />
       <path d="M168 100l12-10M186 112l12-10M204 122l12-10" stroke="rgb(var(--c-espresso))" strokeWidth="3" strokeLinecap="round" />
-      <path d="M96 150c16-4 30-12 42-24" stroke="#B58D6C" strokeWidth="3" strokeLinecap="round" />
+      <path d="M96 150c16-4 30-12 42-24" stroke="rgb(var(--c-olive))" strokeWidth="3" strokeLinecap="round" />
     </svg>
   )
 }

@@ -47,7 +47,7 @@ export default function ProductCard({ p, priority = false }) {
         </Link>
         <div className="pointer-events-none absolute left-4 top-4 flex gap-2">
           {badge && (
-            <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${badge === 'Sold out' ? 'bg-surface text-muted' : discount && !soldOut ? 'bg-tan text-[#16130f]' : 'bg-espresso text-ivory'}`}>{badge}</span>
+            <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${badge === 'Sold out' ? 'bg-surface text-muted' : discount && !soldOut ? 'bg-tan text-on-accent' : 'bg-espresso text-ivory dark:bg-ivory dark:text-espresso'}`}>{badge}</span>
           )}
         </div>
         <button

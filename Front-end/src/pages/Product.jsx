@@ -180,8 +180,8 @@ export default function Product() {
               className="h-full w-full transition-transform duration-200 ease-out"
             />
             <div className="pointer-events-none absolute left-5 top-5 flex gap-2">
-              {p.isNew && <span className="rounded-full bg-espresso px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-ivory">New</span>}
-              {salePercent(p) > 0 && <span className="rounded-full bg-tan px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#16130f]">Sale</span>}
+              {p.isNew && <span className="rounded-full bg-espresso px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-ivory dark:bg-ivory dark:text-espresso">New</span>}
+              {salePercent(p) > 0 && <span className="rounded-full bg-tan px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-on-accent">Sale</span>}
             </div>
             {images.length > 1 && (
               <>
@@ -223,7 +223,7 @@ export default function Product() {
             {p.strike > p.price && (
               <>
                 <span className="text-base text-muted line-through">{fmtPrice(p.strike)}</span>
-                <span className="rounded-full bg-tan/20 px-2.5 py-0.5 text-xs font-semibold text-[#7a5a40] dark:text-[#d6b192]">Save {Math.round((1 - p.price / p.strike) * 100)}%</span>
+                <span className="rounded-full bg-tan/20 px-2.5 py-0.5 text-xs font-semibold text-olive-deep">Save {Math.round((1 - p.price / p.strike) * 100)}%</span>
               </>
             )}
           </div>

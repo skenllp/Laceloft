@@ -116,8 +116,8 @@ export default function Home() {
       <section className="page-pad mx-auto max-w-[1500px] pb-8" aria-labelledby="wa-title">
         <Reveal>
           <div className="relative overflow-hidden on-dark rounded-[2rem] bg-espresso px-6 py-16 text-center text-ivory sm:px-12 md:rounded-5xl md:py-24">
-            <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-olive/25" aria-hidden="true" />
-            <div className="pointer-events-none absolute -bottom-24 -right-10 h-72 w-72 rounded-full bg-tan/15" aria-hidden="true" />
+            <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-olive/10" aria-hidden="true" />
+            <div className="pointer-events-none absolute -bottom-24 -right-10 h-72 w-72 rounded-full bg-tan/[0.06]" aria-hidden="true" />
             <div className="relative">
               <h2 id="wa-title" className="font-display text-[clamp(2.4rem,6vw,4.6rem)] leading-none">Found Your Pair?</h2>
               <p className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-ivory/75">Not sure about size, colour or availability? Message us and we will help you choose.</p>
@@ -125,7 +125,7 @@ export default function Home() {
                 href={whatsappChatLink("Hi Laceloft, I have a question about a pair.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-olive-deep px-9 py-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-ivory no-underline transition-colors hover:bg-ivory hover:text-espresso"
+                className="mt-9 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-9 py-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-on-accent no-underline transition-colors hover:bg-ivory hover:text-espresso"
               >
                 <WhatsAppIcon /> Enquire on WhatsApp
               </a>

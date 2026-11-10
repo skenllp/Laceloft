@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 const KEY = 'laceloft-theme'
-const COLORS = { light: '#F4F0E8', dark: '#000000' }
+const COLORS = { light: '#FEFFFA', dark: '#092742' }
 
 const stored = () => { try { return localStorage.getItem(KEY) } catch { return null } }
 // LIGHT THEME DISABLED for now: always dark. To re-enable, restore the line below.
