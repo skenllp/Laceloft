@@ -161,25 +161,22 @@ systemctl daemon-reload
 systemctl enable --now laceloft-frontend.path
 
 say "HTTPS for $SHOP_DOMAIN"
+# Informational only: this server's DNS lookup can lag behind the real records
+# for a while, so the certificate authority is the judge (it does a fresh lookup).
 SERVER_IP="$(curl -4 -fsS --max-time 15 https://api.ipify.org || true)"
-dns_ok=1
 for host in "$SHOP_DOMAIN" "www.$SHOP_DOMAIN"; do
-  ips="$(curl -fsS --max-time 15 "https://dns.google/resolve?name=$host&type=A" \
-    | python3 -c 'import sys,json; d=json.load(sys.stdin); print(" ".join(a["data"] for a in d.get("Answer",[]) if a.get("type")==1))' \
-    2>/dev/null || echo FAIL)"
-  if [ -n "$SERVER_IP" ] && [[ " $ips " != *" $SERVER_IP "* ]]; then
-    warn "$host points to '${ips:-nothing}', not to this server ($SERVER_IP)."
-    dns_ok=0
+  ips="$(curl -fsS --max-time 15 "https://dns.google/resolve?name=$host&type=A"     | python3 -c 'import sys,json; d=json.load(sys.stdin); print(" ".join(a["data"] for a in d.get("Answer",[]) if a.get("type")==1))'     2>/dev/null || echo FAIL)"
+  if [ -n "$SERVER_IP" ] && [ "$ips" != "FAIL" ] && [[ " $ips " != *" $SERVER_IP "* ]]; then
+    warn "(this server still sees $host as '${ips:-nothing}'; trying the certificate anyway)"
   fi
 done
 HTTPS=no
-if [ "$dns_ok" -eq 1 ]; then
-  certbot --nginx -d "$SHOP_DOMAIN" -d "www.$SHOP_DOMAIN" --cert-name "$SHOP_DOMAIN" --expand \
-    -m "$EMAIL" --agree-tos --no-eff-email --non-interactive --redirect
+if certbot --nginx -d "$SHOP_DOMAIN" -d "www.$SHOP_DOMAIN" --cert-name "$SHOP_DOMAIN" --expand     -m "$EMAIL" --agree-tos --no-eff-email --non-interactive --redirect; then
   HTTPS=yes
 else
-  warn "Skipping HTTPS for now. In Hostinger DNS point $SHOP_DOMAIN and www.$SHOP_DOMAIN at $SERVER_IP,"
-  warn "wait a few minutes, then run this script again to finish."
+  warn "Could not get the HTTPS certificate yet."
+  warn "Check that $SHOP_DOMAIN and www.$SHOP_DOMAIN point at $SERVER_IP in Hostinger DNS,"
+  warn "wait a few minutes, then run this script again."
 fi
 
 say "Checking that it works"
