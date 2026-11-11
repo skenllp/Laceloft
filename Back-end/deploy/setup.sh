@@ -61,10 +61,14 @@ ask CORS_ALLOWED_ORIGINS "Shop website address(es), comma separated" "https://la
 [[ "$LETSENCRYPT_EMAIL" == *@*.* ]] || die "Please give a real email address."
 
 # The address must already point at this server, or HTTPS cannot be issued.
+# Ask a public DNS server: this machine's own /etc/hosts maps its hostname to
+# 127.0.1.1, which says nothing about what the internet sees.
 SERVER_IP="$(curl -4 -fsS --max-time 15 https://api.ipify.org || true)"
-DOMAIN_IP="$(getent ahostsv4 "$DOMAIN" | awk 'NR==1{print $1}' || true)"
-if [ -n "$SERVER_IP" ] && [ "$SERVER_IP" != "$DOMAIN_IP" ]; then
-  die "$DOMAIN points to '${DOMAIN_IP:-nothing}', but this server is $SERVER_IP.
+DNS_IPS="$(curl -fsS --max-time 15 "https://dns.google/resolve?name=$DOMAIN&type=A"   | python3 -c 'import sys,json; d=json.load(sys.stdin); print(" ".join(a["data"] for a in d.get("Answer",[]) if a.get("type")==1))'   2>/dev/null || echo FAIL)"
+if [ -z "$SERVER_IP" ] || [ "$DNS_IPS" = "FAIL" ]; then
+  warn "Could not double-check the DNS record for $DOMAIN, carrying on."
+elif [[ " $DNS_IPS " != *" $SERVER_IP "* ]]; then
+  die "$DOMAIN points to '${DNS_IPS:-nothing}' on the internet, but this server is $SERVER_IP.
 Add a DNS 'A' record for $DOMAIN -> $SERVER_IP, wait a few minutes, then run this again."
 fi
 
