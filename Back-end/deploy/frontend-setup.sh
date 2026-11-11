@@ -113,6 +113,12 @@ server {
         include snippets/laceloft-security.conf;
     }
 
+    location = /manifest.webmanifest {
+        default_type application/manifest+json;
+        add_header Cache-Control "no-cache";
+        include snippets/laceloft-security.conf;
+    }
+
     # Pages and the app's service worker: always check for a newer copy.
     location / {
         add_header Cache-Control "no-cache";
