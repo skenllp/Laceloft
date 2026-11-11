@@ -21,6 +21,9 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 # Hook). Lets the admin's "Publish to website" button rebuild the storefront
 # so new products get link previews. Optional; the button explains if unset.
 FRONTEND_DEPLOY_HOOK = os.environ.get('FRONTEND_DEPLOY_HOOK', '')
+# When the shop website is built on this same server (VPS), the button writes
+# to this file instead; a systemd path unit watches it and rebuilds the site.
+FRONTEND_REBUILD_FLAG = os.environ.get('FRONTEND_REBUILD_FLAG', '')
 
 # The public shop, for the admin's "View site" link. Set this when the shop
 # moves to its own domain.

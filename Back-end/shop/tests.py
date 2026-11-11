@@ -183,6 +183,20 @@ class AdminTests(TempMediaMixin, TestCase):
         self.assertEqual(urlopen.call_args[0][0].full_url, 'https://api.render.com/deploy/x')
         self.assertIn('Website update started', res.content.decode())
 
+    def test_publish_button_on_own_server_writes_the_flag_file(self):
+        import os
+        admin = User.objects.create_superuser('admin', 'a@example.com', 'pw')
+        self.client.force_login(admin)
+        flag = os.path.join(tempfile.mkdtemp(), 'rebuild.flag')
+        self.addCleanup(shutil.rmtree, os.path.dirname(flag), True)
+        with override_settings(FRONTEND_REBUILD_FLAG=flag, FRONTEND_DEPLOY_HOOK=''):
+            res = self.client.post('/admin/shop/product/publish/', follow=True)
+        self.assertTrue(os.path.getsize(flag) > 0)
+        self.assertIn('Website update started', res.content.decode())
+        with override_settings(FRONTEND_REBUILD_FLAG=os.path.join(os.path.dirname(flag), 'nope', 'x'), FRONTEND_DEPLOY_HOOK=''):
+            res = self.client.post('/admin/shop/product/publish/', follow=True)
+        self.assertIn('Could not start the website update', res.content.decode())
+
 
 class SeedCommandTests(TempMediaMixin, TestCase):
     def media_files(self):

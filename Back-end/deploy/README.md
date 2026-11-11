@@ -55,3 +55,16 @@ Settings (secret key, database password, allowed addresses) are in `/etc/lacelof
    ```
 
 3. On Render (shop static site) set `VITE_API_BASE=https://api.yourdomain.com/api` and `VITE_SITE_URL=https://yourdomain.com`, then redeploy.
+
+## Hosting the shop website on this server too
+
+After `setup.sh` works:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/skenllp/Laceloft/main/Back-end/deploy/frontend-setup.sh -o frontend-setup.sh
+bash frontend-setup.sh
+```
+
+It installs Node.js, builds the website, serves it with nginx at your domain, and makes the admin's **Publish to website** button rebuild it on the server (no Render deploy hook needed). To get HTTPS, point `yourdomain` and `www.yourdomain` at the server's IP in DNS (A records), wait a few minutes, then run `bash frontend-setup.sh` again.
+
+`update.sh` also rebuilds the website. A build can be started by hand with `systemctl start laceloft-frontend`; its log is `journalctl -u laceloft-frontend`.

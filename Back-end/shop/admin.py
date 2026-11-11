@@ -11,6 +11,7 @@ from django.core.files.storage import default_storage
 from django.db.models import Count, Q
 from django.shortcuts import redirect
 from django.urls import path
+from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from PIL import Image, ImageOps
@@ -306,14 +307,23 @@ class ProductAdmin(admin.ModelAdmin):
         ] + super().get_urls()
 
     def publish_view(self, request):
-        """Rebuilds the storefront through its Render deploy hook, so new or
-        renamed products get WhatsApp/Google link previews and a sitemap
-        entry. Prices, stock and photos are live without this."""
+        """Rebuilds the storefront, so new or renamed products get WhatsApp/Google
+        link previews and a sitemap entry. Prices, stock and photos are live
+        without this. On the VPS the site is rebuilt on the same server (the
+        flag file wakes a systemd unit); otherwise a Render deploy hook is used."""
         if request.method != 'POST':
             return redirect('admin:shop_product_changelist')
         hook = settings.FRONTEND_DEPLOY_HOOK
-        if not hook:
-            messages.warning(request, 'Publishing is not set up yet: add FRONTEND_DEPLOY_HOOK to the backend environment on Render.')
+        flag = settings.FRONTEND_REBUILD_FLAG
+        if flag:
+            try:
+                with open(flag, 'w') as fh:
+                    fh.write(timezone.now().isoformat())
+                messages.success(request, 'Website update started. Link previews and the sitemap refresh in about 2 minutes.')
+            except OSError as exc:
+                messages.error(request, f'Could not start the website update: {exc}')
+        elif not hook:
+            messages.warning(request, 'Publishing is not set up yet: set FRONTEND_REBUILD_FLAG (own server) or FRONTEND_DEPLOY_HOOK (Render) in the backend settings.')
         else:
             try:
                 with urllib.request.urlopen(urllib.request.Request(hook, method='POST'), timeout=15):
