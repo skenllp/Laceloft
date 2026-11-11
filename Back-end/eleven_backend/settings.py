@@ -41,7 +41,9 @@ if not ALLOWED_HOSTS:
 # to "are we actually running behind Render's HTTPS-terminating proxy"
 # rather than just the DEBUG flag — this way flipping DEBUG locally never
 # accidentally triggers an HTTPS redirect loop against plain http://127.0.0.1.
-IS_PRODUCTION = bool(RENDER_EXTERNAL_HOSTNAME)
+# Also on for any server behind an HTTPS-terminating proxy (nginx on a VPS):
+# set PRODUCTION=1 there. SECRET_KEY must then be set too.
+IS_PRODUCTION = bool(RENDER_EXTERNAL_HOSTNAME) or os.environ.get('PRODUCTION') == '1'
 if IS_PRODUCTION:
     # The fallback key above is public (it's in this file), so anyone could
     # forge admin session cookies with it. Refuse to start rather than run
@@ -49,8 +51,8 @@ if IS_PRODUCTION:
     if 'SECRET_KEY' not in os.environ:
         from django.core.exceptions import ImproperlyConfigured
         raise ImproperlyConfigured('SECRET_KEY environment variable must be set in production.')
-    # Render terminates TLS in front of the app and forwards over plain
-    # HTTP internally, adding this header so Django can tell the original
+    # Render (or nginx on a VPS) terminates TLS in front of the app and forwards
+    # over plain HTTP internally, adding this header so Django can tell the original
     # request was HTTPS. Only trust this header when we know we're
     # actually behind Render's proxy (IS_PRODUCTION) — trusting it
     # unconditionally would let anyone spoof "https" by just setting the
