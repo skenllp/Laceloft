@@ -32,6 +32,13 @@ die() { printf '\n\033[1;31mERROR: %s\033[0m\n' "$*" >&2; exit 1; }
 [ "${ID:-}" = "ubuntu" ] || die "This script is for Ubuntu (24.04 recommended)."
 cd /tmp
 
+# Values given on the command line (for example DOMAIN=api.laceloft.in bash setup.sh)
+# win over the ones saved by an earlier run.
+OVERRIDABLE="DOMAIN ALT_DOMAINS LETSENCRYPT_EMAIL CORS_ALLOWED_ORIGINS FRONTEND_DEPLOY_HOOK"
+for v in $OVERRIDABLE; do
+  if [ -n "${!v:-}" ]; then printf -v "CLI_$v" '%s' "${!v}"; fi
+done
+
 # Reuse answers and secrets from an earlier run.
 if [ -f "$ENV_FILE" ]; then
   set -a
@@ -39,6 +46,11 @@ if [ -f "$ENV_FILE" ]; then
   . "$ENV_FILE"
   set +a
 fi
+PREV_DOMAIN="${DOMAIN:-}"
+for v in $OVERRIDABLE; do
+  k="CLI_$v"
+  if [ -n "${!k:-}" ]; then printf -v "$v" '%s' "${!k}"; fi
+done
 
 # ask VAR "Question" "default": skipped when VAR is already set.
 ask() {
@@ -60,17 +72,30 @@ ask CORS_ALLOWED_ORIGINS "Shop website address(es), comma separated" "https://la
 [[ "$DOMAIN" =~ ^[A-Za-z0-9.-]+$ ]] || die "That web address does not look right: $DOMAIN"
 [[ "$LETSENCRYPT_EMAIL" == *@*.* ]] || die "Please give a real email address."
 
-# The address must already point at this server, or HTTPS cannot be issued.
+# When the address changes, keep the old one working too (nothing breaks mid-move).
+if [ -n "$PREV_DOMAIN" ] && [ "$PREV_DOMAIN" != "$DOMAIN" ] && [ -z "${ALT_DOMAINS:-}" ]; then
+  ALT_DOMAINS="$PREV_DOMAIN"
+fi
+ALT_DOMAINS="${ALT_DOMAINS:-}"
+ALL_DOMAINS="$DOMAIN"
+if [ -n "$ALT_DOMAINS" ]; then ALL_DOMAINS="$DOMAIN,$ALT_DOMAINS"; fi
+IFS=, read -r -a HOSTS <<< "$ALL_DOMAINS"
+
+# Each address must already point at this server, or HTTPS cannot be issued.
 # Ask a public DNS server: this machine's own /etc/hosts maps its hostname to
 # 127.0.1.1, which says nothing about what the internet sees.
 SERVER_IP="$(curl -4 -fsS --max-time 15 https://api.ipify.org || true)"
-DNS_IPS="$(curl -fsS --max-time 15 "https://dns.google/resolve?name=$DOMAIN&type=A"   | python3 -c 'import sys,json; d=json.load(sys.stdin); print(" ".join(a["data"] for a in d.get("Answer",[]) if a.get("type")==1))'   2>/dev/null || echo FAIL)"
-if [ -z "$SERVER_IP" ] || [ "$DNS_IPS" = "FAIL" ]; then
-  warn "Could not double-check the DNS record for $DOMAIN, carrying on."
-elif [[ " $DNS_IPS " != *" $SERVER_IP "* ]]; then
-  die "$DOMAIN points to '${DNS_IPS:-nothing}' on the internet, but this server is $SERVER_IP.
-Add a DNS 'A' record for $DOMAIN -> $SERVER_IP, wait a few minutes, then run this again."
-fi
+for host in "${HOSTS[@]}"; do
+  DNS_IPS="$(curl -fsS --max-time 15 "https://dns.google/resolve?name=$host&type=A" \
+    | python3 -c 'import sys,json; d=json.load(sys.stdin); print(" ".join(a["data"] for a in d.get("Answer",[]) if a.get("type")==1))' \
+    2>/dev/null || echo FAIL)"
+  if [ -z "$SERVER_IP" ] || [ "$DNS_IPS" = "FAIL" ]; then
+    warn "Could not double-check the DNS record for $host, carrying on."
+  elif [[ " $DNS_IPS " != *" $SERVER_IP "* ]]; then
+    die "$host points to '${DNS_IPS:-nothing}' on the internet, but this server is $SERVER_IP.
+Add a DNS 'A' record for $host -> $SERVER_IP, wait a few minutes, then run this again."
+  fi
+done
 
 say "Installing system packages (a few minutes)"
 export DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a
@@ -111,11 +136,12 @@ PRODUCTION=1
 DEBUG=False
 DATABASE_URL=postgres://$DB_USER:$DB_PASSWORD@127.0.0.1:5432/$DB_NAME
 MEDIA_ROOT=$MEDIA_DIR
-ALLOWED_HOSTS=$DOMAIN
+ALLOWED_HOSTS=$ALL_DOMAINS
 CORS_ALLOWED_ORIGINS=$CORS_ALLOWED_ORIGINS
 FRONTEND_URL=$FIRST_SHOP
 FRONTEND_DEPLOY_HOOK=${FRONTEND_DEPLOY_HOOK:-}
 DOMAIN=$DOMAIN
+ALT_DOMAINS=$ALT_DOMAINS
 LETSENCRYPT_EMAIL=$LETSENCRYPT_EMAIL
 DB_PASSWORD=$DB_PASSWORD
 EOF
@@ -202,7 +228,7 @@ cat > /etc/nginx/sites-available/laceloft <<EOF
 server {
     listen 80;
     listen [::]:80;
-    server_name $DOMAIN;
+    server_name ${ALL_DOMAINS//,/ };
     client_max_body_size 25m;
 
     # Product photos straight from disk (fast, no Python involved).
@@ -236,7 +262,9 @@ ufw --force enable
 systemctl enable --now fail2ban
 
 say "Free HTTPS certificate"
-certbot --nginx -d "$DOMAIN" -m "$LETSENCRYPT_EMAIL" --agree-tos --no-eff-email --non-interactive --redirect
+CERT_ARGS=()
+for host in "${HOSTS[@]}"; do CERT_ARGS+=(-d "$host"); done
+certbot --nginx "${CERT_ARGS[@]}" --cert-name "$DOMAIN" --expand -m "$LETSENCRYPT_EMAIL" --agree-tos --no-eff-email --non-interactive --redirect
 
 say "Daily backups (database and photos, kept 14 days)"
 cat > /usr/local/bin/laceloft-backup <<'EOF'

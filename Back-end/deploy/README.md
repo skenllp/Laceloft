@@ -44,3 +44,14 @@ nginx -t && systemctl reload nginx # check and reload the web server
 ```
 
 Settings (secret key, database password, allowed addresses) are in `/etc/laceloft/env`. After editing it run `systemctl restart laceloft`. To make the admin's **Publish to website** button work, add `FRONTEND_DEPLOY_HOOK=<the Render deploy hook URL>` there.
+
+## Moving to your own domain
+
+1. Add a DNS **A record** `api` → the server's IP and wait a few minutes.
+2. On the server, re-run setup with the new address (it keeps all data and also keeps the old address working):
+
+   ```bash
+   DOMAIN=api.yourdomain.com CORS_ALLOWED_ORIGINS="https://yourdomain.com,https://www.yourdomain.com,https://laceloft.onrender.com" bash setup.sh
+   ```
+
+3. On Render (shop static site) set `VITE_API_BASE=https://api.yourdomain.com/api` and `VITE_SITE_URL=https://yourdomain.com`, then redeploy.
