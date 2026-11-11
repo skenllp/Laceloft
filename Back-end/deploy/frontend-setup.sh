@@ -171,11 +171,18 @@ for host in "$SHOP_DOMAIN" "www.$SHOP_DOMAIN"; do
   fi
 done
 HTTPS=no
-if certbot --nginx -d "$SHOP_DOMAIN" -d "www.$SHOP_DOMAIN" --cert-name "$SHOP_DOMAIN" --expand     -m "$EMAIL" --agree-tos --no-eff-email --non-interactive --redirect; then
+cert() {
+  certbot --nginx "$@" --cert-name "$SHOP_DOMAIN" --expand -m "$EMAIL"     --agree-tos --no-eff-email --non-interactive --redirect
+}
+if cert -d "$SHOP_DOMAIN" -d "www.$SHOP_DOMAIN"; then
   HTTPS=yes
+elif cert -d "$SHOP_DOMAIN"; then
+  # The bare address first: www may take a while longer to be visible everywhere.
+  HTTPS=yes
+  warn "HTTPS is on for $SHOP_DOMAIN. www.$SHOP_DOMAIN is not ready yet: run this script again in a while to add it."
 else
   warn "Could not get the HTTPS certificate yet."
-  warn "Check that $SHOP_DOMAIN and www.$SHOP_DOMAIN point at $SERVER_IP in Hostinger DNS,"
+  warn "Check that $SHOP_DOMAIN points at $SERVER_IP in Hostinger DNS,"
   warn "wait a few minutes, then run this script again."
 fi
 
